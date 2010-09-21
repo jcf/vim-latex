@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>4.4 Writing supporting for a package</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-packages.html" title="4 Package Handling"></link><link rel="prev" href="automatic-package-detection.html" title="4.3 Automatic Package detection"></link><link rel="next" href="latex-completion.html" title="5 Latex Completion"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.4 Writing supporting for a package</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="automatic-package-detection.html">Prev</a> </td><th width="60%" align="center">4 Package Handling</th><td width="20%" align="right"> <a accesskey="n" href="latex-completion.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="4.4 Writing supporting for a package"><div class="titlepage"><div><div><h3 class="title"><a id="supporting-packages"></a>4.4 Writing supporting for a package</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="supporting-packages.html#id519125">4.4.1 <code class="literal">g:Tex_package_option_&lt;package&gt;</code></a></span></dt><dt><span class="section"><a href="supporting-packages.html#id519170">4.4.2 <code class="literal">g:Tex_package_&lt;package&gt;</code></a></span></dt></dl></div><p>
+    Supporting a package is easy and consists of writing a vim script with
+    the same name as the package and placing it in the
+    <code class="literal">$VIM/ftplugin/latex-suite/packages</code> directory. A
+    package script should define two variables as described in the next two
+    sections. In addition to these two variables, you can also define any
+    functions, environment definitions etc. in this file.
+   </p><div class="section" title="4.4.1 g:Tex_package_option_&lt;package&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="id519125"></a>4.4.1 <code class="literal">g:Tex_package_option_&lt;package&gt;</code></h4></div></div></div><p>
+     This setting is a string containing a comma separated list of options
+     supported by this package.
+    </p><p>
+     Example:
+     </p><pre class="programlisting">g:Tex_package_option_mypack = 'opt1,opt2=,sbr:group1,opt3,opt4'</pre><p>
+     The <code class="literal">=</code> suffix means that the option takes a value.
+     Use <code class="literal">sbr:group name</code> to separate options into
+     sub-menus. All successive options will be clubbed into the
+     <code class="literal">group1</code> sub-menu till the next
+     <code class="literal">sbr:</code> option is encountered.
+    </p></div><div class="section" title="4.4.2 g:Tex_package_&lt;package&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="id519170"></a>4.4.2 <code class="literal">g:Tex_package_&lt;package&gt;</code></h4></div></div></div><pre class="programlisting">
+    g:TeX_package_&lt;package&gt; = "pre:Command,pre:Command1"
+More detailed example is in latex-suite/packages/exmpl file (slightly
+outdated).
+Here is short summary of prefixes which can be used in package files:
+(x - place with cursor, &lt;++&gt; - |placeholder|)
+
+{env:command}  Environment: creates simple environment template
+            \begin{command}
+                x
+            \end{command}&lt;++&gt;
+{eno:command}  Environment with option:
+            \begin[x]{command}
+                &lt;++&gt;
+            \end{command}&lt;++&gt;
+{ens:command[&lt;&lt;option&gt;&gt;]...}  Environment special:
+            \begin[&lt;&lt;option&gt;&gt;]...{command}
+                &lt;++&gt;
+            \end{command}&lt;++&gt;
+{bra:command} Brackets:
+            \command{x}&lt;++&gt;
+{brd:command} Brackets double:
+            \command{x}{&lt;++&gt;}&lt;++&gt;
+{brs:command[&lt;&lt;option&gt;&gt;]...} Brackets special (as environment special:
+            \command[&lt;+x+&gt;]{&lt;++&gt;}{&lt;++&gt;}&lt;++&gt;
+{nor:command} Normal:
+            \command&lt;Space
+{noo:command} Normal with option:
+            \command[x]&lt;++&gt;
+{nob:command} Normal with option and brackets:
+            \command[x]{&lt;++&gt;}&lt;++&gt;
+{pla:command} Plain:
+            command&lt;Space
+{spe:command} Special:
+            command   &lt;-literal insertion of command
+{sep:command} creates separator. Good for aesthetics and usability :)
+{sbr:command} Breaks menu into submenus. &lt;command&gt; will be title of submenu.
+            Can be used also in package variable.
+
+Command can be also given without prefix:. The result is
+           \command
+          </pre></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="automatic-package-detection.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-packages.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-completion.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.3 Automatic Package detection </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5 Latex Completion</td></tr></table></div></body></html>

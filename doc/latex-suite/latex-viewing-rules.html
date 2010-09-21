@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>7.1 Setting Viewing rules</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-viewing.html" title="7 Latex Viewing and Searching"></link><link rel="prev" href="latex-viewing.html" title="7 Latex Viewing and Searching"></link><link rel="next" href="forward-searching.html" title="7.2 Forward Searching documents"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.1 Setting Viewing rules</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-viewing.html">Prev</a> </td><th width="60%" align="center">7 Latex Viewing and Searching</th><td width="20%" align="right"> <a accesskey="n" href="forward-searching.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="7.1 Setting Viewing rules"><div class="titlepage"><div><div><h3 class="title"><a id="latex-viewing-rules"></a>7.1 Setting Viewing rules</h3></div></div></div><p>
+    In order to view the output files created by compiling the source
+    files, you need to specify which external program Latex-Suite should call. You
+    can specify the external program using one of two settings
+    <a class="link" href="customizing-viewing.html#Tex_ViewRule_format" title="11.7.1 g:Tex_ViewRule_&lt;format&gt;">Tex_ViewRule_format</a> or <a class="link" href="customizing-viewing.html#Tex_ViewRuleComplete_format" title="11.7.2 Tex_ViewRuleComplete_&lt;format&gt;">Tex_ViewRuleComplete_format</a>.
+    By default, Latex-Suite has default settings for viewing various common output
+    formats via the <code class="literal">Tex_ViewRule_format</code> settings, so
+    that if you are using commonly used programs, you should be all set to
+    view compiled files from within Vim by simply pressing
+    <code class="literal">\lv</code>.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     The viewing function also takes the <a class="link" href="latex-master-file.html" title="9.2 Specifying which file to compile"><code class="literal">*.latexmain</code></a> file
+     into account to decide which file to show.
+    </p></div><p>
+    If pressing <code class="literal">\lv</code> does not work, then it most probably
+    has to do with incorrect settings of the <a class="link" href="customizing-viewing.html#Tex_ViewRule_format" title="11.7.1 g:Tex_ViewRule_&lt;format&gt;"><code class="literal">g:Tex_ViewRule_&lt;format&gt;</code></a>
+    where <code class="literal">&lt;format&gt;</code> is the format you are
+    attempting to view. See the link above for how to set this according to
+    your system.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     On Windows and OS/X, you can leave the view rule empty to open the document
+     with the default viewer on your system. On Linux/UNIX systems, you can use
+     the <code class="literal">xdg-open</code> command to open the document with the default
+     viewer.
+    </p></div><p>
+    In addition to viewing the files, Latex-Suite also supports forward and inverse
+    searching for certain common tools for viewing documents.
+    See the next few sections for details on forward and inverse searching,
+    including an overview of viewers.
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-viewing.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-viewing.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="forward-searching.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">7 Latex Viewing and Searching </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 7.2 Forward Searching documents</td></tr></table></div></body></html>

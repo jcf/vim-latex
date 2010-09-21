@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>5.2 Latex-Suite \ref completion</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-completion.html" title="5 Latex Completion"></link><link rel="prev" href="ls-completion-usage.html" title="5.1 Latex-Suite completion example"></link><link rel="next" href="latex-completion-cite.html" title="5.3 Latex-Suite \cite completion"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.2 Latex-Suite \ref completion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ls-completion-usage.html">Prev</a> </td><th width="60%" align="center">5 Latex Completion</th><td width="20%" align="right"> <a accesskey="n" href="latex-completion-cite.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="5.2 Latex-Suite \ref completion"><div class="titlepage"><div><div><h3 class="title"><a id="ls-completion-ref"></a>5.2 Latex-Suite \ref completion</h3></div></div></div><p>
+    Pressing <code class="literal">&lt;F9&gt;</code> when you are within a partially
+    completed <code class="literal">\ref</code> command will split open a window
+    (named <code class="literal">__OUTLINE__</code>) which contains a nicely
+    formatted list of all the <code class="literal">\label</code>s found in the
+    present project.  The <code class="literal">\label</code>s are heirarchically
+    arranged according to which <code class="literal">\section</code>,
+    <code class="literal">\subsection</code> etc of the overall document structure
+    they are present in. For example, when you first press
+    <code class="literal">&lt;F9&gt;</code> after typing <code class="literal">\ref{</code>,
+    you should see something like:
+    </p><pre class="programlisting">
++-- 54 lines: 2. Kinematics--------------------------------
++-- 98 lines: 3. Aerodynamics of the MFI thorax------------
++-- 40 lines: 4. Jump Resonance in Fourbar Mechanisms------
++-- 28 lines: 5. Design and Fabrication Issues-------------
+    </pre><p>
+    Each chapter is |fold|ed away so that you can quickly jump to the
+    correct section/subsection in which the relevant equation is defined.
+    This makes inserting references significantly faster for large projects
+    with hundreds of equations. You can then open some of the folds to see
+    for example:
+    </p><pre class="programlisting">
++-- 54 lines: 2. Kinematics--------------------------------
+3. Aerodynamics of the MFI thorax
+    3.1. Aerodynamic modeling of the MFI wing forces
+        3.1.1. Geometric Specification
+               eqn:wingnormal-pos
+                 \nhat =  T_z(\theta_2) T_y(\theta_y)T_x(\theta_x)\nhat_0,
+               eqn:T-1
+                 T_1(\theta_2) &amp;=&amp; T_z(\theta_2)
+    </pre><p>
+    The <code class="literal">&lt;Tab&gt;</code> key is mapped in this window to
+    toggle folds so that you can quickly open/close folds in order to
+    navigate the heirarchy faster. Once you are positioned on a
+    label, press <code class="literal">&lt;Enter&gt;</code>. This closes the
+    <code class="literal">__OUTLINE__</code> window, returns to the window in which
+    you pressed <code class="literal">&lt;F9&gt;</code> and inserts the reference
+    at the current cursor position.
+   </p><div class="note" title="Filtering labels by prefix" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Filtering labels by prefix</h3><p>
+     You can press <code class="literal">&lt;F9&gt;</code> after typing part of the
+     <code class="literal">\label</code>. In this case, Latex-Suite only presents
+     <code class="literal">\label</code>s which begin with the already filled
+     characters. You can use this to choose between equations, figures,
+     tables etc. if you consistently label equations to begin with
+     <code class="literal">eqn:</code>, figures to begin with <code class="literal">fig:</code>
+     etc. For example, with this scheme, pressing
+     <code class="literal">&lt;F9&gt;</code> after typing
+     <code class="literal">\ref{eqn:</code> will only list equations.
+   </p></div><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     Latex-Suite works the same way if you press <code class="literal">&lt;F9&gt;</code>
+     after any command which contains the letters <code class="literal">ref</code>.
+     Thus you can complete <code class="literal">\eqref</code> in exactly the same
+     manner.
+   </p></div><div class="note" title="Requirements" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Requirements</h3><p>
+     This method of preseting the <code class="literal">\label</code>s depends on Vim
+     being compiled with python support. To check if you have this, see the
+     output of the <code class="literal">:ver</code> command. If you see something
+     like <code class="literal">+python</code>, you are all set. Failing this, you
+     will need to have <code class="literal">python</code> somewhere in your
+     <code class="literal">$PATH</code>.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ls-completion-usage.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-completion.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-completion-cite.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.1 Latex-Suite completion example </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.3 Latex-Suite <code class="literal">\cite</code> completion</td></tr></table></div></body></html>

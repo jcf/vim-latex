@@ -2,7 +2,7 @@
 " 	     File: envmacros.vim
 "      Author: Mikolaj Machowski
 "     Created: Tue Apr 23 08:00 PM 2002 PST
-"  CVS Header: $Id: envmacros.vim,v 1.36.2.1 2003/11/13 08:31:36 srinathava Exp $
+"  CVS Header: $Id: envmacros.vim 1101 2010-01-28 23:30:56Z tmaas $
 "  Description: mappings/menus for environments. 
 "=============================================================================
 
@@ -10,7 +10,7 @@ if !g:Tex_EnvironmentMaps && !g:Tex_EnvironmentMenus
 	finish
 endif
 
-exe 'so '.expand('<sfile>:p:h').'/wizardfuncs.vim'
+exe 'so '.fnameescape(expand('<sfile>:p:h').'/wizardfuncs.vim')
 
 nmap <silent> <script> <plug> i
 imap <silent> <script> <C-o><plug> <Nop>
@@ -71,7 +71,7 @@ function! <SID>Tex_EnvMacros(lhs, submenu, name)
 		let location = location.a:lhs.'\ ('.vlhs.')'
 
 		if g:Tex_EnvironmentMaps && !exists('s:doneOnce')
-			call IMAP (a:lhs, '\begin{'.a:name."}\<CR>".extra."<++>\<CR>\\end{".a:name."}<++>", 'tex')
+			call IMAP(a:lhs, "\<C-r>=Tex_PutEnvironment('".a:name."')\<CR>", 'tex')
 			exec 'vnoremap <silent> '.vlhs.' '.vrhs
 		endif
 
@@ -238,7 +238,7 @@ call s:Tex_EnvMacros('EFL', '&Structure.', 'flushleft')
 call s:Tex_EnvMacros('EFR', '&Structure.', 'flushright')
 call s:Tex_EnvMacros('EQN', '&Structure.', 'quotation')
 call s:Tex_EnvMacros('EQE', '&Structure.', 'quote')
-call s:Tex_EnvMacros('ESB', '&Structure.', 'sloppybar')
+call s:Tex_EnvMacros('ESP', '&Structure.', 'sloppypar')
 call s:Tex_EnvMacros('ETI', '&Structure.', 'theindex')
 call s:Tex_EnvMacros('ETP', '&Structure.', 'titlepage')
 call s:Tex_EnvMacros('EVM', '&Structure.', 'verbatim')
@@ -261,7 +261,7 @@ call s:Tex_SectionMacros('SSP', 'subparagraph')
 " }}}
 " Miscellaneous {{{
 call s:Tex_SpecialMacros('', '', '-sepenv1-', ' :', 0)
-call s:Tex_SpecialMacros('EFI', '', 'figure', "\<C-r>=Tex_figure('figure')\<CR>")
+call s:Tex_SpecialMacros('EFI', '', 'figure', "\<C-r>=Tex_PutEnvironment('figure')\<CR>")
 call s:Tex_EnvMacros('', '', 'figure*')
 call s:Tex_EnvMacros('ELR', '', 'lrbox')
 call s:Tex_SpecialMacros('EMP', '', 'minipage', s:minipage)
@@ -416,22 +416,21 @@ function! Tex_eqnarray(env)
 		if a:env !~ '\*'
 			let label = input('Label?  ')
 			if label != ''
-				let arrlabel = '\label{'.label."}\<cr> "
+				let arrlabel = '\label{'.label."}\<cr>"
 			  else
 				let arrlabel = ''
 			endif
 		else
 			let arrlabel = ''
 		endif
-		return IMAP_PutTextWithMovement('\begin{'.a:env."}\<cr>".arrlabel."<++>\<cr>\\end{".a:env."}<++>")
 	else
 		if a:env !~ '\*'
-			let arrlabel = '\label{<++>}<++>'
+			let arrlabel = "\\label{<++>}\<cr>"
 		else
-			let arrlabel = '<++>'
+			let arrlabel = ""
 		endif
-		return IMAP_PutTextWithMovement('\begin{'.a:env."}\<cr>".arrlabel."\<cr>".'\end{'.a:env.'}<++>')
 	endif
+	return IMAP_PutTextWithMovement('\begin{'.a:env."}\<cr><++>\<cr>".arrlabel."\\end{".a:env."}<++>")
 endfunction
 " }}} 
 " Tex_list: {{{
@@ -489,17 +488,25 @@ endfunction
 " }}} 
 " Tex_thebibliography: {{{
 function! Tex_thebibliography(env)
-    " AUC Tex: "Label for BibItem: 99"
-    let indent = input('Indent for BibItem? ')
-    let foo = '{'.indent.'}'
-    let biblabel = input('(Optional) Bibitem label? ')
-    let key = input('Add key? ')
-    let bar = '\bibitem'
-    if biblabel != ''
-        let bar = bar.'['.biblabel.']'
-    endif
-    let bar = bar.'{'.key.'}'
-    return IMAP_PutTextWithMovement('\begin{thebibliography}'.foo."\<cr>".bar." \<cr>\\end{thebibliography}<++>\<Up>")
+	if g:Tex_UseMenuWizard == 1
+		" AUC Tex: "Label for BibItem: 99"
+		let indent = input('Indent for BibItem? ')
+		let foo = '{'.indent.'}'
+		let biblabel = input('(Optional) Bibitem label? ')
+		let key = input('Add key? ')
+		let bar = '\bibitem'
+		if biblabel != ''
+			let bar = bar.'['.biblabel.']'
+		endif
+		let bar = bar.'{'.key.'}'
+		return IMAP_PutTextWithMovement('\begin{thebibliography}'.foo."\<cr>".bar." \<cr>\\end{thebibliography}<++>\<Up>")
+	else
+		return IMAP_PutTextWithMovement(
+			\ "\\begin{thebibliography}\<CR>".
+			\ "\\bibitem[<+biblabel+>]{<+bibkey+>} <++>\<CR>".
+			\ "<++>\<CR>".
+			\ "\\end{thebibliography}<++>")
+	endif
 endfunction
 " }}} 
 
@@ -512,7 +519,7 @@ function! PromptForEnvironment(ask)
 	return Tex_ChooseFromPrompt(
 		\ a:ask."\n" . 
 		\ Tex_CreatePrompt(g:Tex_PromptedEnvironments, 2, ",") .
-		\ "\nEnter nae or number of environment :", 
+		\ "\nEnter name or number of environment :", 
 		\ g:Tex_PromptedEnvironments, ",")
 endfunction " }}}
 " Tex_DoEnvironment: fast insertion of environments {{{
@@ -598,6 +605,7 @@ function! Tex_PutEnvironment(env)
 					endif
 					let i = i + 1
 				endwhile
+			endif
 		endif
 		" If nothing before us managed to create an environment, then just
 		" create a bare-bones environment from the name.
@@ -634,7 +642,7 @@ if g:Tex_PromptedEnvironments != ''
 	function! Tex_FastEnvironmentInsert(isvisual)
 
 		let start_line = line('.')
-		let pos = line('.').' | normal! '.virtcol('.').'|'
+		let pos = Tex_GetPos()
 		let s:isvisual = a:isvisual
 
 		" decide if we are in the preamble of the document. If we are then
@@ -652,11 +660,11 @@ if g:Tex_PromptedEnvironments != ''
 			if start_line < begin_line
 				" return to our original location and insert a package
 				" statement.
-				exe pos
+				call Tex_SetPos(pos)
 				return Tex_package_from_line()
 			else
 				" we are after the preamble. insert an environment.
-				exe pos
+				call Tex_SetPos(pos)
 				return Tex_DoEnvironment()
 			endif
 
@@ -664,13 +672,13 @@ if g:Tex_PromptedEnvironments != ''
 			" if there is only a \documentclass but no \begin{document}, then
 			" the entire file is a preamble. Put a package.
 
-			exe pos
+			call Tex_SetPos(pos)
 			return Tex_package_from_line()
 
 		else
 			" no \documentclass, put an environment.
 
-			exe pos
+			call Tex_SetPos(pos)
 			return Tex_DoEnvironment()
 
 		endif
@@ -723,11 +731,11 @@ if g:Tex_PromptedEnvironments != ''
 		let change_env = PromptForEnvironment('What do you want to change it to? ')
 
 		if change_env == 'eqnarray'
-			call <SID>Change('eqnarray', 1, '', 1)
+			call <SID>Change('eqnarray', 1, '', env_name =~ '\*$')
+		elseif change_env == 'align'
+			call <SID>Change('align', 1, '', env_name =~ '\*$')
 		elseif change_env == 'eqnarray*'
 			call <SID>Change('eqnarray*', 0, '\\nonumber', 0)
-		elseif change_env == 'align'
-			call <SID>Change('align', 1, '', 1)
 		elseif change_env == 'align*'
 			call <SID>Change('align*', 0, '\\nonumber', 0)
 		elseif change_env == 'equation*'
@@ -849,21 +857,11 @@ endif
 "              SetTeXOptions() function in main.vim
 function! Tex_SetFastEnvironmentMaps()
 	if g:Tex_PromptedEnvironments != ''
-		if !hasmapto('<Plug>Tex_FastEnvironmentInsert', 'i')
-			imap <silent> <buffer> <F5> <Plug>Tex_FastEnvironmentInsert
-		endif
-		if !hasmapto('<Plug>Tex_FastEnvironmentInsert', 'n')
-			nmap <silent> <buffer> <F5> <Plug>Tex_FastEnvironmentInsert
-		endif
-		if !hasmapto('<Plug>Tex_FastEnvironmentChange', 'i')
-			imap <silent> <buffer> <S-F5> <Plug>Tex_FastEnvironmentChange
-		endif
-		if !hasmapto('<Plug>Tex_FastEnvironmentChange', 'n')
-			nmap <silent> <buffer> <S-F5> <Plug>Tex_FastEnvironmentChange
-		endif
-		if !hasmapto('<Plug>Tex_FastEnvironmentInsert', 'v')
-			vmap <silent> <buffer> <F5> <Plug>Tex_FastEnvironmentInsert
-		endif
+		call Tex_MakeMap("<F5>", "<Plug>Tex_FastEnvironmentInsert", 'i', '<silent> <buffer>')
+		call Tex_MakeMap("<F5>", "<Plug>Tex_FastEnvironmentInsert", 'n', '<silent> <buffer>')
+		call Tex_MakeMap("<F5>", "<Plug>Tex_FastEnvironmentInsert", 'v', '<silent> <buffer>')
+		call Tex_MakeMap("<S-F5>", "<Plug>Tex_FastEnvironmentChange", 'i', '<silent> <buffer>')
+		call Tex_MakeMap("<S-F5>", "<Plug>Tex_FastEnvironmentChange", 'n', '<silent> <buffer>')
 	endif
 	if g:Tex_HotKeyMappings != ''
 		call s:SetUpHotKeys()
@@ -871,17 +869,103 @@ function! Tex_SetFastEnvironmentMaps()
 endfunction " }}}
 
 " ==============================================================================
+" Contributions / Tex_InsertItem() from Johannes Tanzler
+" ============================================================================== 
+" Tex_GetCurrentEnv: gets the current environment in which the cursor lies {{{
+" Description: handles cases such as:
+" 	
+" 	\begin{itemize}
+" 		\item first item
+" 		\item second item
+" 			\begin{description}
+" 			\item first desc
+" 			\item second
+" 			% Tex_GetCurrentEnv will return "description" when called from here
+" 			\end{description}
+" 		\item third item
+" 		% Tex_GetCurrentEnv will return "itemize" when called from here
+" 	\end{itemize}
+" 	% Tex_GetCurrentEnv will return "" when called from here 
+"
+" Author: Alan Schmitt
+function! Tex_GetCurrentEnv()
+	let pos = Tex_GetPos()
+	let i = 0
+	while 1
+		let env_line = search('^[^%]*\\\%(begin\|end\){', 'bW')
+		if env_line == 0
+			" we reached the beginning of the file, so we return the empty string
+			call Tex_SetPos(pos)
+			return ''
+		endif
+		if match(getline(env_line), '^[^%]*\\begin{') == -1
+			" we found a \\end, so we keep searching
+			let i = i + 1
+			continue
+		else
+			" we found a \\begin which has not been \\end'ed. we are done.
+			if i == 0
+				let env = matchstr(getline(env_line), '\\begin{\zs.\{-}\ze}')
+				call Tex_SetPos(pos)
+				return env
+			else
+				" this \\begin closes a \\end, continue searching.
+				let i = i - 1
+				continue
+			endif
+		endif
+	endwhile
+endfunction
+" }}}
+" Tex_InsertItem: insert \item into a list   {{{
+"    Description: Find last \begin line, extract env name, return to the start
+"    			  position and insert proper \item, depending on env name.
+"    			  Env names are stored in g: variables it can be used by
+"    			  package files. 
+
+TexLet g:Tex_ItemStyle_itemize = '\item '
+TexLet g:Tex_ItemStyle_enumerate = '\item '
+TexLet g:Tex_ItemStyle_theindex = '\item '
+TexLet g:Tex_ItemStyle_thebibliography = '\bibitem[<+biblabel+>]{<+bibkey+>} <++>'
+TexLet g:Tex_ItemStyle_description = '\item[<+label+>] <++>'
+
+function! Tex_InsertItem()
+    " Get current enclosing environment
+	let env = Tex_GetCurrentEnv()
+
+	if exists('g:Tex_ItemStyle_'.env)
+		return IMAP_PutTextWithMovement(g:Tex_ItemStyle_{env})
+	else
+		return ''
+	endif
+endfunction
+" }}}
+" Tex_SetItemMaps: sets the \item inserting maps for current buffer {{{
+
+inoremap <script> <silent> <Plug>Tex_InsertItemOnThisLine <C-r>=Tex_InsertItem()<CR>
+inoremap <script> <silent> <Plug>Tex_InsertItemOnNextLine <ESC>o<C-R>=Tex_InsertItem()<CR>
+
+function! Tex_SetItemMaps()
+	if !hasmapto("<Plug>Tex_InsertItemOnThisLine", "i")
+		imap <buffer> <M-i> <Plug>Tex_InsertItemOnThisLine
+	endif
+	if !hasmapto("<Plug>Tex_InsertItemOnNextLine", "i")
+		imap <buffer> <C-CR> <Plug>Tex_InsertItemOnNextLine
+	endif
+endfunction " }}}
+
+" ==============================================================================
 " Implementation of Fast Environment commands for LaTeX commands 
 " ==============================================================================
 " Define certain commonly used command definitions {{{
-"
+
 TexLet g:Tex_Com_{'newtheorem'} = '\newtheorem{<+name+>}{<+caption+>}[<+within+>]'
 TexLet g:Tex_Com_{'frac'} = '\frac{<+n+>}{<+d+>}<++>'
+
 " }}}
 " PromptForCommand: prompts for a command {{{
 " Description: 
 function! PromptForCommand(ask)
-
 	let common_com_prompt = 
 				\ Tex_CreatePrompt(g:Tex_PromptedCommands, 2, ',') . "\n" .
 				\ "Enter number or command name :"
@@ -898,31 +982,49 @@ endfunction " }}}
 " Tex_DoCommand: fast insertion of commands {{{
 " Description:
 "
-function! Tex_DoCommand(...)
-	if a:0 < 1
-		if getline('.') != ''
-			let lastword = expand('<cword>')
-			if lastword != ''
-				return substitute(lastword, '.', "\<bs>", 'g').Tex_PutCommand(lastword)
-			endif
-		endif
+function! Tex_DoCommand(isvisual)
+	" If the current line is empty or if a visual selection has been made,
+	" prompt for a new environment.
+	if getline('.') == '' || a:isvisual == 'yes'
 		let com = PromptForCommand('Choose a command to insert: ')
 		if com != ''
-			return Tex_PutCommand(com)
+			return Tex_PutCommand(com, a:isvisual)
 		else
 			return ''
 		endif
 	else
-		return Tex_PutCommand(a:1)
+		" We want to find out the word under the cursor without issuing
+		" any movement commands.
+		let presline = getline('.')
+		let c = col('.')
+
+		let wordbef = matchstr(strpart(presline, 0, c-1), '\k\+\*\?$')
+		let wordaft = matchstr(strpart(presline, c-1), '^\k\+\*\?')
+
+		let word = wordbef . wordaft
+		call Tex_Debug("Tex_DoCommand: wordbef = [".wordbef."], wordaft = [".wordaft."], word = [".word."]", 'env')
+
+		" We use \<Del> instead of \<Bs> because \<Bs> does not work
+		" unless bs=2
+		if word != ''
+			return substitute(wordbef, '.', "\<Left>", 'g')
+				\ . substitute(word, '.', "\<Del>", 'g')
+				\ . Tex_PutCommand(word, a:isvisual)
+		else
+			let cmd = PromptForCommand('Choose a command to insert: ')
+			if cmd != ''
+				return Tex_PutCommand(cmd, a:isvisual)
+			else
+				return ''
+			endif
+		endif
 	endif
 endfunction " }}}
 " Tex_PutCommand: calls various specialized functions {{{
 " Description: 
 "   Based on input argument, it calls various specialized functions.
-function! Tex_PutCommand(com)
-	if exists("s:isvisual") && s:isvisual == "yes"
-		let s:isvisual = 'no'
-
+function! Tex_PutCommand(com, isvisual)
+	if a:isvisual == "yes"
 		if a:com == '$'
 			return VEnclose('$', '$', '$', '$')
 		elseif a:com == '\\('
@@ -953,27 +1055,13 @@ if g:Tex_PromptedCommands != ''
 
 	let b:DoubleDollars = 0
 
-	inoremap <silent> <Plug>Tex_FastCommandInsert  <C-r>=Tex_FastCommandInsert('no')<cr>
-	nnoremap <silent> <Plug>Tex_FastCommandInsert  i<C-r>=Tex_FastCommandInsert('no')<cr>
+	inoremap <silent> <Plug>Tex_FastCommandInsert  <C-r>=Tex_DoCommand('no')<cr>
+	nnoremap <silent> <Plug>Tex_FastCommandInsert  i<C-r>=Tex_DoCommand('no')<cr>
+	vnoremap <silent> <Plug>Tex_FastCommandInsert  <C-\><C-N>:call Tex_DoCommand('yes')<CR>
+
 	inoremap <silent> <Plug>Tex_FastCommandChange  <C-O>:call Tex_ChangeCommand('no')<CR>
 	nnoremap <silent> <Plug>Tex_FastCommandChange  :call Tex_ChangeCommand('no')<CR>
-	vnoremap <silent> <Plug>Tex_FastCommandInsert  <C-\><C-N>:call Tex_FastCommandInsert('yes')<CR>
 
-	" Tex_FastCommandInsert: maps <F7> to prompt for command and insert it " {{{
-	" Description:
-	"	Here we are not solving if we are in preamble, behaviour is always the
-	"	same. 
-	function! Tex_FastCommandInsert(isvisual)
-
-		let start_line = line('.')
-		let pos = line('.').' | normal! '.virtcol('.').'|'
-		let s:isvisual = a:isvisual
-
-		return Tex_DoCommand()
-
-	endfunction 
-
-	" }}}
 	" Tex_ChangeCommand: calls ChangeCommand() to change the environment {{{
 	" Description:
 	"   Finds out which environment the cursor is positioned in and changes
@@ -983,7 +1071,7 @@ if g:Tex_PromptedCommands != ''
 	"
 	function! Tex_ChangeCommand(isvisual) 
 
-		let pos_com = line('.').' | normal! '.virtcol('.').'|'
+		let pos_com = Tex_GetPos()
 
 		let com_line = searchpair('\\\k\{-}{', '', '}', 'b')
 
@@ -994,7 +1082,7 @@ if g:Tex_PromptedCommands != ''
 		
 		if !exists('com_name')
 			echomsg "You are not inside command"
-			exe pos_com
+			call Tex_SetPos(pos_com)
 			return 0
 		endif
 
@@ -1002,11 +1090,11 @@ if g:Tex_PromptedCommands != ''
 		let change_com = PromptForCommand('Do you want to change it to (number or name)? ')
 
 		if change_com == ''
-			exe pos_com
+			call Tex_SetPos(pos_com)
 			return 0
 		else
 			call <SID>ChangeCommand(change_com)
-			exe pos_com
+			call Tex_SetPos(pos_com)
 			return 0
 		endif
 
@@ -1018,7 +1106,7 @@ if g:Tex_PromptedCommands != ''
 	"
 	function! s:ChangeCommand(newcom)
 
-		exe 'normal ct{'.a:newcom."\<Esc>"
+		exe 'normal! ct{'.a:newcom."\<Esc>"
 		
 	endfunction
 	" }}}
@@ -1062,11 +1150,12 @@ function! <SID>SetEnvMacrosOptions()
 	if g:Tex_PromptedCommands != ''
 		call Tex_SetFastCommandMaps()
 	endif
+	call Tex_SetItemMaps()
 endfunction " }}}
 " Catch the Filetype event so we set maps for each buffer {{{
 augroup LatexSuite
 	au LatexSuite User LatexSuiteFileType 
-		\ call Tex_Debug('envmacros.vim: Catching LatexSuiteFileType event') |
+		\ call Tex_Debug('envmacros.vim: Catching LatexSuiteFileType event', 'env') |
 		\ call s:SetEnvMacrosOptions()
 augroup END
 " }}}

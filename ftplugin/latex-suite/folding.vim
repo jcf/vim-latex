@@ -1,7 +1,8 @@
 "=============================================================================
 " 	     File: folding.vim
 "      Author: Srinath Avadhanula
-" 	  Version: $Id: folding.vim,v 1.12.2.1 2003/11/25 20:34:54 srinathava Exp $
+"      		   modifications/additions by Zhang Linbo
+" 	      CVS: $Id: folding.vim 1031 2008-05-29 22:16:45Z tmaas $
 "     Created: Tue Apr 23 05:00 PM 2002 PST
 " 
 "  Description: functions to interact with Syntaxfolds.vim
@@ -11,13 +12,13 @@ nnoremap <unique> <Plug>Tex_RefreshFolds :call MakeTexFolds(1)<cr>
 
 augroup LatexSuite
 	au LatexSuite User LatexSuiteFileType 
-		\ call Tex_Debug('folding.vim: catching LatexSuiteFileType') | 
-		\ call s:SetFoldOptions()
+		\ call Tex_Debug('folding.vim: catching LatexSuiteFileType', 'fold') | 
+		\ call Tex_SetFoldOptions()
 augroup END
 
-" SetFoldOptions: sets maps for every buffer {{{
+" Tex_SetFoldOptions: sets maps for every buffer {{{
 " Description: 
-function! <SID>SetFoldOptions()
+function! Tex_SetFoldOptions()
 	if exists('b:doneSetFoldOptions')
 		return
 	endif
@@ -29,16 +30,44 @@ function! <SID>SetFoldOptions()
 		call MakeTexFolds(0)
 	endif
 
-	if g:Tex_Folding && !hasmapto('<Plug>Tex_RefreshFolds')
-		nmap <silent> <buffer> <Leader>rf  <Plug>Tex_RefreshFolds
-	endif
+	let s:ml = exists('g:mapleader') ? g:mapleader : "\\"
+
+	call Tex_MakeMap(s:ml."rf", "<Plug>Tex_RefreshFolds", 'n', '<silent> <buffer>')
 
 endfunction " }}}
+" Tex_FoldSections: creates section folds {{{
+" Author: Zhang Linbo
+" Description:
+" 	This function takes a comma seperated list of "sections" and creates fold
+" 	definitions for them. The first item is supposed to be the "shallowest" field
+" 	and the last is the "deepest". See g:Tex_FoldedSections for the default
+" 	definition of the lst input argument.
+"
+" 	**works recursively**
+function! Tex_FoldSections(lst, endpat)
+	let i = match(a:lst, ',')
+	if i > 0
+		let s = strpart(a:lst, 0, i)
+	else
+		let s = a:lst
+	endif
+	if s =~ '%%fakesection'
+		let s = '^\s*' . s
+	else
+		let s = '^\s*\\' . s . '\W'
+	endif
+	let endpat = s . '\|' . a:endpat
+	if i > 0
+		call Tex_FoldSections(strpart(a:lst,i+1), endpat)
+	endif
+	let endpat = '^\s*\\appendix\W\|' . endpat
+	call AddSyntaxFoldItem(s, endpat, 0, -1)
+endfunction
+" }}}
 " MakeTexFolds: function to create fold items for latex. {{{
 "
 " used in conjunction with MakeSyntaxFolds().
 " see ../plugin/syntaxFolds.vim for documentation
-"
 function! MakeTexFolds(force)
 	if exists('g:Tex_Folding') && !g:Tex_Folding
 		return
@@ -46,6 +75,53 @@ function! MakeTexFolds(force)
 	if &ft != 'tex'
 		return
 	end
+
+	" Setup folded items lists g:Tex_Foldedxxxx
+	" 	1. Use default value if g:Tex_Foldedxxxxxx is not defined
+	" 	2. prepend default value to g:Tex_Foldedxxxxxx if it starts with ','
+	" 	3. append default value to g:Tex_Foldedxxxxxx if it ends with ','
+
+	" Folding items which are not caught in any of the standard commands,
+	" environments or sections.
+	let s = 'item,slide,preamble,<<<'
+	if !exists('g:Tex_FoldedMisc')
+		let g:Tex_FoldedMisc = s
+	elseif g:Tex_FoldedMisc[0] == ','
+		let g:Tex_FoldedMisc = s . g:Tex_FoldedMisc
+	elseif g:Tex_FoldedMisc =~ ',$'
+		let g:Tex_FoldedMisc = g:Tex_FoldedMisc . s
+	endif
+
+	" By default do not fold any commands. It looks like trying to fold
+	" commands is a difficult problem since commands can be arbitrarily nested
+	" and the end patterns are not unique unlike the case of environments.
+	" For this to work well, we need a regexp which will match a line only if
+	" a command begins on that line but does not end on that line. This
+	" requires a regexp which will match unbalanced curly braces and that is
+	" apparently not doable with regexps.
+	let s = ''
+    if !exists('g:Tex_FoldedCommands')
+		let g:Tex_FoldedCommands = s
+	elseif g:Tex_FoldedCommands[0] == ','
+		let g:Tex_FoldedCommands = s . g:Tex_FoldedCommands
+	elseif g:Tex_FoldedCommands =~ ',$'
+		let g:Tex_FoldedCommands = g:Tex_FoldedCommands . s
+	endif
+
+	let s = 'verbatim,comment,eq,gather,align,figure,table,thebibliography,'
+			\. 'keywords,abstract,titlepage'
+    if !exists('g:Tex_FoldedEnvironments')
+		let g:Tex_FoldedEnvironments = s
+	elseif g:Tex_FoldedEnvironments[0] == ','
+		let g:Tex_FoldedEnvironments = s . g:Tex_FoldedEnvironments
+	elseif g:Tex_FoldedEnvironments =~ ',$'
+		let g:Tex_FoldedEnvironments = g:Tex_FoldedEnvironments . s
+	endif
+	
+    if !exists('g:Tex_FoldedSections')
+		let g:Tex_FoldedSections = 'part,chapter,section,%%fakesection,'
+								\. 'subsection,subsubsection,paragraph'
+	endif
 
 	" the order in which these calls are made decides the nestedness. in
 	" latex, a table environment will always be embedded in either an item or
@@ -143,145 +219,121 @@ function! MakeTexFolds(force)
 	"
 	" }}}
 	" ========================================================================
-	" {{{ footnote
-	call AddSyntaxFoldItem (
-		\ '^\s*\\footnote{',
-		\ '^\s*}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ intertext
-	call AddSyntaxFoldItem (
-		\ '^\s*\\intertext{',
-		\ '^\s*}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ abstract
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{abstract}',
-		\ '^\s*\\end{abstract}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ keywords
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{keywords}',
-		\ '^\s*\\end{keywords}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ thebibliography
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{thebibliography}',
-		\ '^\s*\\end{thebibliography}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ table
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{table}',
-		\ '^\s*\\end{table}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ figure
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{figure',
-		\ '^\s*\\end{figure}',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ align/alignat
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{align',
-		\ '^\s*\\end{align',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ gather
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{gather',
-		\ '^\s*\\end{gather',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ equation/eqnarray
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{eq',
-		\ '^\s*\\end{eq',
-		\ 0,
-		\ 0
-		\ )
-	" }}}
-	" {{{ items
-	call AddSyntaxFoldItem (
-		\ '^\s*\\item',
-		\ '^\s*\\item\|^\s*\\end{\(enumerate\|itemize\|description\)}',
-		\ 0,
-		\ -1,
-		\ '^\s*\\begin{\(enumerate\|itemize\|description\)}',
-		\ '^\s*\\end{\(enumerate\|itemize\|description\)}'
-		\ )
-	" }}}
-	" {{{ subsubsection
-	call AddSyntaxFoldItem (
-		\ '^\s*\\subsubsection\W',
-		\ '^\s*\\appendix\W\|^\s*\\subsubsection\W\|^\s*\\subsection\W\|^\s*\\section\W\|^\s*%%fakesection\|^\s*\\chapter\W\|^\s*\\begin{slide\|^\s*\\end{document',
-		\ 0,
-		\ -1,
-		\ )
-	" }}}
-	" {{{ subsection
-	call AddSyntaxFoldItem (
-		\ '^\s*\\subsection\W',
-		\ '^\s*\\appendix\W\|^\s*\\subsection\W\|^\s*\\section\W\|^\s*%%fakesection\|^\s*\\bibliography\|^\s*\\chapter\W\|^\s*\\begin{slide\|^\s*\\begin{thebibliography\|^\s*\\end{document',
-		\ 0,
-		\ -1,
-		\ )
-	" }}}
-	" {{{ section
-	call AddSyntaxFoldItem (
-		\ '^\s*\\section\W',
-		\ '^\s*\\appendix\W\|^\s*\\section\W\|^\s*\\bibliography\|^\s*%%fakesection\|^\s*\\chapter\W\|^\s*\\begin{slide\|^\s*\\begin{thebibliography\|^\s*\\end{document',
-		\ 0,
-		\ -1,
-		\ )
-	" }}}
-	" {{{ fakesection (for forcing a fold item manually)
-	call AddSyntaxFoldItem (
-		\ '^\s*%%fakesection',
-		\ '^\s*\\appendix\W\|^\s*\\section\W\|^\s*%%fakesection\|^\s*\\bibliography\|^\s*\\chapter\W\|^\s*\\begin{slide\|^\s*\\begin{thebibliography\|^\s*\\end{document',
-		\ 0,
-		\ -1,
-		\ )
-	" }}}
-	" {{{ chapter
-	call AddSyntaxFoldItem(
-		\ '^\s*\\chapter\W',
-		\ '^\s*\\appendix\W\|^\s*\\chapter\W\|^\s*\\bibliography\|^\s*\\begin{slide\|^\s*\\begin{thebibliography\|^\s*\\end{document',
-		\ 0,
-		\ -1
-		\ )
-	" }}}
-	" {{{ slide
-	call AddSyntaxFoldItem (
-		\ '^\s*\\begin{slide',
-		\ '^\s*\\appendix\W\|^\s*\\chapter\W\|^\s*\\end{slide\|^\s*\\end{document',
-		\ 0,
-		\ 0
-		\ )
+	
+	" {{{ comment lines
+	if g:Tex_FoldedMisc =~ '\<comments\>'
+		call AddSyntaxFoldItem (
+			\ '^%\([^%]\|[^f]\|[^a]\|[^k]\|[^e]\)',
+			\ '^[^%]',
+			\ 0,
+			\ -1 
+			\ )
+	endif
 	" }}}
 
+	" {{{ items
+	if g:Tex_FoldedMisc =~ '\<item\>'
+		call AddSyntaxFoldItem (
+			\ '^\s*\\item',
+			\ '^\s*\\item\|^\s*\\end{\(enumerate\|itemize\|description\)}',
+			\ 0,
+			\ -1,
+			\ '^\s*\\begin{\(enumerate\|itemize\|description\)}',
+			\ '^\s*\\end{\(enumerate\|itemize\|description\)}'
+			\ )
+	endif
+	" }}}
+
+	" {{{ title
+	if g:Tex_FoldedMisc =~ '\<title\>'
+		call AddSyntaxFoldItem (
+			\ '^\s*\\title\W',
+			\ '^\s*\\maketitle',
+			\ 0,
+			\ 0
+			\ )
+	endif
+	" }}}
+ 
+	" Commands and Environments {{{
+	" Fold the commands and environments in 2 passes.
+	let pass = 0
+	while pass < 2
+		if pass == 0
+			let lst = g:Tex_FoldedCommands
+		else
+			let lst = g:Tex_FoldedEnvironments
+		endif
+		while lst != ''
+			let i = match(lst, ',')
+			if i > 0
+				let s = strpart(lst, 0, i)
+				let lst = strpart(lst, i+1)
+			else
+				let s = lst
+				let lst = ''
+			endif
+			if s != ''
+				if pass == 0
+					" NOTE: This pattern ensures that a command which is
+					" terminated on the same line will not start a fold.
+					" However, it will also refuse to fold certain commands
+					" which have not terminated. eg:
+					" 	\commandname{something \bf{text} and 
+					" will _not_ start a fold.
+					" In other words, the pattern is safe, but not exact.
+					call AddSyntaxFoldItem('^\s*\\'.s.'{[^{}]*$','^[^}]*}',0,0)
+				else
+					call AddSyntaxFoldItem('^\s*\\begin{'.s,'\(^\|\s\)\s*\\end{'.s,0,0)
+				endif
+			endif
+		endwhile
+		let pass = pass + 1
+	endwhile
+	" }}}
+
+	" Sections {{{
+	if g:Tex_FoldedSections != '' 
+		call Tex_FoldSections(g:Tex_FoldedSections,
+			\ '^\s*\\frontmatter\|^\s*\\mainmatter\|^\s*\\backmatter\|'
+			\. '^\s*\\begin{thebibliography\|>>>\|^\s*\\endinput\|'
+			\. '^\s*\\begin{slide\|^\s*\\end{document')
+	endif
+	" }}} 
+	
+	" {{{ slide
+	if g:Tex_FoldedMisc =~ '\<slide\>'
+		call AddSyntaxFoldItem (
+			\ '^\s*\\begin{slide',
+			\ '^\s*\\appendix\W\|^\s*\\chapter\W\|^\s*\\end{slide\|^\s*\\end{document',
+			\ 0,
+			\ 0
+			\ )
+	endif
+	" }}}
+
+	" {{{ preamble
+	if g:Tex_FoldedMisc =~ '\<preamble\>'
+		call AddSyntaxFoldItem (
+			\ '^\s*\\document\(class\|style\).*{',
+			\ '^\s*\\begin{document}',
+			\ 0,
+			\ -1 
+			\ )
+	endif
+	" }}}
+
+	" Manually folded regions {{{
+	if g:Tex_FoldedMisc =~ '\(^\|,\)<<<\(,\|$\)'
+		call AddSyntaxFoldItem (
+			\ '<<<',
+			\ '>>>',
+			\ 0,
+			\ 0
+			\ )
+	endif
+	" }}}
+	
 	call MakeSyntaxFolds(a:force)
 	normal! zv
 endfunction
@@ -289,19 +341,30 @@ endfunction
 " }}}
 " TexFoldTextFunction: create fold text for folds {{{
 function! TexFoldTextFunction()
+	let leadingSpace = matchstr('                                       ', ' \{,'.indent(v:foldstart).'}')
 	if getline(v:foldstart) =~ '^\s*\\begin{'
-		let header = matchstr(getline(v:foldstart), '^\s*\\begin{\zs\(figure\|sidewaysfigure\|table\|equation\|eqnarray\|gather\|align\|abstract\|keywords\|thebibliography\)[^}]*\ze}')
-
+		let header = matchstr(getline(v:foldstart),
+							\ '^\s*\\begin{\zs\([:alpha:]*\)[^}]*\ze}')
 		let caption = ''
 		let label = ''
 		let i = v:foldstart
 		while i <= v:foldend
 			if getline(i) =~ '\\caption'
-				let caption = matchstr(getline(i), '\\caption{\zs.*')
-				let caption = substitute(caption, '\zs}[^}]*$', '', '')
+				" distinguish between
+				" \caption{fulldesc} - fulldesc will be displayed
+				" \caption[shortdesc]{fulldesc} - shortdesc will be displayed
+				if getline(i) =~ '\\caption\['
+					let caption = matchstr(getline(i), '\\caption\[\zs[^\]]*')
+					let caption = substitute(caption, '\zs\]{.*}[^}]*$', '', '')
+				else
+					let caption = matchstr(getline(i), '\\caption{\zs.*')
+					let caption = substitute(caption, '\zs}[^}]*$', '', '')
+				end
 			elseif getline(i) =~ '\\label'
 				let label = matchstr(getline(i), '\\label{\zs.*')
-				let label = substitute(label, '\zs}[^}]*$', '', '')
+				" :FIXME: this does not work when \label contains a
+				" newline or a }-character
+				let label = substitute(label, '\([^}]*\)}.*$', '\1', '')
 			end
 
 			let i = i + 1
@@ -313,10 +376,18 @@ function! TexFoldTextFunction()
 			let caption = getline(v:foldstart + 1)
 		end
 
-		let retText = matchstr(ftxto, '^[^:]*').': '.header.' ('.label.') : '.caption
-		return retText
+		let retText = matchstr(ftxto, '^[^:]*').': '.header.
+						\ ' ('.label.'): '.caption
+		return leadingSpace.retText
+
+	elseif getline(v:foldstart) =~ '^%' && getline(v:foldstart) !~ '^%%fake'
+		let ftxto = foldtext()
+		return leadingSpace.substitute(ftxto, ':', ': % ', '')
+	elseif getline(v:foldstart) =~ '^\s*\\document\(class\|style\).*{'
+		let ftxto = leadingSpace.foldtext()
+		return substitute(ftxto, ':', ': Preamble: ', '')
 	else
-		return foldtext()
+		return leadingSpace.foldtext()
 	end
 endfunction
 " }}}

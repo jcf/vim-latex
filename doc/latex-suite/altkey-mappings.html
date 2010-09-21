@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.10 Alt Key Macros</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="smart-keys.html" title="3.9 Smart Key Mappings"></link><link rel="next" href="custom-macros-menu.html" title="3.11 Custom Macros"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.10 Alt Key Macros</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="smart-keys.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="custom-macros-menu.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.10 Alt Key Macros"><div class="titlepage"><div><div><h3 class="title"><a id="altkey-mappings"></a>3.10 Alt Key Macros</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="altkey-mappings.html#Alt-L">3.10.1 <code class="literal">&lt;Alt-L&gt;</code></a></span></dt><dt><span class="section"><a href="altkey-mappings.html#Alt-B">3.10.2 <code class="literal">&lt;Alt-B&gt;</code></a></span></dt><dt><span class="section"><a href="altkey-mappings.html#Alt-C">3.10.3 <code class="literal">&lt;Alt-C&gt;</code></a></span></dt><dt><span class="section"><a href="altkey-mappings.html#Alt-I">3.10.4 <code class="literal">&lt;Alt-I&gt;</code></a></span></dt></dl></div><p>
+    Latex-Suite utilizes a set of macros originally created by Carl Mueller in
+    auctex.vim to make inserting all the <code class="literal">\left ... \right</code>
+    stuff very easy and to also make some use of the heavily under-utilized
+    <code class="literal">&lt;Alt&gt;</code> key. 
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     By default, typing <code class="literal">Alt-&lt;key&gt;</code> in Vim takes
+     focus to the menu bar if a menu with the hotkey
+     <code class="literal">&lt;key&gt;</code> exists. If in your case, there are
+     conflicts due to this behavior, you will need to set
+     </p><pre class="programlisting">set winaltkeys=no</pre><p>
+     in your <code class="literal">$VIM/ftplugin/tex.vim</code> in order to use these
+     maps.
+    </p></div><div class="note" title="Customizing the maps" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Customizing the maps</h3><p>
+     If for some reason, you wish to not map the
+     <code class="literal">&lt;Alt&gt;</code> keys, (some European users need to use
+     the <code class="literal">&lt;Alt&gt;</code> key to enter diacritics), you can
+     change these maps to other keys as described in the section <a class="link" href="latex-suite-maps.html#customize-alt-key-maps" title="10.1.2 Alt-Key mappings">Customizing Alt-key maps</a>.
+    </p></div><div class="section" title="3.10.1 &lt;Alt-L&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Alt-L"></a>3.10.1 <code class="literal">&lt;Alt-L&gt;</code></h4></div></div></div><p>
+     This is a polymorphic insert-mode mapping which expands to one of the
+     following depending on the character just before the cursor location.
+    </p><div class="informaltable"><table border="1"><colgroup><col width="0.5in" align="cener"></col><col width="0.5in"></col></colgroup><thead><tr><th align="cener">Character before cursor</th><th>Expansion</th></tr></thead><tbody><tr><td align="cener">(</td><td><code class="literal">\left( &lt;++&gt; \right)</code></td></tr><tr><td align="cener">[</td><td><code class="literal">\left[ &lt;++&gt; \right]</code></td></tr><tr><td align="cener">|</td><td><code class="literal">\left| &lt;++&gt; \right|</code></td></tr><tr><td align="cener">{</td><td><code class="literal">\left\{ &lt;++&gt; \right\}</code></td></tr><tr><td align="cener">&lt;</td><td><code class="literal">\langle &lt;++&gt; \rangle</code></td></tr><tr><td align="cener">q</td><td><code class="literal">\lefteqn{&lt;++&gt;}&lt;++&gt;</code></td></tr></tbody></table></div><p>
+     If the character before the cursor is none of the above, then it will
+     simply insert a <code class="literal">\label{&lt;++&gt;}&lt;++&gt;</code>.
+    </p></div><div class="section" title="3.10.2 &lt;Alt-B&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Alt-B"></a>3.10.2 <code class="literal">&lt;Alt-B&gt;</code></h4></div></div></div><p>
+     This insert-mode mapping encloses the previous character in
+     <code class="literal">\mathbf{}</code>.
+    </p></div><div class="section" title="3.10.3 &lt;Alt-C&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Alt-C"></a>3.10.3 <code class="literal">&lt;Alt-C&gt;</code></h4></div></div></div><p>
+     In insert mode, this key is polymorphic as follows:
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+      If the previous character is a letter or number, then capitalize it and
+      enclose it in <code class="literal">\mathcal{}</code>.
+     </li><li class="listitem">
+      otherwise insert <code class="literal">\cite{}</code>.
+     </li></ol></div><p>
+     In visual mode, it will simply enclose the selection in
+     <code class="literal">\mathcal{}</code>
+    </p></div><div class="section" title="3.10.4 &lt;Alt-I&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Alt-I"></a>3.10.4 <code class="literal">&lt;Alt-I&gt;</code></h4></div></div></div><p>
+     This mapping inserts an <code class="literal">\item</code> command at the
+     current cursor location depending on which environment the cursor is
+     enclosed in. The style of the <code class="literal">\item</code> command is
+     dependent on the enclosing environment. By default,
+     <code class="literal">&lt;Alt-I&gt;</code> has styles defined forthe following
+     environments:
+    </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Environment</th><th>Style</th></tr></thead><tbody><tr><td>itemize</td><td>\item </td></tr><tr><td>enumerate</td><td>\item </td></tr><tr><td>theindex</td><td>\item </td></tr><tr><td>thebibliography</td><td>\item[&lt;+biblabel+&gt;]{&lt;+bibkey+&gt;} &lt;++&gt;</td></tr><tr><td>description</td><td>\item[&lt;+label+&gt;] &lt;++&gt;</td></tr></tbody></table></div><p>
+     <code class="literal">&lt;Alt-I&gt;</code> is intelligent enough to
+     account for nested environments. For example,
+     </p><pre class="programlisting">\begin{itemize}
+    \item first item
+    \item second item
+          \begin{description}
+              \item[label1] first desc
+              \item[label2] second
+              % &lt;Alt-I&gt; will insert "\item[&lt;+label+&gt;] &lt;++&gt;" if
+              % used here
+          \end{description}
+    \item third item
+    % &lt;Alt-I&gt; will insert "\item " when if used here.
+\end{itemize}
+% &lt;Alt-I&gt; will insert nothing ("") if used here</pre><p>
+     </p><p>
+     The style used by <code class="literal">&lt;Alt-I&gt;</code> can be customized
+     using the <a class="link" href="customizing-macros.html#Tex_ItemStyle_environment" title="11.3.13 Tex_ItemStyle_environment"><code class="literal">g:Tex_ItemStyle_environment</code></a>
+     variable.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="smart-keys.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="custom-macros-menu.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.9 Smart Key Mappings </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.11 Custom Macros</td></tr></table></div></body></html>

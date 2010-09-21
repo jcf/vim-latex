@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.11 Custom Macros</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="altkey-mappings.html" title="3.10 Alt Key Macros"></link><link rel="next" href="ls-new-macros.html" title="3.12 Making your own Macros via IMAP()"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.11 Custom Macros</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="altkey-mappings.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="ls-new-macros.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.11 Custom Macros"><div class="titlepage"><div><div><h3 class="title"><a id="custom-macros-menu"></a>3.11 Custom Macros</h3></div></div></div><p>
+    This functionality available via the TeX-Suite.Macros menu, provides
+    a way of inserting customized macros into the current file via the
+    menu.
+   </p><p>
+    When Latex-Suite starts up, it scans the
+    <code class="literal">$VIM/ftplugin/latex-suite/macros/</code> directory and
+    creates a menu from the files found there. Each file is considered as
+    a single macro. You can place your own macros in this directory,
+    using <a class="link" href="latex-macros.html#place-holders" title="Place Holders">placeholders</a> if wanted.
+   </p><p>
+    When you choose a macro from the menu, the corresponding file is read
+    into the current buffer after the current cursor position. In non-gui
+    mode, you can use the |TMacro| command instead of choosing from the
+    menu. This command takes the macro file name as an argument. When
+    called without arguments (preferred usage), then a list of available
+    macro files is displayed and the user is prompted to choose one of
+    them).
+   </p><p>
+    There are some other tools provided in this menu, namely:
+   </p><div class="informaltable"><table border="0"><colgroup><col width="0.5in"></col><col width="0.5in"></col></colgroup><tbody><tr><td>{New}</td><td>
+        Creates a new (unnamed) buffer in the
+        latex-suite/macros/ directory.  Use the command
+        :TexMacroNew in non-gui mode.
+       </td></tr><tr><td>{Edit}</td><td>
+        Opens up the corresponding macro file for editing. Use
+        |:TexMacroEdit| in non-gui mode. When you try to edit {macro}
+        not from local directory Latex-Suite will copy it to your local
+        directory with suffix "-local". If local copy already exists
+        Latex-Suite prompt for overwriting it.
+       </td></tr><tr><td>{Delete}</td><td>
+        Deletes the corresponding macro. Use the prefixed numbers for
+        fast navigation of menus. Use |:TexMacroDelete| in non-gui mode.
+        When you choose to delete {macro} which is not in your local
+        directory Latex-Suite will refuse to delete it.
+       </td></tr><tr><td>{Redraw}</td><td>
+        Rescans the macros/ directories and refreshes the macros list.
+       </td></tr></tbody></table></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="altkey-mappings.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ls-new-macros.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.10 Alt Key Macros </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.12 Making your own Macros via <code class="literal">IMAP()</code></td></tr></table></div></body></html>

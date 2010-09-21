@@ -1,15 +1,15 @@
 "=============================================================================
 "        File: texmenuconf.vim
-"      Author: Srinath Avadhanula <srinath@fastmail.fm>
+"      Author: Srinath Avadhanula
 "   Copyright: Vim charityware license. :help license
 " Description: 
-"         CVS: $Id: texmenuconf.vim,v 1.20 2003/08/29 01:37:02 srinathava Exp $
+"         CVS: $Id: texmenuconf.vim 1064 2009-08-16 19:37:57Z tmaas $
 " 
 "=============================================================================
 
 " Paths, crucial for functions
-let s:path = expand("<sfile>:p:h")
-let s:up_path = expand("<sfile>:p:h:h")
+let s:path = fnameescape(expand("<sfile>:p:h"))
+let s:up_path = fnameescape(expand("<sfile>:p:h:h"))
 let s:mainmenuname = g:Tex_MenuPrefix.'S&uite.'
 let s:mapleader = exists('mapleader') ? mapleader : "\\"
 
@@ -55,17 +55,17 @@ if has('gui_running') && g:Tex_Menus
 
 	" menus for compiling / viewing etc.
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.30 '.s:mainmenuname.'&Compile<tab>'.s:mapleader.'ll'.
-		\'   :silent! call RunLaTeX()<CR>'
+		\'   :silent! call Tex_RunLaTeX()<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.40 '.s:mainmenuname.'&View<tab>'.s:mapleader.'lv'.
-		\'   :silent! call ViewLaTeX()<CR>'
+		\'   :silent! call Tex_ViewLaTeX()<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.50 '.s:mainmenuname.'&Search<tab>'.s:mapleader.'ls'.
 		\'   :silent! call ForwardSearchLaTeX()<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.60 '.s:mainmenuname.'&Target\ Format<tab>:TTarget'.
 		\'   :call SetTeXTarget()<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.70 '.s:mainmenuname.'&Compiler\ Target<tab>:TCTarget'.
-		\'   :call SetTeXCompilerTarget("Compile", "")<CR>'
+		\'   :call Tex_SetTeXCompilerTarget("Compile", "")<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.80 '.s:mainmenuname.'&Viewer\ Target<tab>:TVTarget'.
-		\'   :call SetTeXCompilerTarget("View", "")<CR>'
+		\'   :call Tex_SetTeXCompilerTarget("View", "")<CR>'
 	exec 'anoremenu '.g:Tex_MainMenuLocation.'.90 '.s:mainmenuname.'Set\ &Ignore\ Level<tab>:TCLevel'.
 		\'   :TCLevel<CR>'
 	exec 'imenu '.g:Tex_MainMenuLocation.'.100 '.s:mainmenuname.'C&omplete\ Ref/Cite'.
@@ -89,7 +89,7 @@ function! Tex_MenuConfigure(type, action) " {{{
 	if a:type == 'math'
 		if a:action == 1
 			let g:Tex_MathMenus = 1
-			exe 'so '.s:path.'/mathmacros.vim'
+			exe 'source '.s:path.'/mathmacros.vim'
 			exe 'amenu disable '.menuloc.'Add\ Math\ Menu'
 			exe 'amenu enable '.menuloc.'Remove\ Math\ Menu'
 		elseif a:action == 0
@@ -107,11 +107,11 @@ function! Tex_MenuConfigure(type, action) " {{{
 			exe 'amenu enable '.menuloc.'Expand\ Elements'
 			exe 'amenu disable '.menuloc.'Compress\ Elements'
 		endif
-		exe 'source '.s:path.'/elementmacros.vim'
+		exe 'source '.fnameescape(s:path.'/elementmacros.vim')
 	elseif a:type == 'packages'
 		if a:action == 1
 			let g:Tex_PackagesMenu = 1
-			exe 'so '.s:path.'/packages.vim'
+			exe 'source '.s:path.'/packages.vim'
 			exe 'amenu disable '.menuloc.'Load\ Packages\ Menu'
 		endif
 	endif

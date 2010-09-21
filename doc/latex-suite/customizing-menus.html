@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>11.8 Menu Customization</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="customizing-latex-suite.html" title="11 Customizing Latex-Suite"></link><link rel="prev" href="customizing-viewing.html" title="11.7 Viewer Customization"></link><link rel="next" href="customizing-folding.html" title="11.9 Folding Customization"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.8 Menu Customization</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-viewing.html">Prev</a> </td><th width="60%" align="center">11 Customizing Latex-Suite</th><td width="20%" align="right"> <a accesskey="n" href="customizing-folding.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="11.8 Menu Customization"><div class="titlepage"><div><div><h3 class="title"><a id="customizing-menus"></a>11.8 Menu Customization</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="customizing-menus.html#Tex_Menus">11.8.1 g:Tex_Menus</a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_MainMenuLocation">11.8.2 <code class="literal">g:Tex_MainMenuLocation</code></a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_MathMenus">11.8.3 g:Tex_MathMenus</a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_NestElementMenus">11.8.4 g:Tex_NestElementMenus</a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_PackagesMenu">11.8.5 g:Tex_PackagesMenu</a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_NestPackagesMenu">11.8.6 g:Tex_NestPackagesMenu</a></span></dt><dt><span class="section"><a href="customizing-menus.html#Tex_UseUtfMenus">11.8.7 g:Tex_UseUtfMenus</a></span></dt></dl></div><p>
+    In addition to using the variables defined in this section to affect
+    the menu-layout permanently (i.e, the layout Latex-Suite will start with), you
+    can also use the <code class="literal">TeX-Suite &gt; Configure Menu</code> menu to
+    dynamically configure the menu layout after Latex-Suite has started.
+   </p><div class="section" title="11.8.1 g:Tex_Menus"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Menus"></a>11.8.1 g:Tex_Menus</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     If set to 0, Latex-Suite will suppress showing all menus. Useful if you mostly
+     work in terminals.
+    </p></div><div class="section" title="11.8.2 g:Tex_MainMenuLocation"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_MainMenuLocation"></a>11.8.2 <code class="literal">g:Tex_MainMenuLocation</code></h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>number</td></tr><tr><td>Default Value</td><td><code class="literal">80</code></td></tr></tbody></table></div><p>
+     This setting decides the location of the first top-level Latex-Suite
+     menu. You can for example shift all the menus created by Latex-Suite
+     to the very end by setting this value to a large number like 990.
+    </p></div><div class="section" title="11.8.3 g:Tex_MathMenus"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_MathMenus"></a>11.8.3 g:Tex_MathMenus</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     The <code class="literal">Tex-Math</code> menu consists of hundreds of mathematical
+     symbols used in LaTeX. This menu comprises about 75% of the menus.
+    </p></div><div class="section" title="11.8.4 g:Tex_NestElementMenus"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_NestElementMenus"></a>11.8.4 g:Tex_NestElementMenus</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     This setting controls the "compactness" of the menus. If set to 1, then the
+     Font, Counter and Dimensioning menus are collected together in a single
+     menu called <code class="literal">Tex-Elements</code>, otherwise, they will each get
+     a separate menu.
+    </p></div><div class="section" title="11.8.5 g:Tex_PackagesMenu"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_PackagesMenu"></a>11.8.5 g:Tex_PackagesMenu</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     Setting this to zero will stop Latex-Suite from automatically creating the
+     <code class="literal">TeX-Suite &gt; Packages &gt; Supported</code> menu at startup. You
+     can still create the menu after startup by going to
+     <code class="literal">TeX-Suite &gt; Configure Menu</code>.
+    </p></div><div class="section" title="11.8.6 g:Tex_NestPackagesMenu"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_NestPackagesMenu"></a>11.8.6 g:Tex_NestPackagesMenu</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">'TeX-'</code></td></tr></tbody></table></div><p>
+     This string is the prefix added to all the menus created by Latex-Suite. If you
+     define this variable with a dot (<code class="literal">'.'</code>) as the last
+     character, then all the menus created by Latex-Suite will be nested under a
+     single master menu. For example, set this to
+     <code class="literal">'&amp;LaTeX-Suite.'</code> to nest all menus under a menu
+     called <code class="literal">&amp;LaTeX-Suite</code>.
+    </p></div><div class="section" title="11.8.7 g:Tex_UseUtfMenus"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_UseUtfMenus"></a>11.8.7 g:Tex_UseUtfMenus</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">0</code></td></tr></tbody></table></div><p>
+     This setting controls whether Latex-Suite uses utf-8 symbols to display some of
+     the mathematical symbols in the <code class="literal">TeX-Math</code> menu. It is
+     necessary for your system/GUI to support utf-8. Setting this to 1 has the
+     side-effect of setting the <code class="literal">'encoding'</code> option of Vim
+     to 'utf-8'.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-viewing.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="customizing-latex-suite.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="customizing-folding.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.7 Viewer Customization </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 11.9 Folding Customization</td></tr></table></div></body></html>

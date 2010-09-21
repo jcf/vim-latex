@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>6.5 Compiling parts of a file</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-compiling.html" title="6 LaTeX Compiling"></link><link rel="prev" href="compiler-output-customization.html" title="6.4 Customizing the compiler output"></link><link rel="next" href="latex-viewing.html" title="7 Latex Viewing and Searching"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.5 Compiling parts of a file</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="compiler-output-customization.html">Prev</a> </td><th width="60%" align="center">6 LaTeX Compiling</th><td width="20%" align="right"> <a accesskey="n" href="latex-viewing.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="6.5 Compiling parts of a file"><div class="titlepage"><div><div><h3 class="title"><a id="part-compiling"></a>6.5 Compiling parts of a file</h3></div></div></div><p>
+    Latex-Suite also provides a way to compile a fragment of a document. This can be
+    very useful while debugging a complex equation or one chapter in a book,
+    etc. 
+   </p><p>
+    To do this, visually select a portion of the text and press
+    <code class="literal">\ll</code> while in visual mode. The visually selected portion
+    will be saved to a temporary file with the preamble from the current
+    document prepended. Latex-Suite will then switch focus to this temporary file and
+    compile it. Continue to debug this file as required and then replace the
+    portion of the original file with this one. 
+   </p><p>
+    Pressing <code class="literal">\lv</code> while viewing the temporary file will
+    view the output file generated from the temporary file, not the original
+    file
+   </p><p>
+    Two commands |TPartComp| and |TPartView| are provided to be able to get
+    this functionality via the command line.
+   </p><p>
+    From release 1.6 onwards of Latex-Suite, the temporary file created
+    for part compilation will reside in the same directory as the file from
+    which the fragment is being created. This ensures that any relative
+    path-names defined in the fragment will still work. Latex-Suite will
+    attempt to clean the temporary file(s) created when Vim exits.
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="compiler-output-customization.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-compiling.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-viewing.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.4 Customizing the compiler output </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 7 Latex Viewing and Searching</td></tr></table></div></body></html>

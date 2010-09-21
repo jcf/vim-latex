@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.12 Making your own Macros via IMAP()</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="custom-macros-menu.html" title="3.11 Custom Macros"></link><link rel="next" href="latex-packages.html" title="4 Package Handling"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.12 Making your own Macros via <code class="literal">IMAP()</code></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="custom-macros-menu.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="latex-packages.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.12 Making your own Macros via IMAP()"><div class="titlepage"><div><div><h3 class="title"><a id="ls-new-macros"></a>3.12 Making your own Macros via <code class="literal">IMAP()</code></h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ls-new-macros.html#why-IMAP">3.12.1 Why use <code class="literal">IMAP()</code></a></span></dt><dt><span class="section"><a href="ls-new-macros.html#ls-imaps-syntax">3.12.2 IMAP() syntax</a></span></dt></dl></div><p>
+    If you find the need to create your own macros, then you can use the
+    <code class="literal">IMAP()</code> function provided with Latex-Suite. See <a class="link" href="ls-new-macros.html#why-IMAP" title="3.12.1 Why use IMAP()">Why use <code class="literal">IMAP()</code></a> for a short
+    explanation of why you might prefer <code class="literal">IMAP()</code> over
+    Vim's standard <code class="literal">:imap</code> command. An example best
+    explains the usage:
+    </p><pre class="programlisting">:call IMAP('NOM', '\nomenclature{&lt;++&gt;}&lt;++&gt;', 'tex')</pre><p>
+    This will create a Latex-Suite-style mapping, where if you type
+    <code class="literal">NOM</code> in insert mode, you will get
+    <code class="literal">\nomenclature{&lt;++&gt;}&lt;++&gt;</code> with the cursor left in
+    place of the first <code class="literal">&lt;++&gt;</code> characters. See <a class="link" href="ls-new-macros.html#ls-imaps-syntax" title="3.12.2 IMAP() syntax">IMAP() syntax</a> for
+    a detailed explanation of the <code class="literal">IMAP()</code> command.
+   </p><p>
+    For maps which are triggered for a given filetype, the
+    <code class="literal">IMAP()</code> command above should be put in the filetype
+    plugin script for that file. For example, for tex-specific mappings,
+    the <code class="literal">IMAP()</code> calls should go in
+    <code class="literal">$VIM/ftplugin/tex.vim</code>. For globally visible maps,
+    you will need to use the following in either your
+    <code class="literal">~/.vimrc</code> or a file in your
+    <code class="literal">$VIM/plugin</code> directory.
+    </p><pre class="programlisting">augroup MyIMAPs
+    au!
+    au VimEnter * call IMAP('Foo', 'foo', '')
+augroup END</pre><p>
+   </p><div class="section" title="3.12.1 Why use IMAP()"><div class="titlepage"><div><div><h4 class="title"><a id="why-IMAP"></a>3.12.1 Why use <code class="literal">IMAP()</code></h4></div></div></div><p>
+     Using <code class="literal">IMAP</code> instead of Vim's built-in
+     <code class="literal">:imap</code> command has a couple of advantages:
+     </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+       The 'ttimeout' option will generally limit how easily you can type
+       the left hand side for a normal <code class="literal">:imap</code>. if you type
+       the left hand side too slowly, then the mapping will not be
+       activated.
+      </li><li class="listitem">
+       If you mistype one of the letters of the lhs, then the mapping is
+       deactivated as soon as you backspace to correct the mistake.
+      </li><li class="listitem">
+       The characters in lhs are shown on top of each other. This is fairly
+       distracting. This becomes a real annoyance when a lot of characters
+       initiate mappings.
+      </li></ol></div><p>
+    </p></div><div class="section" title="3.12.2 IMAP() syntax"><div class="titlepage"><div><div><h4 class="title"><a id="ls-imaps-syntax"></a>3.12.2 IMAP() syntax</h4></div></div></div><p>
+     Formally, the syntax which is used for the <code class="literal">IMAP</code>
+     function is:
+     </p><pre class="programlisting">call IMAP (lhs, rhs, ft [, phs, phe])</pre><p>
+    </p><p>
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Argument</th><th>Explanation</th></tr></thead><tbody><tr><td>lhs</td><td>
+          <p>
+           This is the "left-hand-side" of the mapping. When you use
+           <code class="literal">IMAP</code>, only the last character of this word is
+           actually mapped, although the effect is that the whole word is
+           mapped.
+          </p>
+          <p>
+           If you have two mappings which end in a common
+           <code class="literal">lhs</code>, then the mapping with the longer
+           <code class="literal">lhs</code> is used. For example, if you do
+           </p><pre class="programlisting">call IMAP('BarFoo', 'something', 'tex')
+call IMAP('Foo', 'something else', 'tex')</pre><p>
+            Then typing <code class="literal">BarFoo</code> inserts
+            <code class="literal">"something"</code>, whereas <code class="literal">Foo</code> by
+            itself inserts <code class="literal">"something else"</code>.
+          </p>
+          <p>
+           Also, the nature of <code class="literal">IMAP()</code> makes creating
+           certain combination of mappings impossible. For example if you
+           have
+           </p><pre class="programlisting">call IMAP('foo', 'something', 'tex')
+call IMAP('foobar', 'something else', 'tex')</pre><p>
+           Then you will never be able to trigger <code class="literal">"foobar"</code>
+           because typing <code class="literal">"foo"</code> will immediately insert
+           <code class="literal">"something"</code>. This is the "cost" which you incur
+           over the normal <code class="literal">:imap</code> command for the
+           convenience of no 'timeout' problems, the ability to correct
+           <code class="literal">lhs</code> etc.
+          </p>
+         </td></tr><tr><td>rhs</td><td>
+          <p>
+           The "right-hand-side" of the mapping. This is the expansion you
+           will get when you type <code class="literal">lhs</code>.
+          </p>
+          <p>
+           This string can also contain special characters such as
+           <code class="literal">&lt;enter&gt;</code> etc. To do this, you will need
+           to specify the second argument in double-quotes as follows:
+           </p><pre class="programlisting">:call IMAP('EFE', "\\begin{figure}\&lt;CR&gt;&lt;++&gt;\\end{figure}&lt;++&gt;", 'tex')</pre><p>
+           With this, typing <code class="literal">EFE</code> is equivalent to typing
+           in the right-hand side with all the special characters in
+           insert-mode. This has the advantage that if you have filetype
+           indentation set up, then the right hand side will also be
+           indented just as if you had typed it in normally.
+          </p>
+          <a id="IMAP_PutTextWithMovement"></a>
+          <p>
+           You can also set up a Latex-Suite style mapping which calls a custom function
+           as follows:
+           </p><pre class="programlisting">:call IMAP('FOO', "\&lt;C-r&gt;=MyFoonction()\&lt;CR&gt;", 'tex')</pre><p>
+           where <code class="literal">MyFoonction</code> is a custom function you have
+           written. If <code class="literal">MyFoonction</code> also has to return a string
+           containing <code class="literal">&lt;++&gt;</code> characters, then you will need to
+           use the function <code class="literal">IMAP_PutTextWithMovement()</code>. An
+           example best explains the usage:
+          </p>
+          <pre class="programlisting">call IMAP('FOO', "\&lt;C-r&gt;=AskVimFunc()\&lt;CR&gt;", 'vim')
+" Askvimfunc: Asks For Function Name And Sets Up Template 
+" Description: 
+function! AskVimFunc()
+    let name = input('Name of the function : ')
+    if name == ''
+        let name = "&lt;+Function Name+&gt;"
+    end
+    let islocal = input('Is this function scriptlocal ? [y]/n : ', 'y')
+    if islocal == 'y'
+        let sidstr = '&lt;SID&gt;'
+    else
+        let sidstr = ''
+    endif
+    return IMAP_PutTextWithMovement( 
+        \ "\" ".name.": &lt;+short description+&gt; \&lt;cr&gt;" .
+        \ "Description: &lt;+long description+&gt;\&lt;cr&gt;" . 
+        \ "\&lt;C-u&gt;function! ".name."(&lt;+arguments+&gt;)&lt;++&gt;\&lt;cr&gt;" . 
+        \       "&lt;+function body+&gt;\&lt;cr&gt;" . 
+        \ "endfunction \" "
+        \ )
+endfunction</pre>
+          <p>
+          </p>
+         </td></tr><tr><td>ft</td><td>
+          <p>
+           The file type for which this mapping is active. When this string
+           is left empty, the mapping applies for all file-types. A filetype
+           specific mapping will always take precedence.
+          </p>
+         </td></tr><tr><td>phs, phe</td><td>
+          <p>
+           If you prefer to write the <code class="literal">rhs</code> with characters
+           other than <code class="literal">&lt;+</code> and <code class="literal">+&gt;</code>
+           to denote place-holders, you can use the last 2 arguments to
+           specify which characters in the <code class="literal">rhs</code> specify
+           place-holders. By default, these are <code class="literal">&lt;+</code> and
+           <code class="literal">+&gt;</code> respectively.
+          </p>
+          <p>
+           Note that the <code class="literal">phs</code> and <code class="literal">phe</code>
+           arguments do not control what characters will be displayed for
+           the placeholders when the mapping is actually triggered. What
+           characters are used to display place-holders when you trigger an
+           <code class="literal">IMAP</code> are controlled by the <a class="link" href="customizing-place-holders.html#Imap_PlaceHolderStart" title="11.2.2 g:Imap_PlaceHolderStart &amp; g:Imap_PlaceHolderEnd"><code class="literal">Imap_PlaceHolderStart</code></a>
+           and <a class="link" href="customizing-place-holders.html#Imap_PlaceHolderEnd"><code class="literal">Imap_PlaceHolderEnd</code></a>
+           settings.
+          </p>
+         </td></tr></tbody></table></div><p>
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="custom-macros-menu.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-packages.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.11 Custom Macros </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 4 Package Handling</td></tr></table></div></body></html>

@@ -1,7 +1,9 @@
 " ==============================================================================
-" Author: Carl Mueller
-" 		  (incorporated into latex-suite by Srinath Avadhanula)
-" Last Change: Tue Dec 31 11:00 AM 2002 PST
+" History: This was originally part of auctex.vim by Carl Mueller.
+"          Srinath Avadhanula incorporated it into latex-suite with
+"          significant modifications.
+"          Parts of this file may be copyrighted by others as noted.
+" CVS: $Id: brackets.vim 997 2006-03-20 09:45:45Z srinathava $
 " Description:
 " 	This ftplugin provides the following maps:
 " . <M-b> encloses the previous character in \mathbf{}
@@ -21,76 +23,30 @@
 "       2. <<M-l>       \langle\rangle
 "       3. q<M-l>       \lefteqn{}
 "     otherwise insert  \label{}
+" . <M-i> inserts \item commands at the current cursor location depending on
+"       the surrounding environment. For example, inside itemize, it will
+"       insert a simple \item, but within a description, it will insert
+"       \item[<+label+>] etc.
 " 
 " These functions make it extremeley easy to do all the \left \right stuff in
 " latex.
-"
-" NOTE: The insert mode maps are created only if maps are no maps already to
-" the relevant functions Tex_MathBF, Tex_MathCal and Tex_LeftRight. This is to
-" enable people who might need the alt keys for typing to use some other
-" keypress to trigger the same behavior. In order to use some other key, (say
-" <C-c>) to use Tex_MathCal(), do the following
-"
-" 	inoremap <buffer> <silent> <C-c> <C-r>=Tex_MathCal()<CR>
-"
 " ============================================================================== 
+
 " Avoid reinclusion.
 if exists('b:did_brackets')
 	finish
 endif
 let b:did_brackets = 1
 
-" ==============================================================================
-" Insert mode mappings
-" All the insert mode mappings check to see if the function they are creating
-" the map for already exists in the rhs of some map.
-" ============================================================================== 
-" {{{
-
-" Provide <plug>'d mapping for easy user customization.
-"
-inoremap <silent> <Plug>Tex_MathBF      <C-r>=Tex_MathBF()<CR>
-inoremap <silent> <Plug>Tex_MathCal     <C-r>=Tex_MathCal()<CR>
-inoremap <silent> <Plug>Tex_LeftRight   <C-r>=Tex_LeftRight()<CR>
-
-" Provide mappings only if the user hasn't provided a map already or if the
-" target lhs doesn't have a mapping.
-" TODO: These will be removed in future revisions. Alt mappings are a headache
-"       for European users...
-if !hasmapto('<Plug>Tex_MathBF', 'i') && mapcheck('<M-b>', 'i') == ''
-	imap <buffer> <silent> <M-b>        <Plug>Tex_MathBF
-endif
-if !hasmapto('<Plug>Tex_MathCal', 'i') && mapcheck('<M-c>', 'i') == ''
-	imap <buffer> <silent> <M-c>        <Plug>Tex_MathCal
-endif
-if !hasmapto('<Plug>Tex_LeftRight', 'i') && mapcheck('<M-l>', 'i') == ''
-	imap <buffer> <silent> <M-l>        <Plug>Tex_LeftRight
-endif
-
-" }}}
-
-" ==============================================================================
-" Visual/Normal Mode mappings.
-" ==============================================================================
-" {{{
-
-vnoremap <buffer> <silent> <M-b> <C-C>`>a}<Esc>`<i\mathbf{<Esc>
-vnoremap <buffer> <silent> <M-c> <C-C>`>a}<Esc>`<i\mathcal{<Esc>
-nnoremap <buffer> <silent> <M-l> :call <SID>PutLeftRight()<CR>
-
-" }}}
-
-" ==============================================================================
-" Function definitions
-" ============================================================================== 
 " define the funtions only once.
 if exists('*Tex_MathBF')
 	finish
 endif
+
 " Tex_MathBF: encloses te previous letter/number in \mathbf{} {{{
 " Description: 
 function! Tex_MathBF()
-	return "\<Left>\\mathbf{\<Right>}\<Esc>hvUla"
+	return "\<Left>\\mathbf{\<Right>}"
 endfunction " }}}
 " Tex_MathCal: enclose the previous letter/number in \mathcal {{{
 " Description:
@@ -157,5 +113,33 @@ function! Tex_PutLeftRight()
 		exe "normal i\\right\<Esc>l%i\\left\<Esc>l%"
 	endif
 endfunction " }}}
+
+" Provide <plug>'d mapping for easy user customization. {{{
+inoremap <silent> <Plug>Tex_MathBF      <C-r>=Tex_MathBF()<CR>
+inoremap <silent> <Plug>Tex_MathCal     <C-r>=Tex_MathCal()<CR>
+inoremap <silent> <Plug>Tex_LeftRight   <C-r>=Tex_LeftRight()<CR>
+vnoremap <silent> <Plug>Tex_MathBF		<C-C>`>a}<Esc>`<i\mathbf{<Esc>
+vnoremap <silent> <Plug>Tex_MathCal		<C-C>`>a}<Esc>`<i\mathcal{<Esc>
+nnoremap <silent> <Plug>Tex_LeftRight	:call Tex_PutLeftRight()<CR>
+
+" }}}
+" Tex_SetBracketingMaps: create mappings for the current buffer {{{
+function! <SID>Tex_SetBracketingMaps()
+
+	call Tex_MakeMap('<M-b>', '<Plug>Tex_MathBF', 'i', '<buffer> <silent>')
+	call Tex_MakeMap('<M-c>', '<Plug>Tex_MathCal', 'i', '<buffer> <silent>')
+	call Tex_MakeMap('<M-l>', '<Plug>Tex_LeftRight', 'i', '<buffer> <silent>')
+	call Tex_MakeMap('<M-b>', '<Plug>Tex_MathBF', 'v', '<buffer> <silent>')
+	call Tex_MakeMap('<M-c>', '<Plug>Tex_MathCal', 'v', '<buffer> <silent>')
+	call Tex_MakeMap('<M-l>', '<Plug>Tex_LeftRight', 'n', '<buffer> <silent>')
+
+endfunction
+" }}}
+
+augroup LatexSuite
+	au LatexSuite User LatexSuiteFileType 
+		\ call Tex_Debug('brackets.vim: Catching LatexSuiteFileType event', 'brak') | 
+		\ call <SID>Tex_SetBracketingMaps()
+augroup END
 
 " vim:fdm=marker

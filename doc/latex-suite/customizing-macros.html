@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>11.3 Macro Customization</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="customizing-latex-suite.html" title="11 Customizing Latex-Suite"></link><link rel="prev" href="customizing-place-holders.html" title="11.2 Place-Holder Customization"></link><link rel="next" href="customizing-smart-keys.html" title="11.4 Smart Key Customization"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.3 Macro Customization</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-place-holders.html">Prev</a> </td><th width="60%" align="center">11 Customizing Latex-Suite</th><td width="20%" align="right"> <a accesskey="n" href="customizing-smart-keys.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="11.3 Macro Customization"><div class="titlepage"><div><div><h3 class="title"><a id="customizing-macros"></a>11.3 Macro Customization</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="customizing-macros.html#Tex_Env_name">11.3.1 Tex_Env_name</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_Com_name">11.3.2 Tex_Com_name</a></span></dt><dt><span class="section"><a href="customizing-macros.html#macro-enabling">11.3.3 Enabling / disabling macros</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_UseMenuWizard">11.3.4 g:Tex_UseMenuWizard</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Imap_FreezeImap">11.3.5 g:Imap_FreezeImap</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_CatchVisMapErrors">11.3.6 g:Tex_CatchVisMapErrors</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_Diacritics">11.3.7 g:Tex_Diacritics</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_Leader">11.3.8 g:Tex_Leader</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_Leader2">11.3.9 g:Tex_Leader2</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_PromptedEnvironments">11.3.10 g:Tex_PromptedEnvironments</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_HotKeyMappings">11.3.11 g:Tex_HotKeyMappings</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_PromptedCommands">11.3.12 g:Tex_PromptedCommands</a></span></dt><dt><span class="section"><a href="customizing-macros.html#Tex_ItemStyle_environment">11.3.13 Tex_ItemStyle_environment</a></span></dt></dl></div><div class="section" title="11.3.1 Tex_Env_name"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Env_name"></a>11.3.1 Tex_Env_name</h4></div></div></div><p>
+      If you wish to wish to expand certain environments differently from
+      the way Latex-Suite does it, you can define custom expansions using global
+      variables of the form <code class="literal">Tex_Env_{name}</code> where
+      <code class="literal">name</code> corresponds to the environment.
+     </p><p>
+      For example, if you press <code class="literal">&lt;F5&gt;</code> after typing
+      <code class="literal">theorem</code>, Latex-Suite will by default expand it to
+      </p><pre class="programlisting">\begin{theorem}
+     \label{&lt;++&gt;}&lt;++&gt;
+\end{theorem}&lt;++&gt;</pre><p>
+       However, if you wish change this to
+      </p><pre class="programlisting">\begin{theorem}
+     &lt;++&gt;
+\end{theorem}&lt;++&gt;</pre><p>
+       then define the following variable
+      </p><pre class="programlisting">let g:Tex_Env_theorem = "\\begin{theorem}\&lt;CR&gt;&lt;++&gt;\&lt;CR&gt;\\end{theorem}"</pre><p>
+      </p><p>
+      If the expansion uses special keys such as carriage return etc, then
+      use double-quotes and use the <code class="literal">"\&lt;key&gt;"</code>
+      notation for special keys. Backslashes have to be doubled.
+     </p><p>
+      You could even use strings returned by functions as the expansion by
+      using the <a class="link" href="ls-new-macros.html#IMAP_PutTextWithMovement">IMAP_PutTextWithMovement()</a>
+      function.
+     </p><p>
+      If the name of the environment contains special characters (for
+      example, the <code class="literal">eqnarray*</code> environment), then use the
+      following form:
+      </p><pre class="programlisting">let g:Tex_Env_{'eqnarray*'} = 
+        \ "\\begin{eqnarray*}\&lt;CR&gt;&lt;++&gt; &amp;=&amp; &lt;++&gt;\&lt;CR&gt;\\end{eqnarray*}&lt;++&gt;"</pre><p>
+       This will make pressing <code class="literal">&lt;F5&gt;</code> after
+       <code class="literal">eqnarray*</code> expand to
+       </p><pre class="programlisting">\begin{eqnarray*}
+    &lt;++&gt; &amp;=&amp; &lt;++&gt;
+\end{eqnarray*}&lt;++&gt;</pre><p>
+     </p></div><div class="section" title="11.3.2 Tex_Com_name"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Com_name"></a>11.3.2 Tex_Com_name</h4></div></div></div><p>
+     If you wish to define new expansions for fast command insertion as
+     described <a class="link" href="latex-command-maps.html" title="3.2 Command Mappings">here</a>, or redefine
+     expansions from the default values in Latex-Suite, you will need to define
+     variables of the form <code class="literal">g:Tex_Com_{name}</code> where
+     <code class="literal">name</code> is a command name. For example, with the
+     setting
+     </p><pre class="programlisting">let g:Tex_Com_frac = "\\frac{&lt;++&gt;}{&lt;++&gt;}&lt;++&gt;"</pre><p>
+     pressing <code class="literal">&lt;F7&gt;</code> after typing
+     <code class="literal">frac</code> will change it to <code class="literal">\frac{&lt;++&gt;}{&lt;++&gt;}&lt;++&gt;</code>
+    </p><p>
+     See <a class="link" href="customizing-macros.html#Tex_Env_name" title="11.3.1 Tex_Env_name">Tex_Env_name</a> for additional
+     details on how to create this setting in various special
+     circumstances.
+    </p></div><div class="section" title="11.3.3 Enabling / disabling macros"><div class="titlepage"><div><div><h4 class="title"><a id="macro-enabling"></a>11.3.3 Enabling / disabling macros</h4></div></div></div><p>
+     The following variables disable various parts of the macro functionality
+     of Latex-Suite. See the links to the relevant sections to see what functionality
+     setting each of the variables to zero will take away.
+    </p><a id="Tex_EnvironmentMaps"></a><a id="Tex_EnvironmentMenus"></a><a id="Tex_FontMaps"></a><a id="Tex_FontMenus"></a><a id="Tex_SectionMaps"></a><a id="Tex_SectionMenus"></a><div class="informaltable"><table border="1"><colgroup><col></col><col></col><col></col></colgroup><thead><tr><th>Setting</th><th>Link to relevant section</th><th>Default Value</th></tr></thead><tbody><tr><td><code class="literal">g:Tex_EnvironmentMaps
+       </code></td><td><a class="link" href="environment-mappings.html" title="3.1 Environment Mappings">Environment Mappings</a></td><td>1</td></tr><tr><td><code class="literal">g:Tex_EnvironmentMenus</code></td><td> </td><td>1</td></tr><tr><td><code class="literal">g:Tex_FontMaps        </code></td><td><a class="link" href="font-maps.html" title="3.3 Font Mappings">Font Mappings</a></td><td>1</td></tr><tr><td><code class="literal">g:Tex_FontMenus       </code></td><td> </td><td>1</td></tr><tr><td><code class="literal">g:Tex_SectionMaps     </code></td><td><a class="link" href="section-mappings.html" title="3.4 Section Mappings">Section Mappings</a></td><td>1</td></tr><tr><td><code class="literal">g:Tex_SectionMenus    </code></td><td> </td><td>1</td></tr></tbody></table></div></div><div class="section" title="11.3.4 g:Tex_UseMenuWizard"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_UseMenuWizard"></a>11.3.4 g:Tex_UseMenuWizard</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">0</code></td></tr></tbody></table></div><p>
+     If this variable is set to 1, then when an environment is chosen from the
+     menu then for selected environments, Latex-Suite asks a series of
+     questions on the command line and inserts a template with the
+     corresponding fields already filled in.  Setting this to zero will insert
+     a template with <a class="link" href="latex-macros.html#place-holders" title="Place Holders">place-holders</a>
+     marking off the places where fields need to be filled.
+    </p></div><div class="section" title="11.3.5 g:Imap_FreezeImap"><div class="titlepage"><div><div><h4 class="title"><a id="Imap_FreezeImap"></a>11.3.5 g:Imap_FreezeImap</h4></div></div></div><p>
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>boolean</td></tr><tr><td>Default Value</td><td><code class="literal">0</code></td></tr></tbody></table></div><p>
+     </p><p>
+      This option when set to 1, temporarily freezes Latex-Suite's macro
+      expansion. It might be useful when you are using some other keymap
+      which is causing excessive macro expansion. Use a buffer-local
+      variable of the same name if you wish to affect just the present
+      buffer. 
+     </p><p>
+    </p></div><div class="section" title="11.3.6 g:Tex_CatchVisMapErrors"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_CatchVisMapErrors"></a>11.3.6 g:Tex_CatchVisMapErrors</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     With so many visual maps, its helpful to have a way of catching typing
+     errors made in visual mode. What this does is to prompt you to correct
+     your visual mode mapping if you start out with <code class="literal"><a class="link" href="customizing-macros.html#Tex_Leader" title="11.3.8 g:Tex_Leader">g:Tex_Leader</a></code> and then type some
+     illegal keys. It basically maps just the <code class="literal">g:Tex_Leader</code>
+     character to a function.
+    </p></div><div class="section" title="11.3.7 g:Tex_Diacritics"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Diacritics"></a>11.3.7 g:Tex_Diacritics</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">0</code></td></tr></tbody></table></div><p>
+     Whether or not you want to use <a class="link" href="diacritic-mappings.html" title="3.7 Diacritics">diacritics</a>.
+    </p></div><div class="section" title="11.3.8 g:Tex_Leader"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Leader"></a>11.3.8 g:Tex_Leader</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">'`'</code></td></tr></tbody></table></div><p>
+     The mappings in Latex-Suite are by default prefixed with the back-tick
+     character. For example, <code class="literal">`/</code> inserts
+     <code class="literal">\frac{&lt;++&gt;}{&lt;++&gt;}&lt;++&gt;</code> etc. You can change the
+     prefix with the following setting.
+     <code class="literal">','</code>, <code class="literal">'/'</code>,
+     <code class="literal">'`'</code> are preferred values. <code class="literal">''</code> or
+     <code class="literal">'\'</code> will lead to a <span class="emphasis"><em>lot</em></span> of
+     trouble.
+    </p><p>
+     g:Tex_Leader is also used for visual mode mappings for fonts.
+    </p></div><div class="section" title="11.3.9 g:Tex_Leader2"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_Leader2"></a>11.3.9 g:Tex_Leader2</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">','</code></td></tr></tbody></table></div><p>
+     In order to avoid clashes between the large number of visual mode macros
+     provided, the <a class="link" href="environment-mappings.html#enclosing-env-threeletter" title="3.1.2.2 Method 2: Using three letter mappings">visual mode
+      macros for environments</a> and sections start with a character
+     different from <code class="literal">g:Tex_Leader</code>.
+    </p></div><div class="section" title="11.3.10 g:Tex_PromptedEnvironments"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_PromptedEnvironments"></a>11.3.10 g:Tex_PromptedEnvironments</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">'eqnarray*,eqnarray,equation,equation*,\[,$$,align,align*'</code></td></tr></tbody></table></div><p>
+     This string represents a comma separated list of fields corresponding to
+     environments. Pressing <code class="literal">&lt;F5&gt;</code> in insert-mode in
+     the body of the document asks you to choose from one of these
+     environments to insert.
+    </p><p>
+     Leaving this string empty will leave the <code class="literal">&lt;F5&gt;</code>
+     key unmapped
+    </p></div><div class="section" title="11.3.11 g:Tex_HotKeyMappings"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_HotKeyMappings"></a>11.3.11 g:Tex_HotKeyMappings</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">'eqnarray*,eqnarray,bmatrix'</code></td></tr></tbody></table></div><p>
+     This string represents a comma separated list of environments which are
+     mapped to <code class="literal">&lt;Shift-F-1&gt;</code> through
+     <code class="literal">&lt;Shift-F-4&gt;</code>. For example, pressing
+     <code class="literal">&lt;Shift-F-2&gt;</code> with this setting inserts the
+     <code class="literal">eqnarray</code> environment.
+    </p><p>
+     Leaving this string empty will leave <code class="literal">&lt;Shift-F-1&gt;</code> through
+     <code class="literal">&lt;Shift-F-4&gt;</code> unmapped.
+    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      Only the first four fields of this list are used. The rest are silently
+      ignored.
+     </p></div></div><div class="section" title="11.3.12 g:Tex_PromptedCommands"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_PromptedCommands"></a>11.3.12 g:Tex_PromptedCommands</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td>
+         <code class="literal">'footnote,cite,pageref,label'</code>
+        </td></tr></tbody></table></div><p>
+     This string represents a comma separated list of LaTeX commands
+     which Latex-Suite uses for the <code class="literal">&lt;F7&gt;</code> and
+     <code class="literal">&lt;S-F7&gt;</code> maps as described <a class="link" href="latex-command-maps.html" title="3.2 Command Mappings">here</a>.
+    </p><p>
+     Leaving this string empty will leave the <code class="literal">&lt;F7&gt;</code>
+     key unmapped.
+    </p></div><div class="section" title="11.3.13 Tex_ItemStyle_environment"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_ItemStyle_environment"></a>11.3.13 Tex_ItemStyle_environment</h4></div></div></div><p>
+     This setting affects the style which Latex-Suite uses to insert an
+     <code class="literal">\item</code> when <code class="literal">&lt;Alt-I&gt;</code> is
+     pressed as described <a class="link" href="altkey-mappings.html#Alt-I" title="3.10.4 &lt;Alt-I&gt;">here</a>. By default
+     Latex-Suite defines styles for the following environments:
+    </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Environment</th><th>Style</th></tr></thead><tbody><tr><td>itemize</td><td>\item </td></tr><tr><td>enumerate</td><td>\item </td></tr><tr><td>theindex</td><td>\item </td></tr><tr><td>thebibliography</td><td>\item[&lt;+biblabel+&gt;]{&lt;+bibkey+&gt;} &lt;++&gt;</td></tr><tr><td>description</td><td>\item[&lt;+label+&gt;] &lt;++&gt;</td></tr></tbody></table></div><p>
+     Each style is defined by a variable of the form
+     <code class="literal">g:Tex_ItemStyle_{envname}</code> where
+     <code class="literal">envname</code> is the name of the environment for which
+     the style is defined. For example, by default
+     </p><pre class="programlisting">g:Tex_ItemStyle_description = '\item[&lt;+label+&gt;] &lt;++&gt;'</pre><p>
+     Redefining the style for a particular environment or defining a style
+     for an entirely new environment is simply a matter of setting the
+     value of a variable of the corresponding name.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-place-holders.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="customizing-latex-suite.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="customizing-smart-keys.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.2 Place-Holder Customization </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 11.4 Smart Key Customization</td></tr></table></div></body></html>

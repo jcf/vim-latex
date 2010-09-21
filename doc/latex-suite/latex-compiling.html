@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>6 LaTeX Compiling</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="ls-completion-custom.html" title="5.5 Custom command completion"></link><link rel="next" href="compiler-rules.html" title="6.1 Setting Compilation rules"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6 LaTeX Compiling</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ls-completion-custom.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="compiler-rules.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="6 LaTeX Compiling"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="latex-compiling"></a>6 LaTeX Compiling</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="compiler-rules.html">6.1 Setting Compilation rules</a></span></dt><dt><span class="section"><a href="compiler-dependency.html">6.2 Handling dependencies in compilation</a></span></dt><dt><span class="section"><a href="compiling-multiple.html">6.3 Compiling multiple times</a></span></dt><dt><span class="section"><a href="compiler-output-customization.html">6.4 Customizing the compiler output</a></span></dt><dt><span class="section"><a href="part-compiling.html">6.5 Compiling parts of a file</a></span></dt></dl></div><p>
+   This functionality, available via the TeX-Suite menu, provides various tools
+   to compile and debug LaTeX files from within Vim.
+  </p><p>
+   If you are using commonly used LaTeX tools, then you should be all set
+   as soon as you download and install Latex-Suite.  In order to compile a
+   LaTeX file, simply press <code class="literal">\ll</code> while editing the file.
+   This runs latex on the current file and displays the errors in a
+   |quickfix-window| below the file being edited. You can then scroll
+   through the errors and press <code class="literal">&lt;enter&gt;</code> to be
+   taken to the location of the corresponding error. Along with the errors
+   being listed in the quickfix window, the corresponding log file is also
+   opened in |preview| mode beneath the quickfix window. It is scrolled
+   automatically to keep in sync with the error being viewed in the
+   quickfix window. You will be automatically taken to the location of the
+   first error/warning unless you set the <a class="link" href="customizing-compiling.html#Tex_GotoError" title="11.6.8 g:Tex_GotoError">g:Tex_GotoError</a> variable to 0.
+  </p><p>
+   Latex-Suite also supports compiling LaTeX into formats other than DVI. By
+   default, Latex-Suite supports PDF and PS formats. In order to choose a format
+   other than DVI, use the <code class="literal">TTarget</code> command or the
+   <code class="literal">TeX-Suite &gt; Target Format</code> menu item. This will ask you
+   to type in the name of the target format you want to compile to. If a rule
+   has been defined for the format (as described in the next
+   <a class="link" href="compiler-rules.html" title="6.1 Setting Compilation rules">section</a>), then Latex-Suite will switch to
+   that format.
+  </p><p>Trying to choose a format for which no rule has been defined will
+   result in Latex-Suite displaying a warning message without taking any action.
+  </p><p>
+   If you are using a multiple file project and need to compile a master
+   file while editing other files, then Latex-Suite provides a way to specify the
+   file to be compiled as described in <a class="link" href="latex-master-file.html" title="9.2 Specifying which file to compile">latex-master-file</a>.
+  </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ls-completion-custom.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="compiler-rules.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.5 Custom command completion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 6.1 Setting Compilation rules</td></tr></table></div></body></html>

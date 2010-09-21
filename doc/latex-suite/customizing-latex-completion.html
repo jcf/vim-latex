@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>11.5 Latex Completion Customization</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="customizing-latex-suite.html" title="11 Customizing Latex-Suite"></link><link rel="prev" href="customizing-smart-keys.html" title="11.4 Smart Key Customization"></link><link rel="next" href="customizing-compiling.html" title="11.6 Compiler Customization"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.5 Latex Completion Customization</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-smart-keys.html">Prev</a> </td><th width="60%" align="center">11 Customizing Latex-Suite</th><td width="20%" align="right"> <a accesskey="n" href="customizing-compiling.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="11.5 Latex Completion Customization"><div class="titlepage"><div><div><h3 class="title"><a id="customizing-latex-completion"></a>11.5 Latex Completion Customization</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="customizing-latex-completion.html#completion-window-preferences">11.5.1 Window size settings</a></span></dt><dt><span class="section"><a href="customizing-latex-completion.html#Tex_BIBINPUTS">11.5.2 g:Tex_BIBINPUTS</a></span></dt><dt><span class="section"><a href="customizing-latex-completion.html#Tex_UseSimpleLabelSearch">11.5.3 Tex_UseSimpleLabelSearch</a></span></dt><dt><span class="section"><a href="customizing-latex-completion.html#Tex_ProjectSourceFiles">11.5.4 g:Tex_ProjectSourceFiles</a></span></dt><dt><span class="section"><a href="customizing-latex-completion.html#Tex_RememberCiteSearch">11.5.5 g:Tex_RememberCiteSearch</a></span></dt></dl></div><p>
+    The following settings affect the <a class="link" href="latex-completion.html" title="5 Latex Completion">
+     completion</a> functionality in Latex-Suite.
+   </p><div class="section" title="11.5.1 Window size settings"><div class="titlepage"><div><div><h4 class="title"><a id="completion-window-preferences"></a>11.5.1 Window size settings</h4></div></div></div><p>
+     These three settings affect the aesthetics of the completion
+     functionality.
+    </p><a id="Tex_ViewerCwindowHeight"></a><a id="Tex_ViewerPreviewHeight"></a><a id="Tex_ExplorerHeight"></a><a id="Tex_ImageDir"></a><div class="informaltable"><table border="1"><colgroup><col></col><col></col><col></col></colgroup><thead><tr><th>Setting</th><th>Explanation</th><th>Default Value</th></tr></thead><tbody><tr><td><code class="literal">g:Tex_ViewerCwindowHeight</code></td><td>The height of the <code class="literal">cwindow</code> which displays the
+         list of <code class="literal">\label</code>s etc.</td><td>5</td></tr><tr><td><code class="literal">g:Tex_ViewerPreviewHeight</code></td><td>The height of the preview window which shows the context of a
+         <code class="literal">\label</code> etc.</td><td>10 </td></tr><tr><td><code class="literal">g:Tex_ExplorerHeight</code></td><td>The height of the explorer window which lists the files from
+         which to choose an image file.</td><td>10</td></tr><tr><td><code class="literal">g:Tex_ImageDir</code></td><td>The directory to scan for images</td><td>''</td></tr></tbody></table></div></div><div class="section" title="11.5.2 g:Tex_BIBINPUTS"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_BIBINPUTS"></a>11.5.2 g:Tex_BIBINPUTS</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>string</td></tr><tr><td>Default Value</td><td><code class="literal">''</code></td></tr></tbody></table></div><p>
+     This string describes the directories which are scanned while trying
+     to search for <code class="literal">.bib</code> and <code class="literal">.bbl</code>
+     files.  See the <a class="link" href="latex-completion-cite.html" title="5.3 Latex-Suite \cite completion">cite completion
+      section</a> for more details.
+    </p><p>
+     This string should be set in the syntax accepted by Vim's native
+     <code class="literal">'path'</code> setting. Do not include the present
+     directory <code class="literal">'.'</code>. While searching for
+     <code class="literal">bibliography</code> files, the present directory will be
+     prepended to this variable.
+    </p></div><div class="section" title="11.5.3 Tex_UseSimpleLabelSearch"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_UseSimpleLabelSearch"></a>11.5.3 Tex_UseSimpleLabelSearch</h4></div></div></div><p>
+     When set to 1, Latex-Suite searches for <code class="literal">\label</code>s in all
+     <code class="literal">.tex</code> files in the directory containing the file
+     being edited when &lt;F9&gt; is pressed. See <a class="link" href="ls-completion-ref.html" title="5.2 Latex-Suite \ref completion">\ref completion</a> for details.
+    </p></div><div class="section" title="11.5.4 g:Tex_ProjectSourceFiles"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_ProjectSourceFiles"></a>11.5.4 g:Tex_ProjectSourceFiles</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">''</code></td></tr></tbody></table></div><p>
+     This setting is meant to be initialized on a per-project basis using
+     the <a class="link" href="latex-master-file.html" title="9.2 Specifying which file to compile">Latex-Suite master file</a> as
+     described in <a class="link" href="latex-project.html" title="9 Multiple file LaTeX projects">Latex-Suite Project</a>
+     section. It is a list of source files which are used in the project.
+     If defined, then instead of using the logic described in 
+     <a class="link" href="customizing-latex-completion.html#Tex_UseSimpleLabelSearch" title="11.5.3 Tex_UseSimpleLabelSearch">Tex_UseSimpleLabelSearch</a> to
+     search for files in which to search for <code class="literal">\label</code>s, we
+     simply search for <code class="literal">\label</code>s in this list. This
+     significantly reduces the time it takes to generate the list of
+     possible completions for large projects.
+    </p><p>
+     The list is specified as a whitespace separated list of filenames
+     relative to the location of the main file.
+    </p></div><div class="section" title="11.5.5 g:Tex_RememberCiteSearch"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_RememberCiteSearch"></a>11.5.5 g:Tex_RememberCiteSearch</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Boolean</td></tr><tr><td>Default Value</td><td><code class="literal">0</code></td></tr></tbody></table></div><p>
+     When this variable is non-zero, then Latex-Suite will try to remember results
+     from the <code class="literal">\cite</code> completion as described in <a class="link" href="latex-completion-cite.html#cite-search-caching" title="5.3.1 Caching the \cite completion results">this section</a>.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-smart-keys.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="customizing-latex-suite.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="customizing-compiling.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.4 Smart Key Customization </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 11.6 Compiler Customization</td></tr></table></div></body></html>

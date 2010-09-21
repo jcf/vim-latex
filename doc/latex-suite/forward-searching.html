@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>7.2 Forward Searching documents</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-viewing.html" title="7 Latex Viewing and Searching"></link><link rel="prev" href="latex-viewing-rules.html" title="7.1 Setting Viewing rules"></link><link rel="next" href="inverse-searching.html" title="7.3 Inverse Searching"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.2 Forward Searching documents</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-viewing-rules.html">Prev</a> </td><th width="60%" align="center">7 Latex Viewing and Searching</th><td width="20%" align="right"> <a accesskey="n" href="inverse-searching.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="7.2 Forward Searching documents"><div class="titlepage"><div><div><h3 class="title"><a id="forward-searching"></a>7.2 Forward Searching documents</h3></div></div></div><p>
+    Forward searching refers to making a viewer display a given document at
+    a given location from within Vim. At present, these viewers are known to support
+    forward searching, but viewers that are not listed here may work, too:
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col><col></col></colgroup><thead><tr><th>Viewer</th><th>OS</th><th>Supported documents</th><th>Comment</th></tr></thead><tbody><tr><td><a class="ulink" href="http://skim-app.sourceforge.net/" target="_top">Skim</a></td><td>Apple / OS X Tiger</td><td>PDF</td><td>Supports also inverse searching</td></tr><tr><td><a class="ulink" href="http://pdfview.sourceforge.net/" target="_top">PDFView</a></td><td>Apple / OS X</td><td>PDF</td><td>No longer in development, supports also inverse searching</td></tr><tr><td><a class="ulink" href="http://www2.ing.unipi.it/~d9615/homepage/texniscope.html" target="_top">TeXniscope</a></td><td>Apple</td><td>PDF, DVI</td><td> </td></tr><tr><td><a class="ulink" href="http://www.miktex.org/" target="_top">YAP</a></td><td>Windows</td><td>DVI, PS</td><td>ships with MikTex</td></tr><tr><td><a class="ulink" href="http://blog.kowalczyk.info/software/sumatrapdf/" target="_top">Sumatra PDF</a></td><td>Windows</td><td>PDF</td><td> </td></tr><tr><td><a class="ulink" href="http://developer.kde.org/~kdvi/" target="_top">kdvi</a></td><td>Linux/UNIX</td><td>DVI</td><td> </td></tr><tr><td><a class="ulink" href="http://okular.kde.org/" target="_top">okular</a></td><td>Linux/UNIX</td><td>DVI, PDF, PS and many more</td><td>Included in KDE 4</td></tr><tr><td><a class="ulink" href="http://math.berkeley.edu/~vojta/xdvi.html" target="_top">xdvi</a></td><td>Linux/UNIX</td><td>DVI</td><td> </td></tr><tr><td><a class="ulink" href="http://xdvi.sourceforge.net/" target="_top">xdvik</a></td><td>Linux/UNIX</td><td>DVI</td><td> </td></tr></tbody></table></div><p>
+    
+    Pressing <code class="literal">\ls</code> from within Vim
+    should make the viewer display the portion of the document where your
+    cursor is placed.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     OS/X users need to set the <code class="literal">g:TreatMacViewerAsUNIX</code> flag
+     to <code class="literal">1</code> and provide a UNIX-like viewrule, that expects as
+     arguments the document, the linenumber and the sourcefile in this order.
+    </p></div><p>
+   </p><a id="enabling-searching"></a><div class="note" title="Enabling Forward and Inverse Searching" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Enabling Forward and Inverse Searching</h3><p>
+     Most DVI viewers need "source-special" information in order to do
+     forward (and inverse) searching. This information is embedded in the
+     <code class="literal">dvi</code> file if the LaTeX source is compiled with the
+     <code class="literal">--src-specials</code> option. By default, Latex-Suite does not
+     supply this argument to the compiler. See the section on
+     <code class="literal"><a class="link" href="customizing-compiling.html#Tex_CompileRule_format" title="11.6.2 g:Tex_CompileRule_&lt;format&gt;">g:Tex_CompileRule_dvi</a></code>
+     to find out how this option can be set.
+
+     For pdf viewers you need to use the <a class="ulink" href="http://itexmac.sourceforge.net/pdfsync.html" target="_top">pdfsync</a>
+     package in your LaTeX document.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-viewing-rules.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-viewing.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="inverse-searching.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">7.1 Setting Viewing rules </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 7.3 Inverse Searching</td></tr></table></div></body></html>

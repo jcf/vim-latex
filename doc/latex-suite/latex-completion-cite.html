@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>5.3 Latex-Suite \cite completion</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-completion.html" title="5 Latex Completion"></link><link rel="prev" href="ls-completion-ref.html" title="5.2 Latex-Suite \ref completion"></link><link rel="next" href="ls-filename-completion.html" title="5.4 Latex-Suite filename completion"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.3 Latex-Suite <code class="literal">\cite</code> completion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ls-completion-ref.html">Prev</a> </td><th width="60%" align="center">5 Latex Completion</th><td width="20%" align="right"> <a accesskey="n" href="ls-filename-completion.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="5.3 Latex-Suite \cite completion"><div class="titlepage"><div><div><h3 class="title"><a id="latex-completion-cite"></a>5.3 Latex-Suite <code class="literal">\cite</code> completion</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="latex-completion-cite.html#cite-search-caching">5.3.1 Caching the <code class="literal">\cite</code> completion results</a></span></dt></dl></div><p>
+    Latex-Suite provides an easy way to insert references to bibliographic
+    entries. Pressing <code class="literal">&lt;F9&gt;</code> when the cursor is
+    placed inside a partially completed <code class="literal">\cite</code> command
+    will split open a new window (named <code class="literal">__OUTLINE__</code>)
+    which contains a formatted and syntax highlighted list of all bibtex
+    entries found. For example, pressing <code class="literal">&lt;F9&gt;</code>
+    after typing <code class="literal">\ref{</code> should present you with a window
+    which looks something like this:
+    </p><pre class="programlisting">
+Article [dickinson:science:99]
+   "Wing rotation and aerodynamic basis of insect flight"
+   M. H. Dickinson and F-O. Lehman and S. P. Sane
+   In Science, 1999
+
+Article [ellington:84:part1]
+   "The Aerodynamics of Hovering Insect Flight. I. The Quasi-Steady Analysis"
+   Ellington, C P
+   In Philosophical Transactions of the Royal Society of London. Series B, Biological Sciences, 1984
+
+Article [ellington:84:part2]
+   "The Aerodynamics of Hovering Insect Flight. II. Morphological Parameters"
+   Ellington, C P
+   In Philosophical Transactions of the Royal Society of London. Series B, Biological Sciences, 1984
+    </pre><p>
+   </p><p>
+    You can easily jump from one entry to another using the
+    <code class="literal">'n'</code> and <code class="literal">'p'</code> keys (to go to the
+    next / previous entry respectively).
+   </p><p>
+    You can also filter out a subset of the bibtex entries by pressing
+    <code class="literal">'f'</code> while in this window. Doing this presents the
+    following prompt:
+    </p><pre class="programlisting">
+Field acronyms: (`:let g:Tex_EchoBibFields = 0` to avoid this message)
+ [t] title         [a] author        [b] booktitle
+ [j] journal       [y] year          [p] bibtype
+ (you can also enter the complete field name)
+Enter filter criterion [field&lt;space&gt;value]:
+    </pre><p>
+    At the prompt, type
+    </p><pre class="programlisting">a ellington</pre><p>
+    Notice that the letter a is an acronym for <code class="literal">author</code>
+    according to the prompt above. Therefore this filter only shows those
+    bibtex entries whose author field contains the text
+    <code class="literal">ellington</code>. You can keep narrowing your selection by
+    repeatedly filtering the results. If you would like to remove all the
+    filters and see all entries again, press 'a', which removes
+    all the filters.
+   </p><p>
+    You can also sort the bibtex entries based on a field. To do this,
+    press 's'. This will present you with a prompt like in the case of the
+    filter and you are asked to choose a field. In this case, you would
+    type in a single character. This sorts the entries according to that
+    field.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+    <code class="literal">&lt;F9&gt;</code> will also work in a similar way after any
+    command which contains the word <code class="literal">cite</code> in it. For
+    example, pressing <code class="literal">&lt;F9&gt;</code> will also work with
+    <code class="literal">\citenum</code> etc.
+   </p></div><p>
+    The following logic is applied to find out which bibliographic entries
+    are included in the completion.
+   </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+      Firstly, if the present file has a <a class="link" href="latex-master-file.html" title="9.2 Specifying which file to compile">master-file</a> defined for it, then Latex-Suite
+      will perform the following steps on that file instead of on the
+      current file.
+     </p></li><li class="listitem"><p>
+      First, the file is scanned for a <code class="literal">\bibliography</code>
+      command. To explain better, assume that a command
+      </p><pre class="programlisting">\bibliography{file1,file2}</pre><p> is found
+      in the present file. For each bibliography file, say
+      <code class="literal">file1</code>, Latex-Suite first tries to see if a
+      <code class="literal">.bib</code> file, <code class="literal">file1.bib</code> can be
+      found. If so, it will scan it for bib-keys of the form
+      <code class="literal">@BOOK{</code> etc., and add these searches to the
+      completion list. If a <code class="literal">.bib</code> file cannot be found,
+      then it will try to see if <code class="literal">file1.bbl</code> can be found.
+      If so, Latex-Suite will search it for bib-keys of the form
+      <code class="literal">\bibitem</code> and add these to the completion list.
+     </p><p>
+      You can set the location where Latex-Suite will search for
+      <code class="literal">.bib</code> and <code class="literal">.bbl</code> files using the
+      <a class="link" href="customizing-latex-completion.html#Tex_BIBINPUTS" title="11.5.2 g:Tex_BIBINPUTS"><code class="literal">|Tex_BIBINPUTS|</code></a>
+      variable.
+     </p></li><li class="listitem"><p>
+      If a <code class="literal">\bibliography</code> command is not found, then Latex-Suite
+      tries to scan the present file for a
+      <code class="literal">\begin{thebibliography}</code> environment. If found,
+      Latex-Suite searches the present file for bib-keys of the form
+      <code class="literal">\bibitem</code>.
+     </p></li><li class="listitem"><p>
+      Finally, it will try to see if this file includes other files
+      via the <code class="literal">\input</code> command. For each such file found,
+      Latex-Suite will repeat the previous two steps stopping at the first file
+      which has either a <code class="literal">\bibliography</code> command or a
+      <code class="literal">thebibliography</code> environment.
+     </p></li></ol></div><div class="section" title="5.3.1 Caching the \cite completion results"><div class="titlepage"><div><div><h4 class="title"><a id="cite-search-caching"></a>5.3.1 Caching the <code class="literal">\cite</code> completion results</h4></div></div></div><a id="TClearCiteHist"></a><p>
+     Often times, the editing cycle proceeds by first laying out a
+     comprehensive bibliography and then completing all the
+     <code class="literal">\cite</code> commands in one session. In such situations,
+     it is inefficient to scan the whole list of bibliography files for
+     bib-keys each time. Latex-Suite provides a way to cache the results of the
+     cite completion search using the <a class="link" href="customizing-latex-completion.html#Tex_RememberCiteSearch" title="11.5.5 g:Tex_RememberCiteSearch"><code class="literal">Tex_RememberCiteSearch</code></a>
+     variable. If set, Latex-Suite will perform the search only the first time
+     <code class="literal">&lt;F9&gt;</code> is used. Next time on, it will reuse the
+     search results. If you wish to redo the search results, issue the
+     command
+     </p><pre class="programlisting">TClearCiteHist</pre><p>
+     This will redo the completion list next time you use
+     <code class="literal">&lt;F9&gt;</code>.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ls-completion-ref.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-completion.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ls-filename-completion.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.2 Latex-Suite \ref completion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.4 Latex-Suite filename completion</td></tr></table></div></body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>2 Inserting Templates</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="recommended-settings.html" title="1 Installation and recommended Settings"></link><link rel="next" href="latex-macros.html" title="3 Latex-Suite Macros"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2 Inserting Templates</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="recommended-settings.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="latex-macros.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="2 Inserting Templates"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="latex-suite-templates"></a>2 Inserting Templates</h2></div></div></div><p>
+   This functionality is available via the <code class="literal">TeX-Suite &gt;
+    Templates</code> menu.
+   This module provides a way to insert custom templates at the beginning of the
+   current file.
+  </p><p>
+   When Latex-Suite first starts up, it scans the
+   <code class="literal">$VIM/ftplugin/latex-suite/templates/</code>
+   directory and creates menu items based on the files found there. When
+   you select a template from this menu, the file will be read in above
+   the first line of the current file.
+  </p><p>
+   A template file can utilize placeholders for initializing the cursor
+   position when the template is read in and subsequent movement. In
+   addition, template files can contain dynamic elements such as the
+   time of creation of a file etc, by using vim expressions.
+  </p><p>
+   You can place your own templates in the
+   <code class="literal">$VIM/ftplugin/latex-suite/templates/</code> directory in
+   order for them to be available via the menu. Unless Latex-Suite releases a
+   template with the same name, these files should not get over-written
+   when you install a new release over an existing one.
+  </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+    Templates are also accessible for non-gui users with the command
+    |<code class="literal">:TTemplate</code>|. The argument should be name of
+    the corresponding template file.  If the command is called
+    without arguments (preferred usage), then a list of available
+    templates is displayed and the user is asked to choose one of
+    them.
+   </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="recommended-settings.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="latex-macros.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">1 Installation and recommended Settings </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3 Latex-Suite Macros</td></tr></table></div></body></html>

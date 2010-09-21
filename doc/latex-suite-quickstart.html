@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>A (very) quick introduction to Latex-Suite</title><link rel="stylesheet" href="latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><meta name="description" content=""></meta></head><body><div xml:lang="en" class="article" title="A (very) quick introduction to Latex-Suite"><div class="titlepage"><div><div><h2 class="title"><a id="id228720"></a>A (very) quick introduction to Latex-Suite</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Srinath</span> <span class="surname">Avadhanula</span></h3><div class="affiliation"><div class="address"><p><code class="email">&lt;<a class="email" href="mailto:srinath AT fastmail DOT fm">srinath AT fastmail DOT fm</a>&gt;</code></p></div></div></div></div><div><div class="abstract" title="Abstract"><p class="title"><b>Abstract</b></p>
+   Latex-Suite is a comprehensive set of scripts to aid in editing, compiling and
+   viewing LaTeX documents. A thorough explanation of the full
+   capabilities of Latex-Suite is described in the user manual. This guide on the
+   other hand, provides a quick 30-45 minute running start to some of the
+   more commonly used functionalities of Latex-Suite.
+  </div></div></div><hr></hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#lsq-using-tutorial">1 Using this tutorial</a></span></dt><dt><span class="section"><a href="#lsq-inserting-template">2 Inserting a template</a></span></dt><dt><span class="section"><a href="#lsq-lsq-inserting-package">3 Inserting a package</a></span></dt><dt><span class="section"><a href="#lsq-insert-environment">4 Inserting an Environment</a></span></dt><dt><span class="section"><a href="#lsq-keyboard-shortcuts">5 A few keyboard shortcuts</a></span></dt><dt><span class="section"><a href="#lsq-folding">6 Folding in Latex-Suite</a></span></dt><dt><span class="section"><a href="#lsq-inserting-reference">7 Inserting a Reference</a></span></dt><dt><span class="section"><a href="#lsq-compiling">8 Compiling a document</a></span></dt><dd><dl><dt><span class="section"><a href="#lsq-debugging">8.1 Debugging LaTeX source files</a></span></dt></dl></dd><dt><span class="section"><a href="#lsq-viewing-dvi">9 Viewing DVI files</a></span></dt><dd><dl><dt><span class="section"><a href="#lsq-quick-forward-searching">9.1 Performing forward searches</a></span></dt><dt><span class="section"><a href="#lsq-quick-inverse-searching">9.2 Performing inverse searches</a></span></dt></dl></dd><dt><span class="section"><a href="#lsq-conclusions">10 Conclusions</a></span></dt></dl></div><div class="section" title="1 Using this tutorial"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-using-tutorial"></a>1 Using this tutorial</h2></div></div></div><p>
+   This tutorial assumes that you have vim version 6.1+ installed on your
+   machine. To check, open vim and type
+   </p><pre class="programlisting">:ver</pre><p>
+   You will see the version in the first line of the output. Get the latest
+   vim version from <a class="ulink" href="http://vim.sf.net" target="_top">http://vim.sf.net</a>.
+  </p><p>
+   Assuming you have Vim 6.1+ already up and running, follow the
+   instructions <a class="ulink" href="http://vim-latex.sourceforge.net/index.php?subject=download&amp;title=Download" target="_top">here</a>
+   to set up Latex-Suite. Remember to make sure your
+   <code class="literal">'grepprg'</code> setting of Vim works.
+  </p><p>
+   Good, now you are all set to start the tutorial. Since this tutorial
+   aims to explain the newbie-friendly version of Latex-Suite, it needs some GUI
+   functionality. Therefore, at least for this tutorial, open the gui
+   version of vim. (On MS windows, this is the default). Open up this help
+   file in either the same gvim session in a split window or in a different
+   session and follow the (friendly) instructions.
+  </p></div><div class="section" title="2 Inserting a template"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-inserting-template"></a>2 Inserting a template</h2></div></div></div><p>
+   Start up gvim and begin editing a new file.
+   </p><pre class="programlisting">e newfile.tex</pre><p>
+   If the installation went well, you should see a new set of
+   menus appear. Goto <code class="literal">Tex-Suite &gt; Templates</code>. You will see
+   a number of templates to choose from. For now, choose to insert a
+   template for an article. You should get the following in the main
+   vim window (after possibly a hit-enter prompt).
+   </p><pre class="programlisting">
+      1 %        File: sample.tex
+      2 %     Created: Sun Jun 22 04:00 PM 2003 P
+      3 % Last Change: Sun Jun 22 04:00 PM 2003 P
+      4 %
+      5 \documentclass[a4paper]{article}
+      6 \begin{document}
+      7 
+      8 \end{document}
+      9 
+     10 ~
+     11 ~
+     12 ~
+     13 ~
+-- INSERT --                                     7,1           All
+</pre><p>
+  </p><img src=""></img><p>
+   The cursor is left on line 7 (just after the
+   <code class="literal">\begin{document}</code> line) from where you can start
+   typing straight away. Trying to lessen movement is a recurring theme in
+   Latex-Suite.
+  </p></div><div class="section" title="3 Inserting a package"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-lsq-inserting-package"></a>3 Inserting a package</h2></div></div></div><p>
+   Assume that we are writing a mathematical paper and we want to use the
+   popular amsmath package. We will use some functionality which
+   Latex-Suite provides specifically for including LaTeX packages,
+   providing options etc. Navigate to before the
+   <code class="literal">\begin{document}</code> line (The portion of the document
+   before the <code class="literal">\begin{document}</code> is called the
+   <span class="emphasis"><em>preamble</em></span> in LaTeX). On an empty line in the
+   preamble, type the single word <code class="literal">amsmath</code> and then press
+   <code class="literal">&lt;F5&gt;</code> in normal mode. The line will change to
+   </p><pre class="programlisting">\usepackage[]{amsmath}&lt;++&gt;</pre><p>
+   with the cursor positioned conveniently between the
+   <code class="literal">[]</code>'s. For now, do not worry about the trailing
+   <code class="literal">&lt;++&gt;</code> at the end of this line. Assume we want to
+   provide the <code class="literal">sumlimits</code> options to amsmath. You can
+   either type in this option manually, or choose from a menu of package
+   options which Latex-Suite automatically creates when you insert a
+   package using <code class="literal">&lt;F5&gt;</code>.  With the cursor still
+   placed between the <code class="literal">[]</code>, goto <code class="literal">TeX-Suite &gt;
+    Packages &gt; amsmath Options</code>. Choose the
+   <code class="literal">sumlimits</code> option. The package line should get
+   converted to:
+   </p><pre class="programlisting">\usepackage[sumlimits,]{amsmath}&lt;++&gt;</pre><p>
+  </p><p>
+   with the cursor before <code class="literal">]</code>. Press
+   <code class="literal">&lt;C-j&gt;</code> in insert mode. You will see the cursor
+   jump to the end of the package line and the trailing
+   <code class="literal">&lt;++&gt;</code> will disappear. What just happened?! You had
+   your first taste of <span class="emphasis"><em>Placeholders</em></span>. Read more about
+   them (later) <a class="ulink" href="http://vim-latex.sourceforge.net/documentation/latex-suite/latex-macros.html" target="_top">here</a>.
+   In short, pressing <code class="literal">&lt;C-j&gt;</code> in insert mode takes
+   you to the next <code class="literal">&lt;++&gt;</code> in the text.
+  </p></div><div class="section" title="4 Inserting an Environment"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-insert-environment"></a>4 Inserting an Environment</h2></div></div></div><p>
+   Now let us type in a simple formula in LaTeX. Move back to the body of
+   the document (The portion of the document between
+   <code class="literal">\begin{document}</code> and
+   <code class="literal">\end{document}</code> is called the body). Type in a few
+   simple sentences and then on an empty line, type the single word
+   <code class="literal">eqnarray</code>. Escape to normal mode and press
+   <code class="literal">&lt;F5&gt;</code>. (Remember:
+   <code class="literal">&lt;F5&gt;</code> is very useful!) This time, the line will
+   change to:
+  </p><pre class="programlisting">\begin{eqnarray}
+    \label{}&lt;++&gt;
+\end{eqnarray}&lt;++&gt;</pre><p>
+   with the cursor between the <code class="literal">{}</code>. Enter a label. We
+   will use <code class="literal">eqn:euler</code>. After typing in
+   <code class="literal">eqn:euler</code>, press <code class="literal">&lt;C-j&gt;</code>. This
+   will take you outside the curly-braces.  Another time you used a
+   Placeholder!
+  </p></div><div class="section" title="5 A few keyboard shortcuts"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-keyboard-shortcuts"></a>5 A few keyboard shortcuts</h2></div></div></div><p>
+   Now to type in the famous Euler formula. Our aim is to type
+   </p><pre class="programlisting">e^{j\pi} + 1 &amp;=&amp; 0</pre><p> Instead
+   of typing this blindly, let us use a few shortcuts to reduce
+   movement.  Start out by typing <code class="literal">e^</code>. Now instead of
+   typing <code class="literal">{</code>, type another <code class="literal">^</code>. You
+   will see the <code class="literal">e^^</code> change instantly to
+   <code class="literal">e^{}&lt;++&gt;</code> with the cursor between
+   <code class="literal">{}</code>'s. (The <code class="literal">^^</code> changed to
+   <code class="literal">^{}&lt;++&gt;</code>.) Continue with the following sequence of
+   letters: <code class="literal">j`p</code>. This will change instantly to
+   <code class="literal">j\pi</code>. (The <code class="literal">`p</code> changed to
+   <code class="literal">\pi</code>.) Having typed in all we need to type between
+   the <code class="literal">{}</code>'s, press <code class="literal">&lt;C-j&gt;</code>.
+   You will pop back out of the curly-braces. Continue typing the rest
+   of the formula. You can use <code class="literal">==</code> as a shortcut for
+   <code class="literal">&amp;=&amp;</code>. Latex-Suite provides a large number
+   of such shortcuts which should making typing much more fun and fast
+   if you get acquainted with them. A list is provided <a class="ulink" href="http://vim-latex.sourceforge.net/documentation/latex-suite/auc-tex-mappings.html" target="_top">here</a>. Definitely spend some time getting a feel for
+   them. Most of them are pretty intuitive like <code class="literal">`/</code>
+   for <code class="literal">\frac{}{}</code>, <code class="literal">`8</code> for
+   <code class="literal">\infty</code> etc.
+  </p><p>
+   In order to understand the next section better, it will be helpful
+   to have one more <code class="literal">\label</code>. Lets use the handy
+   <code class="literal">&lt;F5&gt;</code>
+   key to insert another equation. This time something simple like the
+   following will do:
+   </p><pre class="programlisting">\begin{eqnarray}
+  \label{eqn:simple}
+  1 + 1 = 2
+\end{eqnarray}</pre><p>
+  </p></div><div class="section" title="6 Folding in Latex-Suite"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-folding"></a>6 Folding in Latex-Suite</h2></div></div></div><p>
+   Okay, we have typed enough. At this stage, hopefully, your file is
+   looking something like this:
+</p><pre class="programlisting">
+      1 %        File: sample.tex
+      2 %     Created: Sun Jun 22 04:00 PM 2003 P
+      3 % Last Change: Mon Dec 15 07:00 PM 2003 
+      4 %
+      5 \documentclass[a4paper]{article}
+      6 
+      7 \usepackage[sumlimits,]{amsmath}
+      8 
+      9 \begin{document}
+     10 \begin{eqnarray}
+     11 	\label{eqn:euler}
+     12 	e^{j\pi} + 1 &amp;=&amp; 0
+     13 \end{eqnarray}
+     14 This is the famous euler equation. I
+     15 will type another equation, just as
+     16 true:
+     17 \begin{eqnarray}
+     18 	\label{eqn:simple}
+     19 	1 + 1 &amp;=&amp; 2
+     20 \end{eqnarray}
+     21 This is my contribution to mathematics.
+     22 \end{document}
+</pre><p>
+    In normal mode, press <code class="literal">\rf</code>. This will fold up the
+    entire file and you should see the file looking as below:
+</p><pre class="programlisting">
+      1 %        File: sample.tex
+      2 %     Created: Sun Jun 22 04:00 PM 2003 P
+      3 % Last Change: Mon Dec 15 07:00 PM 2003 
+      4 %
+      5 +--  4 lines: Preamble:   \documentclass[a4paper]{article} -----
+      9 \begin{document}
+     10 +--  4 lines: eqnarray (eqn:euler) \label{eqn:euler} -----------
+     14 This is the famous euler equation. I
+     15 will type another equation, just as
+     16 true:
+     10 +--  4 lines: eqnarray (eqn:simple) \label{eqn:simple} ---------
+     21 This is my contribution to mathematics.
+     22 \end{document}
+</pre><p>
+    What has happened is that Latex-Suite folded away blocks of LaTeX code into
+    folded regions. You can open and close folds by using the command
+    <code class="literal">za</code> in normal mode.
+  </p></div><div class="section" title="7 Inserting a Reference"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-inserting-reference"></a>7 Inserting a Reference</h2></div></div></div><p>
+   A necessary part of LaTeX editing is referencing equations, figures,
+   bibliographic entries etc. This is done with the
+   <code class="literal">\ref</code> and the <code class="literal">\cite</code> commands.
+   Latex-Suite provides an easy way to do this. Somewhere in the body of
+   the document, type in the following sentence
+   </p><pre class="programlisting">This is a reference to (\ref{}).</pre><p>
+   With the cursor between the <code class="literal">{}</code> press
+   <code class="literal">&lt;F9&gt;</code> in insert mode. Your vim session will
+   sprout two new windows and it should look like below:
+</p><pre class="programlisting">
+      9 \begin{document}
+     10 +--  4 lines: eqnarray (eqn:euler) :  \label{eqn:euler}-----------------------
+     14 This is the famous euler equation. I
+     15 will type another equation, just as
+     16 true:
+     17 +--  4 lines: eqnarray (eqn:simple) :  \label{eqn:simple}---------------------
+     21 This is my contribution to mathematics.
+     22 This is a reference to (\ref{}&lt;++&gt;)&lt;++&gt;
+     23 \end{document}
+~
+~
+~
+test.tex [+]                                                        22,29          Bot
+test.tex|11| \label{eqn:euler}
+test.tex|18| \label{eqn:simple}
+~
+~
+~
+[Error List]                                                        1,1            All
+      7 \usepackage[sumlimits,]{amsmath}
+      8
+      9 \begin{document}
+     10 \begin{eqnarray}
+     11     \label{eqn:euler}
+     12     e^{j\pi} + 1 &amp;=&amp; 0
+     13 \end{eqnarray}
+     14 This is the famous euler equation. I
+     15 will type another equation, just as
+     16 true:
+test.tex [Preview][+]                                               11,2-5         46%
+</pre><p>
+  </p><img src=""></img><p>
+   The cursor will relocate to the middle window which shows all
+   <code class="literal">\label</code>s found in all the <code class="literal">.tex</code> file
+   in the current directory. 
+   You can scroll up and down in the middle window till you reach the
+   reference you want to insert. Notice how when you scroll in the
+   middle window, the bottom "Preview" window scrolls automatically to
+   show you the location of the current selection. This helps you
+   identify the reference with greater ease because often times,
+   <code class="literal">\labels</code> are not descriptive enough or there might be too
+   many of them. To insert the reference, just position the cursor on
+   the relevant line in the middle window and press
+   <code class="literal">&lt;enter&gt;</code>. The line which you were editing will change
+   to:
+   </p><pre class="programlisting">This is a reference to (\ref{eqn:euler})</pre><p>
+   and the bottom windows close automatically.
+  </p><p>
+   The <code class="literal">&lt;F9&gt;</code> key also works for inserting
+   <code class="literal">\cite</code> commands to reference bibliographic entries,
+   inserting file names for the <code class="literal">\inputgraphics</code> command
+   and just plain searching for words. Click <a class="ulink" href="http://vim-latex.sourceforge.net/documentation/latex-suite/latex-completion.html" target="_top">here</a>
+   for more information.
+  </p></div><div class="section" title="8 Compiling a document"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-compiling"></a>8 Compiling a document</h2></div></div></div><p>
+   Great! We have just created a small latex file. The next step is to
+   make the latex compiler create a .dvi file from it. Compiling via
+   latex-suite is simple. Goto normal mode and press <code class="literal">\ll</code>
+   (replace <code class="literal">\</code> with whatever <code class="literal">mapleader</code> setting you
+   have). This will call the latex compiler. If all goes well, then
+   the focus should return to the vim window. 
+  </p><p>
+   Nothing happend? Ouch! You might need to do some additional settings as
+   described <a class="ulink" href="http://vim-latex.sourceforge.net/index.php?subject=faq&amp;title=FAQ#faq-2" target="_top">here.</a>
+  </p><div class="section" title="8.1 Debugging LaTeX source files"><div class="titlepage"><div><div><h3 class="title"><a id="lsq-debugging"></a>8.1 Debugging LaTeX source files</h3></div></div></div><p>
+    To illustrate the debugging procedure, let's create a few mistakes
+    in the file. Insert the following ``mistakes'' in the file:
+    </p><pre class="programlisting">This is a $\mistake$.
+And this is $\another$</pre><p>
+    Now press <code class="literal">\ll</code> again. This time you will notice that
+    after compilation finishes, the cursor automatically lands on
+    <code class="literal">$\mistake$</code>. In addition, 2 new windows will appear
+    as shown here:
+   </p><img src=""></img><p>
+    The middle window is an <span class="emphasis"><em>Error List</em></span> window
+    showing you the errors which the latex compiler found. Th bottom
+    window is a <span class="emphasis"><em>Log Preview</em></span> window, which shows you
+    the context of the error made by displaying the relevant portion of
+    the <code class="literal">.log</code> file created during the latex
+    compilation procedure. Jump to the <span class="emphasis"><em>Error List</em></span>
+    window and try scrolling around in it using either the <code class="literal">j,
+     k</code> keys or the arrow keys. You will notice that the
+    <span class="emphasis"><em>Log Preview</em></span> window scrolls automatically to
+    retain the context of the error you are currently located on. If you
+    press <code class="literal">&lt;enter&gt;</code> on any line, you will see the
+    cursor jump to the location of the error. Latex-Suite tries to guess
+    the column location as best as it can so you can continue typing
+    straight away.
+   </p></div><p>
+   Having got a taste for compiling, proceed by deleting the erroneous
+   lines and re-compiling.
+  </p><p>
+   The Latex-Suite compiler is capable of much more including
+   selectively filtering out common errors which you might want to
+   ignore for the moment, compiling parts of a document, setting
+   levels of verbosity in the compiler output etc. See <a class="ulink" href="http://vim-latex.sourceforge.net/documentation/latex-suite/latex-compiling.html" target="_top">here</a>
+   for more.
+  </p></div><div class="section" title="9 Viewing DVI files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-viewing-dvi"></a>9 Viewing DVI files</h2></div></div></div><p>
+   Now that you have compiled your first latex source, its time to
+   view it. Again, this should be pretty simple. Press
+   <code class="literal">\lv</code> in normal mode. Depending on your platform, a DVI
+   viewer program should open up and display the dvi file generated in
+   compilation step previously.
+  </p><p>
+   Nothing happend? Ouch! You might need to do some additional settings as
+   described <a class="ulink" href="http://vim-latex.sourceforge.net/index.php?subject=faq&amp;title=FAQ#faq-3" target="_top">here.</a>
+  </p><div class="section" title="9.1 Performing forward searches"><div class="titlepage"><div><div><h3 class="title"><a id="lsq-quick-forward-searching"></a>9.1 Performing forward searches</h3></div></div></div><p>
+    If you are using a modern DVI viewer, then it is possible to do what
+    is called forward and inverse searching. However, you will need to
+    customize the standard Latex-Suite distribution in order to utilize
+    this functionality. Type in the following on the command line:
+
+    </p><pre class="programlisting">:let g:Tex_CompileRule_dvi = 'latex -src-specials -interaction=nonstopmode $*'
+:TCTarget dvi</pre><p>
+
+    Now recompile the latex file by pressing <code class="literal">\ll</code>.
+    This time, instead of pressing <code class="literal">\lv</code> to view the
+    file, press <code class="literal">\ls</code> from within the tex file. If the
+    DVI viewer supports forward searching (most of them do), then the
+    viewer will actually display the portion of the DVI file
+    corresponding to the location where you were editing the tex file.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     The reason Latex-Suite does not have this setting by default is
+     that on some systems this causes unpredictable results in the DVI
+     output. If you find the DVI output satisfactory, then you can
+     insert the first of the 2 lines above into your
+     <code class="literal">$VIM/ftplugin/tex.vim</code> file.
+     <code class="literal">$VIM</code> is <code class="literal">~/vimfiles</code> for
+     windows and <code class="literal">~/.vim</code> for *nix machines.
+    </p></div></div><div class="section" title="9.2 Performing inverse searches"><div class="titlepage"><div><div><h3 class="title"><a id="lsq-quick-inverse-searching"></a>9.2 Performing inverse searches</h3></div></div></div><p>
+    Most DVI viewers also support inverse searching, whereby you can
+    make the DVI viewer ask vim to display the tex source corresponding
+    to the DVI file being shown. This is extremely helpful while
+    proofreading large documents.
+   </p><p>
+    Simply double-click anywhere in the viewer window. If the viewer
+    supports it, then it will attempt to open an editor window at the
+    location corresponding to where you double-clicked. On *nix
+    platforms, Latex-Suite attempts to start the viewer program in such
+    a way that it already knows to use vim to open the tex source. Thus
+    you should see a vim window open up showing the tex file. However,
+    if there is an error, or some other program is used, you will need
+    to tell the viewer program to use gvim as the editor.  On windows
+    platforms, if you use the commonly available <code class="literal">yap</code>
+    viewer (available as part of the miktex distribution), then this
+    option can be set from <code class="literal">View &gt; Options &gt; Inverse
+     Search</code>. In the <code class="literal">Command line:</code> window,
+    write
+    </p><pre class="programlisting">"C:\Program Files\vim\vim61\gvim" -c ":RemoteOpen +%l %f"</pre><p>
+    (Customize the path according to where you have installed gvim).
+    If you double click in the view pane now, you will see gvim start
+    up and take you to the relevant portion of the tex file.
+   </p></div></div><div class="section" title="10 Conclusions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-conclusions"></a>10 Conclusions</h2></div></div></div><p>
+   Thats all folks! By now, you should know enough of the basic functions
+   of latex-suite. Ofcourse, latex-suite is capable of much, much more such
+   as compiling files multiple times to resolve changed labels, compiling
+   dependencies, handling user packages and more. To get a feel for that,
+   you will need to take a look at the <a class="ulink" href="http://vim-latex.sourceforge.net/index.php?subject=manual&amp;title=Manual#user-manual" target="_top">Latex-Suite
+    user manual.</a>
+  </p></div></div></body></html>

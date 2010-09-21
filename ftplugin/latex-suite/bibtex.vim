@@ -2,10 +2,9 @@
 " 	       File: bibtex.vim
 "      Function: BibT
 "        Author: Alan G Isaac <aisaac@american.edu>
-"                modified by Srinath Avadhanula <srinath AT fastmail DOT fm>
-"                for latex-suite.
+"                modified by Srinath Avadhanula for latex-suite.
 "       License: Vim Charityware license.
-"           CVS: $Id: bibtex.vim,v 1.5 2003/06/15 08:23:14 srinathava Exp $
+"           CVS: $Id: bibtex.vim 997 2006-03-20 09:45:45Z srinathava $
 "=============================================================================
 
 " Fields:
@@ -216,6 +215,7 @@ function BibT(type, options, prompt)
 	let i = 0
 	while i < strlen(fields)
 		let field = strpart(fields, i, 1)
+
 		if exists('s:'.field.'_standsfor')
 			let field_name = s:{field}_standsfor
 			let retval = retval.field_name." = {<++>},\n"
@@ -223,6 +223,26 @@ function BibT(type, options, prompt)
 
 		let i = i + 1
 	endwhile
+	
+	" If the user wants even more fine-tuning...
+	if Tex_GetVarValue('Bib_'.choosetype.'_extrafields') != ''
+
+		let extrafields = Tex_GetVarValue('Bib_'.choosetype.'_extrafields')
+		
+		let i = 1
+		while 1
+			let field_name = Tex_Strntok(extrafields, "\n", i)
+			if field_name == ''
+				break
+			endif
+
+			let retval = retval.field_name." = {<++>},\n"
+
+			let i = i + 1
+		endwhile
+
+	endif
+
 	let retval = retval.'otherinfo = {<++>}'."\n"
 	let retval = retval."}<++>"."\n"
 

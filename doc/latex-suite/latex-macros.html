@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3 Latex-Suite Macros</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="latex-suite-templates.html" title="2 Inserting Templates"></link><link rel="next" href="environment-mappings.html" title="3.1 Environment Mappings"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3 Latex-Suite Macros</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-suite-templates.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="environment-mappings.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3 Latex-Suite Macros"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="latex-macros"></a>3 Latex-Suite Macros</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="environment-mappings.html">3.1 Environment Mappings</a></span></dt><dt><span class="section"><a href="latex-command-maps.html">3.2 Command Mappings</a></span></dt><dt><span class="section"><a href="font-maps.html">3.3 Font Mappings</a></span></dt><dt><span class="section"><a href="section-mappings.html">3.4 Section Mappings</a></span></dt><dt><span class="section"><a href="greek-letter-mappings.html">3.5 Greek Letter Mappings</a></span></dt><dt><span class="section"><a href="auc-tex-mappings.html">3.6 Auc-Tex Key Bindings</a></span></dt><dt><span class="section"><a href="diacritic-mappings.html">3.7 Diacritics</a></span></dt><dt><span class="section"><a href="bibtex-bindings.html">3.8 BibTeX Shortcuts</a></span></dt><dt><span class="section"><a href="smart-keys.html">3.9 Smart Key Mappings</a></span></dt><dt><span class="section"><a href="altkey-mappings.html">3.10 Alt Key Macros</a></span></dt><dt><span class="section"><a href="custom-macros-menu.html">3.11 Custom Macros</a></span></dt><dt><span class="section"><a href="ls-new-macros.html">3.12 Making your own Macros via <code class="literal">IMAP()</code></a></span></dt></dl></div><p>
+   Latex-Suite ships with a very comprehensive set of insert mode and
+   |visual-mode| mappings and menu items to typeset most of the LaTeX
+   elements.
+  </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+    These mappings are are not standard mappings in the sense that
+    only the last character is mapped. See plugin/imaps.vim for
+    further documentation. For example, in the case of the mapping
+    <code class="literal">EFI</code> provided by Latex-Suite you can press the characters
+    '<code class="literal">E</code>', '<code class="literal">F</code>' and '<code class="literal">I</code>'
+    as slowly as you wish (unlike the normal <code class="literal">imap</code> command
+    where <code class="literal">timeout</code> issues are involved). The characters are
+    visible as you type them (unlike normal <code class="literal">imap</code>s) and you
+    can use the movement or backspace key to correct yourself unlike normal
+    mappings.
+   </p></div><a id="place-holder"></a><div class="note" title="Place Holders" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title"><a id="place-holders"></a>Place Holders</h3><p>
+    Almost all macros provided in Latex-Suite implement Stephen Riem's bracketing
+    system and Gergely Kontra's <code class="literal">JumpFunc()</code> for handling
+    place-holders. This consists of using "place-holders" to mark off
+    locations where the next relevant editing has to be done. As an example,
+    when you type <code class="literal">EFI</code> in |insert-mode|, you will get the
+    following:
+    </p><pre class="programlisting">\begin{figure}[h]
+    \centerline{\psfig{figure=&lt;+eps file+&gt;}}
+    \caption{&lt;+caption text+&gt;}
+    \label{fig:&lt;+label+&gt;}
+\end{figure}&lt;++&gt;</pre><p>
+    The text <code class="literal">&lt;+eps file+&gt;</code> will be selected and
+    you will be left in |select-mode| so that you can continue typing
+    straight away. After having typed in the file name, you can press
+    <code class="literal">&lt;Ctrl-J&gt;</code> (while still in insert-mode). This will
+    take you directly to the next "place-holder". i.e, <code class="literal">&lt;+caption
+     text+&gt;</code> will be visually selected with Vim in select mode
+    again for typing in the caption. This saves on a lot of key presses.
+   </p></div><div class="note" title="Over-riding Latex-Suite Macros" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title"><a id="overriding-macros"></a>Over-riding Latex-Suite Macros</h3><p>
+    If you wish to change these macros from their default values, for
+    example, if you wish to change <code class="literal">`w</code> to expand to
+    <code class="literal">\omega</code> instead of its default expansion to
+    <code class="literal">\wedge</code>, you should use the <code class="literal">IMAP</code>
+    function as described in the <a class="link" href="ls-new-macros.html" title="3.12 Making your own Macros via IMAP()">Using 
+     IMAP()</a> section.
+   </p><p>
+    An important thing to note is that if you wish to over-ride macros
+    created by Latex-Suite rather than merely create new macros, you should place
+    the <code class="literal">IMAP()</code> calls in a script which gets sourced
+    after the files in Latex-Suite. A good place typically is as a file-type
+    plugin file in the
+    <code class="literal">~/.vim/after/ftplugin/</code> directory. (Use
+    <code class="literal">~/vimfiles</code> if you are using
+    <code class="literal">WINDOWS</code>). For example to over-ride
+    <code class="literal">`w</code> to <code class="literal">\omega</code> instead of
+    <code class="literal">\wedge</code>, place the following line in (say)
+    <code class="literal">~/.vim/after/ftplugin/tex_macros.vim</code>:
+    </p><pre class="programlisting">call IMAP('`w', '\omega', 'tex')</pre><p>
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     It is important to use a file-name which will get sourced on a
+     <code class="literal">FileType</code> event. Therefore you must use a file-name
+     which conforms to the standards as described in
+     <code class="literal">|ftplugin-name|</code>.
+    </p></div></div><div class="note" title="Pausing Macro expansion" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title"><a id="pausing-imaps"></a>Pausing Macro expansion</h3><p>
+    If you wish to temporarily suspend the imaps functionality, then you
+    can set the <code class="literal">Imap_FreezeImap</code> to 1. If you set
+    <code class="literal">g:Imap_FreezeImap</code> to 1, then it will be a
+    system-wide setting. Setting <code class="literal">b:Imap_FreezeImap</code> will
+    affect only the current buffer.
+   </p></div><p>
+   The following sections describe the various editing macros provided
+   by Latex-Suite.
+  </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-suite-templates.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="environment-mappings.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2 Inserting Templates </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.1 Environment Mappings</td></tr></table></div></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>5 Latex Completion</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="supporting-packages.html" title="4.4 Writing supporting for a package"></link><link rel="next" href="ls-completion-usage.html" title="5.1 Latex-Suite completion example"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5 Latex Completion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="supporting-packages.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ls-completion-usage.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="5 Latex Completion"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="latex-completion"></a>5 Latex Completion</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ls-completion-usage.html">5.1 Latex-Suite completion example</a></span></dt><dt><span class="section"><a href="ls-completion-ref.html">5.2 Latex-Suite \ref completion</a></span></dt><dt><span class="section"><a href="latex-completion-cite.html">5.3 Latex-Suite <code class="literal">\cite</code> completion</a></span></dt><dt><span class="section"><a href="ls-filename-completion.html">5.4 Latex-Suite filename completion</a></span></dt><dt><span class="section"><a href="ls-completion-custom.html">5.5 Custom command completion</a></span></dt></dl></div><p>
+   Latex-Suite provides an easy way to insert references to labels and
+   bibliographic entries and also provide filename arguments to commands
+   such as <code class="literal">\includegraphics</code>. Although the completion
+   capabilities are very diverse, Latex-Suite only uses a single key
+   (<code class="literal">&lt;F9&gt;</code> by default) to do all of it. Pressing the
+   <code class="literal">&lt;F9&gt;</code> key does different things based on where
+   you are located. Latex-Suite tries to guess what you might be trying to
+   complete at the location where you pressed
+   <code class="literal">&lt;F9&gt;</code>. For example, pressing
+   <code class="literal">&lt;F9&gt;</code> when you are within a
+   <code class="literal">\ref</code> command will try to list the
+   <code class="literal">\label</code>'s in the present directory. Pressing it when
+   you are in a <code class="literal">\cite</code> command will list bibliography
+   keys. Latex-Suite also recognizes commands which need a file name argument and
+   will put up an explorer window for you to choose a filename.
+  </p><div class="note" title="Before you start with Latex-Suite's completion function..." style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title"><a id="ls-set-grepprg"></a>Before you start with Latex-Suite's completion function...</h3><p>
+    All of Latex-Suite's completion capabilities depend on a external program
+    being available on your system which can search through a number of
+    files for a reg-exp pattern. On *nix systems, the pre-installed
+    <code class="literal">grep</code> utility is more than adequate.  Most windows
+    systems come with a utility <code class="literal">findstr</code>, but that has
+    proven to be very inadequate (for one, it does not have an option to
+    force the file name to be displayed when searching through a single
+    file). Your best bet is to install <a class="ulink" href="http://www.cygwin.com" target="_top">cygwin</a>, but if you think that's
+    overkill, you can <a class="ulink" href="http://www.google.com/search?q=windows%20gnu%20grep" target="_top">search
+     for</a> a windows implementation of GNU grep. (Latex-Suite testing on
+    windows has been done with cygwin's port of GNU grep).
+   </p><p>
+    Once you have a <code class="literal">grep</code> program installed, you need to
+    set the <code class="literal">'grepprg'</code> option for vim. Make sure you use a
+    setting which forces the program to display file names even when you are
+    searching through a single file. For GNU grep, the syntax is
+    </p><pre class="programlisting">set grepprg=grep\ -nH\ $*</pre><p>
+   </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="supporting-packages.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ls-completion-usage.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.4 Writing supporting for a package </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.1 Latex-Suite completion example</td></tr></table></div></body></html>

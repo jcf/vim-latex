@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>8.3 Editing the folding.vim file directly</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-folding.html" title="8 Latex Folding"></link><link rel="prev" href="customizing-what-to-fold.html" title="8.2 Customizing what to fold"></link><link rel="next" href="latex-project.html" title="9 Multiple file LaTeX projects"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.3 Editing the folding.vim file directly</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-what-to-fold.html">Prev</a> </td><th width="60%" align="center">8 Latex Folding</th><td width="20%" align="right"> <a accesskey="n" href="latex-project.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="8.3 Editing the folding.vim file directly"><div class="titlepage"><div><div><h3 class="title"><a id="editing-folding"></a>8.3 Editing the folding.vim file directly</h3></div></div></div><p>
+    If you are using version 1.5 of Latex-Suite or older, you will need to
+    directly edit the
+    <code class="literal">$VIM/ftplugin/latex-suite/folding.vim</code> file if you
+    wish to modify the folding scheme.  You will need to modify the
+    function <code class="literal">MakeTexFolds()</code> defined in that file to
+    modify the fold syntax.  <code class="literal">MakeTexFolds</code> makes a number
+    of calls to <code class="literal">AddSyntaxFoldItem</code>. Each such call
+    defines a new "fold item". The order in which these calls are made
+    defines how the folds are nested. For example, if you desire an
+    <code class="literal">figure</code> environment to be nested within a
+    <code class="literal">section</code>, then you should define the fold for the
+    <code class="literal">figure</code> first. The syntax of
+    <code class="literal">AddSyntaxFoldItem</code> is as follows:
+    </p><pre class="programlisting">AddSyntaxFoldItem(startpat, endpat, startoff, endoff [, startskip, endskip])</pre><p>
+    If the last two arguments are omitted, then they are assumed to default
+    to the empty strings <code class="literal">''</code>.
+    The explanation for each argument is as follows:
+   </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Argument</th><th>Explanation</th></tr></thead><tbody><tr><td><code class="literal">startpat</code></td><td>a line matching this pattern defines
+        the beginning of a fold.
+       </td></tr><tr><td>
+        <code class="literal">endpat</code>
+       </td><td>
+        a line matching this pattern defines the end of a fold.
+       </td></tr><tr><td><code class="literal">startoff</code></td><td>
+        this is the offset from the starting line at which folding will
+        actually start
+       </td></tr><tr><td><code class="literal">endoff</code></td><td>
+        like <code class="literal">startoff</code>, but gives the offset of the
+        actual fold end from the line satisfying <code class="literal">endpat</code>.
+        <code class="literal">startoff</code> and <code class="literal">endoff</code> are
+        necessary when the folding region does not have a specific end
+        pattern corresponding to a start pattern. for example in LaTeX,
+        <code class="literal">\section{Section Name}</code> defines the beginning of
+        a section, but there is no command which specifically ends a
+        section. Thus a <code class="literal">\section</code>  is assumed to end 1
+        line <span class="emphasis"><em>before</em></span> another section starts.
+       </td></tr><tr><td>
+        <code class="literal">startskip</code>  
+       </td><td>
+        A Pattern Which Defines The Beginning Of A "Skipped" Region.
+
+        For example, suppose we define a \itemize fold as follows:
+        <pre class="programlisting"><code class="literal">startpat</code> =  '^\s*\\item',
+<code class="literal">endpat</code> = '^\s*\\item\|^\s*\\end{\(enumerate\|itemize\|description\)}',
+<code class="literal">startoff</code> = 0,
+<code class="literal">endoff</code> = -1</pre>
+
+        This defines a fold which starts with a line beginning with an
+        <code class="literal">\item</code> and ending one line before a line beginning with an
+        <code class="literal">\item</code> or <code class="literal">\end{enumerate}</code> etc.
+
+        Then, as long as <code class="literal">\item</code>'s are not nested things are fine.
+        However, once items begin to nest, the fold started by one
+        <code class="literal">\item</code> can end because of an
+        <code class="literal">\item</code> in an <code class="literal">\itemize</code>
+        environment within this <code class="literal">\item</code>. i.e, the following can happen:
+
+        <pre class="programlisting">\begin{itemize}
+\item Some text                         &lt;------- fold will start here
+This item will contain a nested item
+\begin{itemize}                         &lt;----- fold will end here because next line contains \item...
+\item Hello  
+\end{itemize}                           &lt;----- ... instead of here.
+\item Next item of the parent itemize  
+\end{itemize}</pre>
+
+        Therefore, in order to completely define a folding item which
+        allows nesting, we need to also define a "skip" pattern.
+        <code class="literal">startskip</code> and end skip do that.
+        Leave '' when there is no nesting.
+       </td></tr><tr><td>
+        <code class="literal">endskip</code>  
+       </td><td>
+        the pattern which defines the end of the "skip" pattern for
+        nested folds.
+       </td></tr></tbody></table></div><div class="note" title="Example 1" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Example 1</h3><p>
+     A syntax fold region for the latex section is defined with the
+     following arguments to <code class="literal">AddSyntaxFoldItem</code>:
+     </p><pre class="programlisting">startpat = "\\section{"
+endpat   = "\\section{"
+startoff = 0
+endoff   = -1
+startskip = ''
+endskip = ''</pre><p>
+     Note that the start and end patterns are thus the same and
+     <code class="literal">endoff</code> has a negative value to capture the effect
+     of a section ending one line before the next starts.
+    </p></div><div class="note" title="Example 2" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Example 2</h3><p>
+     A syntax fold region for the \itemize environment is:
+     </p><pre class="programlisting">startpat = '^\s*\\item',
+endpat = '^\s*\\item\|^\s*\\end{\(enumerate\|itemize\|description\)}',
+startoff = 0,
+endoff = -1,
+startskip = '^\s*\\begin{\(enumerate\|itemize\|description\)}',
+endskip = '^\s*\\end{\(enumerate\|itemize\|description\)}'</pre><p>
+     Note the use of <code class="literal">startskip</code> and
+     <code class="literal">endskip</code> to allow nesting.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-what-to-fold.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-folding.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-project.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">8.2 Customizing what to fold </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 9 Multiple file LaTeX projects</td></tr></table></div></body></html>

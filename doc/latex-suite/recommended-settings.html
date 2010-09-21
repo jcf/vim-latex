@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>1 Installation and recommended Settings</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="index.html" title="Latex-Suite Reference"></link><link rel="next" href="latex-suite-templates.html" title="2 Inserting Templates"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1 Installation and recommended Settings</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="latex-suite-templates.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="1 Installation and recommended Settings"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="recommended-settings"></a>1 Installation and recommended Settings</h2></div></div></div><p>
+   If you are reading this, it most probably means that you have already
+   installed Latex-Suite and the help files. If this is not the case, follow the
+   detailed instructions on <a class="ulink" href="http://vim-latex.sourceforge.net/index.php?subject=download" target="_top">Latex-Suite's
+    download page</a>.
+  </p><p>
+   Make sure that you create a few necessary settings in your
+   <code class="literal">~/.vimrc.</code>
+   </p><pre class="programlisting">
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+</pre><p>
+  </p><p>
+   In addition, the following settings could go in your ~/.vim/ftplugin/tex.vim
+   file:
+   </p><pre class="programlisting">" this is mostly a matter of taste. but LaTeX looks good with just a bit
+" of indentation.
+set sw=2
+" TIP: if you write your \label's as \label{fig:something}, then if you
+" type in \ref{fig: and press &lt;C-n&gt; you will automatically cycle through
+" all the figure labels. Very useful!
+set iskeyword+=:
+</pre><p>
+  </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="latex-suite-templates.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Latex-Suite Reference </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 2 Inserting Templates</td></tr></table></div></body></html>

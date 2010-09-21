@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>9.1 Performing forward searches</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="A (very) quick introduction to Latex-Suite"></link><link rel="up" href="lsq-viewing-dvi.html" title="9 Viewing DVI files"></link><link rel="prev" href="lsq-viewing-dvi.html" title="9 Viewing DVI files"></link><link rel="next" href="lsq-quick-inverse-searching.html" title="9.2 Performing inverse searches"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.1 Performing forward searches</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="lsq-viewing-dvi.html">Prev</a> </td><th width="60%" align="center">9 Viewing DVI files</th><td width="20%" align="right"> <a accesskey="n" href="lsq-quick-inverse-searching.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="9.1 Performing forward searches"><div class="titlepage"><div><div><h3 class="title"><a id="lsq-quick-forward-searching"></a>9.1 Performing forward searches</h3></div></div></div><p>
+    If you are using a modern DVI viewer, then it is possible to do what
+    is called forward and inverse searching. However, you will need to
+    customize the standard Latex-Suite distribution in order to utilize
+    this functionality. Type in the following on the command line:
+
+    </p><pre class="programlisting">:let g:Tex_CompileRule_dvi = 'latex -src-specials -interaction=nonstopmode $*'
+:TCTarget dvi</pre><p>
+
+    Now recompile the latex file by pressing <code class="literal">\ll</code>.
+    This time, instead of pressing <code class="literal">\lv</code> to view the
+    file, press <code class="literal">\ls</code> from within the tex file. If the
+    DVI viewer supports forward searching (most of them do), then the
+    viewer will actually display the portion of the DVI file
+    corresponding to the location where you were editing the tex file.
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     The reason Latex-Suite does not have this setting by default is
+     that on some systems this causes unpredictable results in the DVI
+     output. If you find the DVI output satisfactory, then you can
+     insert the first of the 2 lines above into your
+     <code class="literal">$VIM/ftplugin/tex.vim</code> file.
+     <code class="literal">$VIM</code> is <code class="literal">~/vimfiles</code> for
+     windows and <code class="literal">~/.vim</code> for *nix machines.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="lsq-viewing-dvi.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="lsq-viewing-dvi.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="lsq-quick-inverse-searching.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">9 Viewing DVI files </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 9.2 Performing inverse searches</td></tr></table></div></body></html>

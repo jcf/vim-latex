@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>11.7 Viewer Customization</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="customizing-latex-suite.html" title="11 Customizing Latex-Suite"></link><link rel="prev" href="customizing-compiling.html" title="11.6 Compiler Customization"></link><link rel="next" href="customizing-menus.html" title="11.8 Menu Customization"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.7 Viewer Customization</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-compiling.html">Prev</a> </td><th width="60%" align="center">11 Customizing Latex-Suite</th><td width="20%" align="right"> <a accesskey="n" href="customizing-menus.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="11.7 Viewer Customization"><div class="titlepage"><div><div><h3 class="title"><a id="customizing-viewing"></a>11.7 Viewer Customization</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="customizing-viewing.html#Tex_ViewRule_format">11.7.1 g:Tex_ViewRule_&lt;format&gt;</a></span></dt><dt><span class="section"><a href="customizing-viewing.html#Tex_ViewRuleComplete_format">11.7.2 Tex_ViewRuleComplete_&lt;format&gt;</a></span></dt></dl></div><p>
+    The following settings affect how Latex-Suite will display compiled files.
+   </p><div class="section" title="11.7.1 g:Tex_ViewRule_&lt;format&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_ViewRule_format"></a>11.7.1 g:Tex_ViewRule_&lt;format&gt;</h4></div></div></div><p>
+     Here <code class="literal">&lt;format&gt;</code> refers to a format such as
+     <code class="literal">dvi</code>, <code class="literal">ps</code>, etc. This variable defines
+     the program which will be called to display a file of that format.
+    </p><p>
+     By default, Latex-Suite defines viewer programs for viewing DVI, PS and PDF
+     formats as follows:
+    </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col><col></col></colgroup><thead><tr><th> </th><th>Windows</th><th>Unix</th></tr></thead><tbody><tr><td><code class="literal">g:Tex_ViewRule_dvi</code></td><td><code class="literal">'yap -1'</code></td><td><code class="literal">'xdvi'</code></td></tr><tr><td><code class="literal">g:Tex_ViewRule_ps</code></td><td><code class="literal">'gsview32'</code></td><td><code class="literal">'ghostview'</code></td></tr><tr><td><code class="literal">g:Tex_ViewRule_pdf</code></td><td><code class="literal">'AcroRd32'</code></td><td><code class="literal">'xpdf'</code></td></tr></tbody></table></div><p>
+     For Macintosh systems, these strings are left empty by default. This lets
+     the system pick the program for each format. If you define these variables
+     for Mac, the system choice will be over-ridden.
+    </p><p>
+     Latex-Suite appends <code class="literal">file.format</code> to the above settings
+     while calling the external programs. For example, with
+     </p><pre class="programlisting">let g:Tex_ViewRule_dvi = 'yap -1'</pre><p>
+     <code class="literal">yap</code> is called as 
+     </p><pre class="programlisting">!start yap -1 file.dvi</pre><p> from within
+     Vim. (The initial <code class="literal">start</code> is used on
+     <code class="literal">Windows</code> platforms is to make <code class="literal">yap</code>
+     start as a separate process.) If you find the way Latex-Suite constructs the
+     command line too restrictive, you can use the <a class="link" href="customizing-viewing.html#Tex_ViewRuleComplete_format" title="11.7.2 Tex_ViewRuleComplete_&lt;format&gt;"><code class="literal">Tex_ViewRuleComplete_format</code></a>
+     setting for more complete control on how the command line is
+     constructed while calling the external program for viewing.
+    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      For windows, you will need to set the <code class="literal">$PATH</code> variable
+      to include the paths to <code class="literal">yap</code>,
+      <code class="literal">AcroRd32</code>, <code class="literal">gsview32</code> and any other
+      programs. See your system documentation for how to do this.
+     </p></div><div class="note" title="Default Viewing Format" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Default Viewing Format</h3><p>
+      To change the default format for viewing files, set the <a class="link" href="customizing-compiling.html#Tex_DefaultTargetFormat" title="11.6.1 g:Tex_DefaultTargetFormat">g:Tex_DefaultTargetFormat</a>
+      variable.
+     </p></div></div><div class="section" title="11.7.2 Tex_ViewRuleComplete_&lt;format&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_ViewRuleComplete_format"></a>11.7.2 Tex_ViewRuleComplete_&lt;format&gt;</h4></div></div></div><p>
+     Here <code class="literal">&lt;format&gt;</code> refers to the extension of a
+     output format such as <code class="literal">dvi</code>, <code class="literal">html</code>
+     etc.
+    </p><p>
+     <code class="literal">Tex_ViewRuleComplete_format</code> takes precedence over
+     <code class="literal">Tex_ViewRule_format</code> if both are specified. By
+     default, Latex-Suite does not define values for
+     <code class="literal">Tex_ViewRuleComplete_format</code> for any
+     <code class="literal">format</code>. Unlike in the case of
+     <code class="literal">Tex_ViewRule_format</code>, Latex-Suite does not modify
+     <code class="literal">Tex_ViewRuleComplete_format</code> at all in constructing
+     the command line. The only modification is to substitute
+     <code class="literal">'$*'</code> everywhere in the string with the name of the
+     file being viewed (without the extension).
+    </p><div class="note" title="IMPORTANT" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">IMPORTANT</h3><p>
+      Make sure you make the process go into the background otherwise vim
+      will wait for the viewer to terminate before letting you edit the file
+      again.
+     </p><p>
+      To make a process go into the background on a <code class="literal">*nix</code>
+      platform, use a trailing <code class="literal">&amp;</code> in the setting. On
+      <code class="literal">Windows</code>, use <code class="literal">start</code> at the
+      beginning of the setting. Example: Suppose you have a latex-&gt;html
+      converter which converts a file say foo.tex to a file foo/index.html.
+      Then you would use:
+      </p><pre class="programlisting">" On *nix platform
+let g:Tex_ViewRuleComplete_html = 'MozillaFirebird $*/index.html &amp;'
+" On windows platform
+let g:Tex_ViewRuleComplete_html = 'start MozillaFirebird $*/index.html'</pre><p>
+     </p></div></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-compiling.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="customizing-latex-suite.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="customizing-menus.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.6 Compiler Customization </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 11.8 Menu Customization</td></tr></table></div></body></html>

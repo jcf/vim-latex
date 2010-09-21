@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>8 Latex Folding</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="index.html" title="Latex-Suite Reference"></link><link rel="prev" href="inverse-searching.html" title="7.3 Inverse Searching"></link><link rel="next" href="default-folding.html" title="8.1 Default Folding Scheme in Latex-Suite"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8 Latex Folding</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="inverse-searching.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="default-folding.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="8 Latex Folding"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="latex-folding"></a>8 Latex Folding</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="default-folding.html">8.1 Default Folding Scheme in Latex-Suite</a></span></dt><dt><span class="section"><a href="customizing-what-to-fold.html">8.2 Customizing what to fold</a></span></dt><dt><span class="section"><a href="editing-folding.html">8.3 Editing the folding.vim file directly</a></span></dt></dl></div><p>
+   Latex-Suite ships with the plugin SyntaxFolds.vim which is a plugin for
+   creating "fake" syntax folds on the fly. The fold method is actually manual
+   but the folding is based on LaTeX syntax. This offers a speed increase over
+   regular syntax folding. Ofcourse it has the disadvantage that the folds are
+   not dynamic, i.e newly created syntax items are not automatically folded up.
+   (This is a compromise between speed and convenience).
+  </p><p>
+   When you open up a LaTeX file, all the portions will be automatically folded
+   up. However, no new folds will be created until you press
+   <code class="literal">&lt;F6&gt;</code> or <code class="literal">\rf</code>. (rf
+   stands for "refresh folds").
+  </p><p>
+   The fold-text is set to the first line of the folded text unless the fold is a
+   table, figure etc. (an environment). In this case, if a \caption and/or a
+   label is found in the folded region, then those are used to make a more
+   meaningful fold-text, otherwise the second line of the environment is displayed
+   along with the name of the environment. In other words, the following
+   </p><pre class="programlisting">\begin{figure}[h]
+    \centerline{\psfig{figure=slidercrank.eps,height=6cm}}
+    \caption{The Slider Crank Mechanism.}
+    \label{fig:slidercrank}
+\end{figure}
+% a LaTeX comment.
+\begin{eqnarray}
+    \sin(\pi) = 0
+\end{eqnarray}</pre><p>
+  </p><p>
+   will be shown as:
+   </p><pre class="programlisting">+---  5 lines: figure (fig:slidercrank) : The Slider Crank Mechanism. -----
+% a LaTeX comment.
++---  3 lines: eqnarray () : \sin(\pi) = 0 --------------------------------</pre><p>
+  </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="inverse-searching.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="default-folding.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">7.3 Inverse Searching </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 8.1 Default Folding Scheme in Latex-Suite</td></tr></table></div></body></html>

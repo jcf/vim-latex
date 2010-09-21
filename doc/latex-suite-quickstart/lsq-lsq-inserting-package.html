@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3 Inserting a package</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="A (very) quick introduction to Latex-Suite"></link><link rel="up" href="index.html" title="A (very) quick introduction to Latex-Suite"></link><link rel="prev" href="lsq-inserting-template.html" title="2 Inserting a template"></link><link rel="next" href="lsq-insert-environment.html" title="4 Inserting an Environment"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3 Inserting a package</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="lsq-inserting-template.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="lsq-insert-environment.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3 Inserting a package"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="lsq-lsq-inserting-package"></a>3 Inserting a package</h2></div></div></div><p>
+   Assume that we are writing a mathematical paper and we want to use the
+   popular amsmath package. We will use some functionality which
+   Latex-Suite provides specifically for including LaTeX packages,
+   providing options etc. Navigate to before the
+   <code class="literal">\begin{document}</code> line (The portion of the document
+   before the <code class="literal">\begin{document}</code> is called the
+   <span class="emphasis"><em>preamble</em></span> in LaTeX). On an empty line in the
+   preamble, type the single word <code class="literal">amsmath</code> and then press
+   <code class="literal">&lt;F5&gt;</code> in normal mode. The line will change to
+   </p><pre class="programlisting">\usepackage[]{amsmath}&lt;++&gt;</pre><p>
+   with the cursor positioned conveniently between the
+   <code class="literal">[]</code>'s. For now, do not worry about the trailing
+   <code class="literal">&lt;++&gt;</code> at the end of this line. Assume we want to
+   provide the <code class="literal">sumlimits</code> options to amsmath. You can
+   either type in this option manually, or choose from a menu of package
+   options which Latex-Suite automatically creates when you insert a
+   package using <code class="literal">&lt;F5&gt;</code>.  With the cursor still
+   placed between the <code class="literal">[]</code>, goto <code class="literal">TeX-Suite &gt;
+    Packages &gt; amsmath Options</code>. Choose the
+   <code class="literal">sumlimits</code> option. The package line should get
+   converted to:
+   </p><pre class="programlisting">\usepackage[sumlimits,]{amsmath}&lt;++&gt;</pre><p>
+  </p><p>
+   with the cursor before <code class="literal">]</code>. Press
+   <code class="literal">&lt;C-j&gt;</code> in insert mode. You will see the cursor
+   jump to the end of the package line and the trailing
+   <code class="literal">&lt;++&gt;</code> will disappear. What just happened?! You had
+   your first taste of <span class="emphasis"><em>Placeholders</em></span>. Read more about
+   them (later) <a class="ulink" href="http://vim-latex.sourceforge.net/documentation/latex-suite/latex-macros.html" target="_top">here</a>.
+   In short, pressing <code class="literal">&lt;C-j&gt;</code> in insert mode takes
+   you to the next <code class="literal">&lt;++&gt;</code> in the text.
+  </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="lsq-inserting-template.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="lsq-insert-environment.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2 Inserting a template </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 4 Inserting an Environment</td></tr></table></div></body></html>

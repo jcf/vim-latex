@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.8 BibTeX Shortcuts</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="diacritic-mappings.html" title="3.7 Diacritics"></link><link rel="next" href="smart-keys.html" title="3.9 Smart Key Mappings"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.8 BibTeX Shortcuts</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="diacritic-mappings.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="smart-keys.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.8 BibTeX Shortcuts"><div class="titlepage"><div><div><h3 class="title"><a id="bibtex-bindings"></a>3.8 BibTeX Shortcuts</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="bibtex-bindings.html#adding-bib-options">3.8.1 Customizing Bib-TeX fields</a></span></dt></dl></div><p>
+    Latex-Suite provides an easy way of entering bibliographic entries. Four
+    insert-mode mappings: <code class="literal">BBB</code>, <code class="literal">BBL</code>,
+    <code class="literal">BBH</code> and <code class="literal">BBX</code> are provided, all of
+    which essentially act in the same manner. When you type any of these in
+    insert-mode, you will get a prompt asking you to choose a entry type
+    for the bibliographic entry.
+   </p><p>
+    When you choose an entry type, a bibliographic entry template will be
+    inserted. For example, if you choose the option
+    <code class="literal">'book'</code> via the map <code class="literal">BBB</code>, then
+    the following template will be inserted:
+    </p><pre class="programlisting">@BOOK{&lt;+key+&gt;,
+    author = {&lt;++&gt;},
+    editor = {&lt;++&gt;},
+    title = {&lt;++&gt;},
+    publisher = {&lt;++&gt;},
+    year = {&lt;++&gt;},
+    otherinfo = {&lt;++&gt;}
+}&lt;++&gt;</pre><p>
+   </p><p>
+    <code class="literal">&lt;+key+&gt;</code> will be highlighted in select-mode and
+    you can type in the bib-key. After that you can use
+    <code class="literal">&lt;Ctrl-J&gt;</code> to navigate to successive locations
+    in the template and enter new values.
+   </p><p>
+    <code class="literal">BBB</code> inserts a template with only the fields
+    mandatorily required for a given entry type. <code class="literal">BBL</code>
+    inserts a template with commonly used extra options.
+    <code class="literal">BBH</code> inserts a template with more options which are
+    not as commonly used. <code class="literal">BBX</code> inserts a template with
+    all the fields which the entry type supports.
+   </p><div class="note" title="Mnemonic" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Mnemonic</h3><p>
+     <code class="literal">B</code> for Bibliographic entry, <code class="literal">L</code>
+     for Large entry, <code class="literal">H</code> for Huge entry, and
+     <code class="literal">X</code> stands for all eXtras.
+    </p></div><div class="section" title="3.8.1 Customizing Bib-TeX fields"><div class="titlepage"><div><div><h4 class="title"><a id="adding-bib-options"></a>3.8.1 Customizing Bib-TeX fields</h4></div></div></div><p>
+     If you wish the <code class="literal">BBB</code> command to insert a few
+     additional fields in addition to the fields it creates, then you will
+     need to define global variables of the form
+     </p><pre class="programlisting">g:Bib_{type}_options</pre><p>
+     in you <code class="literal">$VIM/ftplugin/bib.vim</code> file, where
+     <code class="literal">{type}</code> is a string like
+     <code class="literal">'article'</code>, <code class="literal">'book'</code> etc. This
+     variable should contain one of the letters defined in the following
+     table
+    </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Character</th><th>Field Type</th></tr></thead><tbody><tr><td>w</td><td>address</td></tr><tr><td>a</td><td>author</td></tr><tr><td>b</td><td>booktitle</td></tr><tr><td>c</td><td>chapter</td></tr><tr><td>d</td><td>edition</td></tr><tr><td>e</td><td>editor</td></tr><tr><td>h</td><td>howpublished</td></tr><tr><td>i</td><td>institution</td></tr><tr><td>k</td><td>isbn</td></tr><tr><td>j</td><td>journal</td></tr><tr><td>m</td><td>month</td></tr><tr><td>z</td><td>note</td></tr><tr><td>n</td><td>number</td></tr><tr><td>o</td><td>organization</td></tr><tr><td>p</td><td>pages</td></tr><tr><td>q</td><td>publisher</td></tr><tr><td>r</td><td>school</td></tr><tr><td>s</td><td>series</td></tr><tr><td>t</td><td>title</td></tr><tr><td>u</td><td>type</td></tr><tr><td>v</td><td>volume</td></tr><tr><td>y</td><td>year</td></tr></tbody></table></div><p>
+     For example, by default, choosing <code class="literal">'article'</code> via
+     <code class="literal">BBB</code> inserts the following template by default
+     </p><pre class="programlisting">@ARTICLE{&lt;+key+&gt;,
+    author = {&lt;++&gt;},
+    title = {&lt;++&gt;},
+    journal = {&lt;++&gt;},
+    year = {&lt;++&gt;},
+    otherinfo = {&lt;++&gt;}
+}&lt;++&gt;</pre><p>
+     However, if <code class="literal">g:Bib_article_options</code> is defined as
+     <code class="literal">'mnp'</code>, then <code class="literal">'article'</code> will
+     insert the following template
+     </p><pre class="programlisting">@ARTICLE{&lt;+key+&gt;,
+    author = {&lt;++&gt;},
+    title = {&lt;++&gt;},
+    journal = {&lt;++&gt;},
+    year = {&lt;++&gt;},
+    month = {&lt;++&gt;},
+    number = {&lt;++&gt;},
+    pages = {&lt;++&gt;},
+    otherinfo = {&lt;++&gt;}
+}&lt;++&gt;</pre><p>
+    </p><p>
+     If you have some other fields you wish to associate with an article
+     which are not listed above, then you will have to use the
+     <code class="literal">Bib_{type}_extrafields</code> option. This is a newline
+     separated string of complete field names which will be included in the
+     template. For example, if you define
+     </p><pre class="programlisting">let g:Bib_article_extrafields = "crossref\nabstract"</pre><p>
+     then the article template will include the lines
+     </p><pre class="programlisting">crossref = {&lt;++&gt;},
+abstract = {&lt;++&gt;},</pre><p>
+    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      You will need to define <code class="literal">Bib_*</code> settings in your
+      <code class="literal">$VIMRUNTIME/ftplugin/bib.vim</code> file.
+     </p></div></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="diacritic-mappings.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="smart-keys.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.7 Diacritics </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.9 Smart Key Mappings</td></tr></table></div></body></html>

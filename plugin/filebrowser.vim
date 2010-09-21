@@ -13,6 +13,10 @@
 " 		(Both these regexps are '' by default which means no filtering is
 " 		done).
 
+" line continuation used here.
+let s:save_cpo = &cpo
+set cpo&vim
+
 "======================================================================
 " Globally visible functions (API)
 "======================================================================
@@ -58,23 +62,28 @@ function! FB_DisplayFiles(dir)
 	let dispFiles = ""
 	let subDirs = "../\n"
 
-	let i = 1
-	while 1
-		let filename = s:FB_Strntok(allFilenames, "\n", i)
-		if filename == ''
-			break
-		endif
-		if isdirectory(filename)
-			let subDirs = subDirs.filename."/\n"
-		else
-			if allowRegexp != '' && filename !~ allowRegexp
-			elseif rejectRegexp != '' && filename =~ rejectRegexp
-			else
-				let dispFiles = dispFiles.filename."\n"
-			endif
-		endif
-		let i = i + 1
-	endwhile
+    let allFilenames = allFilenames."\n"
+    let start = 0
+    while 1
+        let next = stridx(allFilenames, "\n", start)
+        let filename = strpart(allFilenames, start, next-start)
+        if filename == ""
+            break
+        endif
+
+        if isdirectory(filename)
+            let subDirs = subDirs.filename."/\n"
+        else
+            if allowRegexp != '' && filename !~ allowRegexp
+            elseif rejectRegexp != '' && filename =~ rejectRegexp
+            else
+                let dispFiles = dispFiles.filename."\n"
+            endif
+        endif
+
+        let start = next + 1
+    endwhile
+
 	0put!=dispFiles
 	0put!=subDirs
 	" delte the last empty line resulting from the put
@@ -99,6 +108,9 @@ function! FB_SetVar(varname, value)
 	let s:{a:varname} = a:value
 endfunction " }}}
 
+" ==============================================================================
+" Script local functions below this
+" ============================================================================== 
 " FB_SetHighlighting: sets syntax highlighting for the buffer {{{
 " Description:
 " Origin: from explorer.vim in vim
@@ -191,8 +203,6 @@ function! <SID>FB_DisplayHelp()
 	endif
 	0put!=txt
 endfunction " }}}
-
-" Handles various actions in the file-browser
 " FB_EditEntry: handles the user pressing <enter> on a line {{{
 " Description: 
 function! <SID>FB_EditEntry()
@@ -218,13 +228,6 @@ function! <SID>FB_EditEntry()
 		exec "call ".cbf."('".fname."'".arguments.')'
 	endif
 endfunction " }}}
-
-"  FB_Strntok (string, tok, n) {{{
-" extract the n^th token from s seperated by tok.
-" example: FB_Strntok('1,23,3', ',', 2) = 23
-fun! <SID>FB_Strntok(s, tok, n)
-	return matchstr( a:s.a:tok[0], '\v(\zs([^'.a:tok.']*)\ze['.a:tok.']){'.a:n.'}')
-endfun " }}}
 " FB_GetVar: gets the most local value of a variable {{{
 function! <SID>FB_GetVar(name, default)
 	if exists('s:'.a:name)
@@ -241,5 +244,7 @@ function! <SID>FB_GetVar(name, default)
 endfunction
 
 " }}}
+
+let &cpo = s:save_cpo
 
 " vim:fdm=marker:ff=unix:noet:ts=4:sw=4:nowrap

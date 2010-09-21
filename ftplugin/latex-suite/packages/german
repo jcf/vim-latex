@@ -1,3 +1,8 @@
+if exists("german_package_file")
+	finish
+endif
+let german_package_file = 1
+
 let g:TeX_package_german = ''
 let g:TeX_package_option_german = ''
 " For now just define the smart quotes.

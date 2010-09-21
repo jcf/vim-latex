@@ -7,7 +7,7 @@
 " Description: insert mode template expander with cursor placement
 "              while preserving filetype indentation.
 "
-"     $Id: imaps.vim,v 1.33.2.1 2003/11/13 09:35:45 srinathava Exp $
+"     $Id: imaps.vim 997 2006-03-20 09:45:45Z srinathava $
 "
 " Documentation: {{{
 "
@@ -94,6 +94,10 @@
 "   '<,'>Snip
 "--------------------------------------%<--------------------------------------
 " }}}
+
+" line continuation used here.
+let s:save_cpo = &cpo
+set cpo&vim
 
 " ==============================================================================
 " Script Options / Variables
@@ -211,6 +215,9 @@ endfunction
 " corresponding rhs saved in s:Map_{ft}_{lhs} .
 " The place-holder variables are passed to IMAP_PutTextWithMovement() .
 function! s:LookupCharacter(char)
+	if IMAP_GetVal('Imap_FreezeImap', 0) == 1
+		return a:char
+	endif
 	let charHash = s:Hash(a:char)
 
 	" The line so far, including the character that triggered this function:
@@ -220,23 +227,26 @@ function! s:LookupCharacter(char)
 	" Use '\V' (very no-magic) so that only '\' is special, and it was already
 	" escaped when building up s:LHS_{&ft}_{charHash} .
 	if exists("s:LHS_" . &ft . "_" . charHash)
-				\ && text =~ '\V\(' . s:LHS_{&ft}_{charHash} . '\)\$'
+				\ && text =~ "\\C\\V\\(" . s:LHS_{&ft}_{charHash} . "\\)\\$"
 		let ft = &ft
 	elseif exists("s:LHS__" . charHash)
-				\ && text =~ '\V\(' . s:LHS__{charHash} . '\)\$'
+				\ && text =~ "\\C\\V\\(" . s:LHS__{charHash} . "\\)\\$"
 		let ft = ""
 	else
 		" If this is a character which could have been used to trigger an
 		" abbreviation, check if an abbreviation exists.
 		if a:char !~ '\k'
 			let lastword = matchstr(getline('.'), '\k\+$', '')
+			call IMAP_Debug('getting lastword = ['.lastword.']', 'imap')
 			if lastword != ''
 				" An extremeley wierd way to get around the fact that vim
 				" doesn't have the equivalent of the :mapcheck() function for
 				" abbreviations.
 				let _a = @a
 				exec "redir @a | silent! iab ".lastword." | redir END"
-				let abbreviationRHS = matchstr(@a."\n", "\n".'i\s\+'.lastword.'\+\s\+@\?\zs.*\ze'."\n")
+				let abbreviationRHS = matchstr(@a."\n", "\n".'i\s\+'.lastword.'\s\+@\?\zs.*\ze'."\n")
+
+				call IMAP_Debug('getting abbreviationRHS = ['.abbreviationRHS.']', 'imap')
 
 				if @a =~ "No abbreviation found" || abbreviationRHS == ""
 					let @a = _a
@@ -262,7 +272,7 @@ function! s:LookupCharacter(char)
 	" matchstr() returns the match that starts first. This automatically
 	" ensures that the longest LHS is used for the mapping.
 	if !exists('lhs') || !exists('rhs')
-		let lhs = matchstr(text, '\V\(' . s:LHS_{ft}_{charHash} . '\)\$')
+		let lhs = matchstr(text, "\\C\\V\\(" . s:LHS_{ft}_{charHash} . "\\)\\$")
 		let hash = s:Hash(lhs)
 		let rhs = s:Map_{ft}_{hash}
 		let phs = s:phs_{ft}_{hash} 
@@ -369,6 +379,7 @@ function! IMAP_PutTextWithMovement(str, ...)
 	let text = text . "\<C-\>\<C-N>:call IMAP_Mark('go')\<CR>"
 	let text = text . "i\<C-r>=IMAP_Jumpfunc('', 1)\<CR>"
 
+	call IMAP_Debug('IMAP_PutTextWithMovement: text = ['.text.']', 'imap')
 	return text
 endfunction
 
@@ -696,7 +707,7 @@ function! s:Iconv(text, mode)
 		return a:text
 	endif
 	let textEnc = iconv(a:text, "latin1", "utf8")
-	if textEnc !~ '\V\^' . escape(a:text, '\') . '\$''
+	if textEnc !~ '\V\^' . escape(a:text, '\') . '\$'
 		call IMAP_Debug('Encoding problems with text '.a:text.' ', 'imap')
 	endif
 	return textEnc
@@ -732,15 +743,13 @@ function! IMAP_DebugClear(pattern)
 		let s:debug_{a:pattern} = ''
 	endif
 endfunction " }}}
-" IMAP_DebugPrint: interface to Tex_DebugPrint if avaialable, otherwise emulate it {{{
+" IMAP_PrintDebug: interface to Tex_DebugPrint if avaialable, otherwise emulate it {{{
 " Description: 
-function! IMAP_DebugPrint(pattern)
-	if exists('*Tex_DebugPrint')
-		call Tex_DebugPrint(a:pattern)
+function! IMAP_PrintDebug(pattern)
+	if exists('*Tex_PrintDebug')
+		call Tex_PrintDebug(a:pattern)
 	else
 		if exists('s:debug_'.a:pattern)
-			let s:debug_{a:pattern} = ''
-		else
 			echo s:debug_{a:pattern}
 		endif
 	endif
@@ -748,13 +757,39 @@ endfunction " }}}
 " IMAP_Mark:  Save the cursor position (if a:action == 'set') in a" {{{
 " script-local variable; restore this position if a:action == 'go'.
 let s:Mark = "(0,0)"
+let s:initBlanks = ''
 function! IMAP_Mark(action)
 	if a:action == 'set'
 		let s:Mark = "(" . line(".") . "," . col(".") . ")"
+		let s:initBlanks = matchstr(getline('.'), '^\s*')
 	elseif a:action == 'go'
 		execute "call cursor" s:Mark
+		let blanksNow = matchstr(getline('.'), '^\s*')
+		if strlen(blanksNow) > strlen(s:initBlanks)
+			execute 'silent! normal! '.(strlen(blanksNow) - strlen(s:initBlanks)).'l'
+		elseif strlen(blanksNow) < strlen(s:initBlanks)
+			execute 'silent! normal! '.(strlen(s:initBlanks) - strlen(blanksNow)).'h'
+		endif
 	endif
 endfunction	"" }}}
+" IMAP_GetVal: gets the value of a variable {{{
+" Description: first checks window local, then buffer local etc.
+function! IMAP_GetVal(name, ...)
+	if a:0 > 0
+		let default = a:1
+	else
+		let default = ''
+	endif
+	if exists('w:'.a:name)
+		return w:{a:name}
+	elseif exists('b:'.a:name)
+		return b:{a:name}
+	elseif exists('g:'.a:name)
+		return g:{a:name}
+	else
+		return default
+	endif
+endfunction " }}}
 
 " ============================================================================== 
 " A bonus function: Snip()
@@ -790,5 +825,7 @@ endfunction
 
 com! -nargs=0 -range Snip :<line1>,<line2>call <SID>Snip()
 " }}}
+
+let &cpo = s:save_cpo
 
 " vim:ft=vim:ts=4:sw=4:noet:fdm=marker:commentstring=\"\ %s:nowrap

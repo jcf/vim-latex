@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>11.6 Compiler Customization</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="customizing-latex-suite.html" title="11 Customizing Latex-Suite"></link><link rel="prev" href="customizing-latex-completion.html" title="11.5 Latex Completion Customization"></link><link rel="next" href="customizing-viewing.html" title="11.7 Viewer Customization"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.6 Compiler Customization</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="customizing-latex-completion.html">Prev</a> </td><th width="60%" align="center">11 Customizing Latex-Suite</th><td width="20%" align="right"> <a accesskey="n" href="customizing-viewing.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="11.6 Compiler Customization"><div class="titlepage"><div><div><h3 class="title"><a id="customizing-compiling"></a>11.6 Compiler Customization</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="customizing-compiling.html#Tex_DefaultTargetFormat">11.6.1 g:Tex_DefaultTargetFormat</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_CompileRule_format">11.6.2 g:Tex_CompileRule_&lt;format&gt;</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#id525856">11.6.3 g:Tex_FormatDependency_&lt;format&gt;</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_MultipleCompileFormats">11.6.4 g:Tex_MultipleCompileFormats</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_IgnoredWarnings">11.6.5 g:Tex_IgnoredWarnings</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_IgnoreLevel">11.6.6 g:Tex_IgnoreLevel</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_UseMakefile">11.6.7 Tex_UseMakefile</a></span></dt><dt><span class="section"><a href="customizing-compiling.html#Tex_GotoError">11.6.8 g:Tex_GotoError</a></span></dt></dl></div><p>
+    The following settings affect Latex-Suite's compilation functionality
+   </p><div class="section" title="11.6.1 g:Tex_DefaultTargetFormat"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_DefaultTargetFormat"></a>11.6.1 g:Tex_DefaultTargetFormat</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">dvi</code> for windows/*nix and
+         <code class="literal">pdf</code> for mac</td></tr></tbody></table></div><p>
+     Use this setting to choose the default target format. For example,
+     setting this to <code class="literal">pdf</code> makes Latex-Suite compile a pdf file
+     when you press <code class="literal">\ll</code> and fire up the
+     <code class="literal">pdf</code> viewer on pressing <code class="literal">\lv</code>. Make
+     sure that a rules for compiling and viewing have been defined for this
+     target format as described <a class="link" href="customizing-compiling.html#Tex_CompileRule_format" title="11.6.2 g:Tex_CompileRule_&lt;format&gt;">here</a> and <a class="link" href="customizing-viewing.html#Tex_ViewRule_format" title="11.7.1 g:Tex_ViewRule_&lt;format&gt;">here</a>.
+    </p></div><div class="section" title="11.6.2 g:Tex_CompileRule_&lt;format&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_CompileRule_format"></a>11.6.2 g:Tex_CompileRule_&lt;format&gt;</h4></div></div></div><p>
+     Here <code class="literal">&lt;format&gt;</code> refers to the target format for
+     which this rule is defined. Latex-Suite supports compiling into
+     <code class="literal">dvi</code>, <code class="literal">ps</code> and <code class="literal">pdf</code>
+     by default. All these rules are strings defined by default as follows:
+    </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td><code class="literal">g:Tex_CompileRule_dvi</code></td><td><code class="literal">'latex -interaction=nonstopmode $*'</code></td></tr><tr><td><code class="literal">g:Tex_CompileRule_ps</code></td><td><code class="literal">'ps2pdf $*'</code></td></tr><tr><td><code class="literal">g:Tex_CompileRule_pdf</code></td><td><code class="literal">'pdflatex -interaction=nonstopmode $*'</code></td></tr></tbody></table></div><p>
+     If you desire forward and inverse searching via Latex-Suite, you will need to
+     change <code class="literal">g:Tex_CompileRule_dvi</code> to include
+     <code class="literal">-src-specials</code>. However, this has been known to cause
+     problems with the output file. Therefore, use this with care.
+    </p></div><div class="section" title="11.6.3 g:Tex_FormatDependency_&lt;format&gt;"><div class="titlepage"><div><div><h4 class="title"><a id="id525856"></a>11.6.3 g:Tex_FormatDependency_&lt;format&gt;</h4></div></div></div><p>
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>string</td></tr><tr><td>Default Value</td><td><code class="literal">''</code></td></tr></tbody></table></div><p>
+     By default, there are no format dependencies defined. Each definition
+     is of the form above where <code class="literal">&lt;format&gt;</code> is a
+     string such as <code class="literal">'dvi'</code> etc.
+    </p><p>
+     The value of each string is a comma separated string such as 'dvi,ps'.
+     See the <a class="link" href="compiler-dependency.html" title="6.2 Handling dependencies in compilation">Compiler dependency</a>
+     section to see how to use/specify this setting
+    </p></div><div class="section" title="11.6.4 g:Tex_MultipleCompileFormats"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_MultipleCompileFormats"></a>11.6.4 g:Tex_MultipleCompileFormats</h4></div></div></div><p>
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>string</td></tr><tr><td>Default Value</td><td><code class="literal">'dvi'</code></td></tr></tbody></table></div><p>
+    </p><p>
+     This is a comma separated string of formats for which the compiler
+     needs to be called multiple times in order to get cross-references,
+     citations etc right. See the <a class="link" href="compiling-multiple.html" title="6.3 Compiling multiple times">Compiling multiple times</a> section
+     for details.
+    </p></div><div class="section" title="11.6.5 g:Tex_IgnoredWarnings"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_IgnoredWarnings"></a>11.6.5 g:Tex_IgnoredWarnings</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>String</td></tr><tr><td>Default Value</td><td><code class="literal">a new-line separated list of patterns as described
+          below</code></td></tr></tbody></table></div><p>
+     The default value of this setting is
+     </p><pre class="programlisting">\"Underfull\n".
+\"Overfull\n".
+\"specifier changed to\n".
+\"You have requested\n".
+\"Missing number, treated as zero.\n".
+\"There were undefined references\n"
+\"Citation %.%# undefined"</pre><p>
+     This setting defines a set of patterns which will be filtered out when
+     displaying the output from the latex compiler. This is to aid in
+     filtering out very common warnings/errors.
+    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      Remember to check the value of <a class="link" href="customizing-compiling.html#Tex_IgnoreLevel" title="11.6.6 g:Tex_IgnoreLevel"><code class="literal">g:Tex_IgnoreLevel</code></a>
+      when you change this setting. For example, if you append a new pattern
+      which you would like to ignore by default, increase the value of
+      <code class="literal">g:Tex_IgnoreLevel</code>.
+     </p></div></div><div class="section" title="11.6.6 g:Tex_IgnoreLevel"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_IgnoreLevel"></a>11.6.6 g:Tex_IgnoreLevel</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>Integer</td></tr><tr><td>Default Value</td><td><code class="literal">7</code></td></tr></tbody></table></div><p>
+     This setting defines a "filter level" or an "ignore level". A value of 7
+     for instance means that any warning/error matching with any of the first
+     7 fields of <a class="link" href="customizing-compiling.html#Tex_IgnoredWarnings" title="11.6.5 g:Tex_IgnoredWarnings"><code class="literal">g:Tex_IgnoredWarnings</code></a>
+     will be ignored. Setting this value to zero will mean that no
+     error/warning is ignored. However, even with a value of zero, Latex-Suite will
+     filter out most of the text which a LaTeX compiler typically produces.
+     Use
+     </p><pre class="programlisting">TCLevel strict</pre><p>
+     from within Vim in order to see all the lines from the compiler's
+     output.
+    </p></div><div class="section" title="11.6.7 Tex_UseMakefile"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_UseMakefile"></a>11.6.7 Tex_UseMakefile</h4></div></div></div><p>
+     </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     </p><p>
+      When set to 1, then if a <code class="literal">makefile</code> or
+      <code class="literal">Makefile</code> is present in the current directory, then
+      Latex-Suite sets the <code class="literal">makeprg</code> option to just
+      <code class="literal">"make &lt;target&gt;"</code>, where
+      <code class="literal">&lt;target&gt;</code> is the target format chosen using
+      the <code class="literal">TCTarget</code> or <code class="literal">TTarget</code>
+      commands.
+     </p><p>
+     </p><p>
+      When set to 0, then Latex-Suite will set the <code class="literal">makeprg</code>
+      setting to whatever is defined by the <a class="link" href="customizing-compiling.html#Tex_CompileRule_format" title="11.6.2 g:Tex_CompileRule_&lt;format&gt;">g:Tex_CompileRule_target</a>
+      setting.
+     </p><p>
+    </p></div><div class="section" title="11.6.8 g:Tex_GotoError"><div class="titlepage"><div><div><h4 class="title"><a id="Tex_GotoError"></a>11.6.8 g:Tex_GotoError</h4></div></div></div><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><tbody><tr><td>Type</td><td>boolean</td></tr><tr><td>Default Value</td><td><code class="literal">1</code></td></tr></tbody></table></div><p>
+     If set to 1, then pressing <code class="literal">\ll</code> will take you to
+     the location of the first warning/error, otherwise you will remain in
+     the original location but the errors/warnings will be listed in the
+     preview window.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="customizing-latex-completion.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="customizing-latex-suite.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="customizing-viewing.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.5 Latex Completion Customization </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 11.7 Viewer Customization</td></tr></table></div></body></html>

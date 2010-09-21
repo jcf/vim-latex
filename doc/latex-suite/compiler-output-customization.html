@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>6.4 Customizing the compiler output</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-compiling.html" title="6 LaTeX Compiling"></link><link rel="prev" href="compiling-multiple.html" title="6.3 Compiling multiple times"></link><link rel="next" href="part-compiling.html" title="6.5 Compiling parts of a file"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.4 Customizing the compiler output</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="compiling-multiple.html">Prev</a> </td><th width="60%" align="center">6 LaTeX Compiling</th><td width="20%" align="right"> <a accesskey="n" href="part-compiling.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="6.4 Customizing the compiler output"><div class="titlepage"><div><div><h3 class="title"><a id="compiler-output-customization"></a>6.4 Customizing the compiler output</h3></div></div></div><p>
+    Most LaTeX compilers produce a very large amount of output during
+    compilation, most of which is not relevant to debugging type-setting
+    errors. The compiler plugin provided with Latex-Suite (which is an enhanced
+    version of the standard compiler plugin maintained by Artem Chuprina),
+    provides a way to filter the compiler output so that the actual
+    errors/warnings can be presented much more concisely.
+   </p><p>
+    The compiler plugin is set up by default to function in a "non-verbose",
+    "ignore-common-warnings" mode, which means that irrelevant lines from the
+    compiler output will be ignored and some very common warnings are also
+    ignored.
+    Latex-Suite does this via the global variable <a class="link" href="customizing-compiling.html#Tex_IgnoredWarnings" title="11.6.5 g:Tex_IgnoredWarnings"><code class="literal">g:Tex_IgnoredWarnings</code></a>.
+    This is a list of patterns, which can be used to filter out (or ignore)
+    some or the warnings and errors reported by the compiler. See the link
+    above for its default value.
+   </p><p>
+    Latex-Suite uses the <a class="link" href="customizing-compiling.html#Tex_IgnoreLevel" title="11.6.6 g:Tex_IgnoreLevel"><code class="literal">g:Tex_IgnoreLevel</code></a>
+    setting to set a default ignore level. For example, for the default
+    value of 4, Latex-Suite ignores warnings and errors matching the first 4
+    patterns in <code class="literal">g:Tex_IgnoredWarnings</code>.
+   </p><p>
+    In addition to setting a default value of the ignore level, Latex-Suite
+    provides the ability to set the level dynamically, using the
+    <code class="literal">TCLevel</code> command. For example, if you issue the
+    command:
+    </p><pre class="programlisting">TCLevel 3</pre><p>
+    from within Vim, then the next time you compile the document, Latex-Suite will
+    ignore warnings and errors which match the first three patterns in
+    <code class="literal">g:Tex_IgnoredWarnings</code>.
+   </p><p>
+    When TCLevel is called with the unquoted string strict as follows:
+    </p><pre class="programlisting">TClevel strict</pre><p>
+    then Latex-Suite switches to a "verbose", "no-lines-ignored" mode which is useful
+    when you want to make final checks of your document and want to be careful
+    not to let things slip by.
+   </p><p>
+    See the explanation of the settings <a class="link" href="customizing-compiling.html#Tex_IgnoredWarnings" title="11.6.5 g:Tex_IgnoredWarnings">g:Tex_IgnoredWarnings</a> and <a class="link" href="customizing-compiling.html#Tex_IgnoreLevel" title="11.6.6 g:Tex_IgnoreLevel">g:Tex_IgnoreLevel</a> to find out how to
+    customize the filtering done by Latex-Suite
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="compiling-multiple.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-compiling.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="part-compiling.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.3 Compiling multiple times </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 6.5 Compiling parts of a file</td></tr></table></div></body></html>

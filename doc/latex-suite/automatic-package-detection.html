@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>4.3 Automatic Package detection</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-packages.html" title="4 Package Handling"></link><link rel="prev" href="package-actions.html" title="4.2 Actions taken for supported packages"></link><link rel="next" href="supporting-packages.html" title="4.4 Writing supporting for a package"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.3 Automatic Package detection</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="package-actions.html">Prev</a> </td><th width="60%" align="center">4 Package Handling</th><td width="20%" align="right"> <a accesskey="n" href="supporting-packages.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="4.3 Automatic Package detection"><div class="titlepage"><div><div><h3 class="title"><a id="automatic-package-detection"></a>4.3 Automatic Package detection</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="automatic-package-detection.html#custom-packages">4.3.1 Custom Packages</a></span></dt></dl></div><p>
+    Whenever Latex-Suite begins editing a new LaTeX file, it scans it for
+    <code class="literal">\usepackage{name}</code> lines, and if a supported package
+    is found, then it will create sub-menus and add to the
+    <code class="literal">'dict'</code> setting as described above.
+   </p><p>
+    If a <a class="link" href="latex-master-file.html" title="9.2 Specifying which file to compile">master-file</a> has been specified,
+    then it will scan that file instead of the current file. See the section
+    <a class="link" href="automatic-package-detection.html#custom-packages" title="4.3.1 Custom Packages">Custom Packages</a>
+    to see which files Latex-Suite will scan in more detail.
+   </p><p>
+    For all the packages detected in this manner, Latex-Suite will take certain
+    actions as described in the section <a class="link" href="package-actions.html" title="4.2 Actions taken for supported packages">package support.</a>.
+   </p><div class="section" title="4.3.1 Custom Packages"><div class="titlepage"><div><div><h4 class="title"><a id="custom-packages"></a>4.3.1 Custom Packages</h4></div></div></div><p>
+     Often times, the preamble can become too long, and some people prefer
+     to put most of their personalization in a custom package and include
+     that using a <code class="literal">\usepackage</code> line. Latex-Suite tries to search
+     such customs package for other <code class="literal">\usepackage</code> lines, so
+     that supported packages included in this indirect manner can also be
+     used to create sub-menus, extend the <code class="literal">'dict'</code> setting
+     etc. The most obvious place to place such custom packages is in the
+     same directory as the edited file. In addition, LaTeX also supports
+     placing custom packages in places pointed to by the
+     <code class="literal">$TEXINPUTS</code> environment variable.
+    </p><p>
+     If you use the <code class="literal">$TEXINPUTS</code> variable in LaTeX, and
+     you wish Latex-Suite to search these custom packages for
+     <code class="literal">\usepackage</code> lines, then you need to initialize the
+     <a class="link" href="customizing-packages.html#Tex_TEXINPUTS" title="11.10.1 g:Tex_TEXINPUTS"><code class="literal">g:Tex_TEXINPUTS</code></a>
+     variable.
+    </p><p>
+     The <code class="literal">g:Tex_TEXINPUTS</code> variable needs to be set in the
+     same format which Vim uses for the <code class="literal">'path'</code> setting.
+     This format is explained in detail if you do 
+     </p><pre class="programlisting">:help file-searching</pre><p>
+     from within Vim.
+    </p><p>
+     Therefore the value of <code class="literal">g:Tex_TEXINPUTS</code> will most
+     probably be different from <code class="literal">$TEXINPUTS</code> which your
+     native LaTeX distribution uses.
+    </p><p>
+     Example:
+     </p><pre class="programlisting">let g:Tex_TEXINPUTS = '~/texmf/mypackages/**,./**'</pre><p>
+     The <code class="literal">**</code> indicates that all directories below the
+     directory <code class="literal">~/texmf/mypackages</code> and
+     <code class="literal">./</code> are to be scanned for custom packages.
+    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      The present directory <code class="literal">'.'</code> is always searched. You
+      need not include that in <code class="literal">g:Tex_TEXINPUTS</code>.
+     </p></div></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="package-actions.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-packages.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="supporting-packages.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.2 Actions taken for supported packages </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 4.4 Writing supporting for a package</td></tr></table></div></body></html>

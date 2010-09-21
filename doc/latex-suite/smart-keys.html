@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.9 Smart Key Mappings</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="bibtex-bindings.html" title="3.8 BibTeX Shortcuts"></link><link rel="next" href="altkey-mappings.html" title="3.10 Alt Key Macros"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.9 Smart Key Mappings</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="bibtex-bindings.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="altkey-mappings.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.9 Smart Key Mappings"><div class="titlepage"><div><div><h3 class="title"><a id="smart-keys"></a>3.9 Smart Key Mappings</h3></div></div></div><p>
+    Latex-Suite ships with the following smart keys:
+   </p><p title="Smart Backspace"><a id="smart-backspace"></a><b>Smart Backspace. </b>
+    Pressing <code class="literal">&lt;BS&gt;</code> in insert mode checks to see
+    whether we are just after something like <code class="literal">\'{a}</code> and
+    if so, deletes all of it. i.e, diacritics are treated as single
+    characters for backspacing.
+   </p><p title="Smart Quotes"><b>Smart Quotes. </b>
+    Pressing <code class="literal">"</code> (English double quote) will insert
+    <code class="literal">``</code> or <code class="literal">''</code> by making an
+    intelligent guess about whether we intended to open or close a quote.
+   </p><p title="Smart Space"><b>Smart Space. </b>
+    Latex-Suite maps the <code class="literal">&lt;space&gt;</code> key in such a
+    way that $ characters are not broken across lines. It does this by
+    first setting <code class="literal">tw=0</code> so that Vim will not
+    automatically break lines and then maps the
+    <code class="literal">&lt;space&gt;</code> key to insert newlines keeping
+    <code class="literal">$$</code>'s on the same line.
+   </p><p title="Smart Dots"><b>Smart Dots. </b>
+    Pressing <code class="literal">...</code> (3 dots) results in
+    <code class="literal">\ldots</code> outside math mode and
+    <code class="literal">\cdots</code> in math mode.
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="bibtex-bindings.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="altkey-mappings.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.8 BibTeX Shortcuts </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.10 Alt Key Macros</td></tr></table></div></body></html>

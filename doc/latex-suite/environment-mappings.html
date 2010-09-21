@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>3.1 Environment Mappings</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="prev" href="latex-macros.html" title="3 Latex-Suite Macros"></link><link rel="next" href="latex-command-maps.html" title="3.2 Command Mappings"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.1 Environment Mappings</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-macros.html">Prev</a> </td><th width="60%" align="center">3 Latex-Suite Macros</th><td width="20%" align="right"> <a accesskey="n" href="latex-command-maps.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="3.1 Environment Mappings"><div class="titlepage"><div><div><h3 class="title"><a id="environment-mappings"></a>3.1 Environment Mappings</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="environment-mappings.html#inserting-environments">3.1.1 Inserting Environments</a></span></dt><dt><span class="section"><a href="environment-mappings.html#enclosing-environments">3.1.2 Enclosing in Environments</a></span></dt><dt><span class="section"><a href="environment-mappings.html#changing-environments">3.1.3 Changing Environments</a></span></dt></dl></div>
+   Latex-Suite provides a rich set of mappings to insert, enclose and modify
+   LaTeX environments, i.e, <code class="literal">\begin{...} ... \end{...}</code>
+   pairs.
+   <div class="section" title="3.1.1 Inserting Environments"><div class="titlepage"><div><div><h4 class="title"><a id="inserting-environments"></a>3.1.1 Inserting Environments</h4></div></div></div><div class="toc"><dl><dt><span class="section"><a href="environment-mappings.html#inserting-env-f5">3.1.1.1 Method 1: Pressing <code class="literal">&lt;F5&gt;</code></a></span></dt><dt><span class="section"><a href="environment-mappings.html#inserting-env-shift-f1">3.1.1.2 Method 2: Using <code class="literal">&lt;S-F1&gt;</code>-<code class="literal">&lt;S-F4&gt;</code></a></span></dt><dt><span class="section"><a href="environment-mappings.html#inserting-env-threeletter">3.1.1.3 Method 3: Using three letter sequences</a></span></dt></dl></div><p>
+     Latex-Suite provides the following ways to insert environments
+    </p><div class="section" title="3.1.1.1 Method 1: Pressing &lt;F5&gt;"><div class="titlepage"><div><div><h5 class="title"><a id="inserting-env-f5"></a>3.1.1.1 Method 1: Pressing <code class="literal">&lt;F5&gt;</code></h5></div></div></div><p>
+      If you press <code class="literal">&lt;F5&gt;</code> in the insert or normal
+      mode while on an empty line, Latex-Suite prompts you with a list of
+      environments you might want to insert. You can either choose one
+      from the list or type in a new environment name.  If you press
+      <code class="literal">&lt;F5&gt;</code> on a line which already has a word,
+      then that word is used instead of prompting.
+     </p><p>
+      See <a class="link" href="customizing-macros.html#Tex_Env_name" title="11.3.1 Tex_Env_name">Tex_Env_name</a> for a
+      description of how Latex-Suite uses the word to form the expansion and how
+      to modify Latex-Suite's behavior.
+     </p><p>
+      The list of environments which Latex-Suite prompts you with (when
+      <code class="literal">&lt;F5&gt;</code> is pressed on an empty line) is formed
+      from the <a class="link" href="customizing-macros.html#Tex_PromptedEnvironments" title="11.3.10 g:Tex_PromptedEnvironments">Tex_PromptedEnvironments</a>
+      setting.
+     </p><p>
+      In addition to this setting, Latex-Suite also lists environments found in
+      custom packages as described in the section <a class="link" href="package-actions.html" title="4.2 Actions taken for supported packages">Package actions.</a>
+     </p></div><div class="section" title="3.1.1.2 Method 2: Using &lt;S-F1&gt;-&lt;S-F4&gt;"><div class="titlepage"><div><div><h5 class="title"><a id="inserting-env-shift-f1"></a>3.1.1.2 Method 2: Using <code class="literal">&lt;S-F1&gt;</code>-<code class="literal">&lt;S-F4&gt;</code></h5></div></div></div><p>
+      The shifted function keys, <code class="literal">&lt;S-F1&gt;</code> to
+      <code class="literal">&lt;S-F4&gt;</code> can be mapped to insert very commonly
+      used environments. The environments mapped to each key can be
+      customized via the <a class="link" href="customizing-macros.html#Tex_HotKeyMappings" title="11.3.11 g:Tex_HotKeyMappings">g:Tex_HotKeyMappings</a> setting.
+     </p></div><div class="section" title="3.1.1.3 Method 3: Using three letter sequences"><div class="titlepage"><div><div><h5 class="title"><a id="inserting-env-threeletter"></a>3.1.1.3 Method 3: Using three letter sequences</h5></div></div></div><p>
+      Environments can also be inserted by pressing a 3 capital letter
+      sequence starting with an <code class="literal">E</code>. The sequence of 3
+      letters generally tries to follow the following rules:
+     </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+       All environment mappings begin with <code class="literal">E</code></li><li class="listitem">
+       If the environment can be broken up into 2 distinct words,
+       such as flushright (flush + right), then the next 2 letters
+       are the first letters of the 2 words.  Example:
+       <pre class="programlisting">flushleft  (_f_lush + _l_eft)  ---&gt; EFL
+flushright (_f_lush + _r_ight) ---&gt; EFR
+eqnarray   (_e_qn + _a_rray)   ---&gt; EEA</pre>
+       If on the other hand, the environment name cannot be broken
+       up into 2 distinct words, then the next 2 letters are the
+       first 2 letters of the name of the environment.
+       Example:
+       <pre class="programlisting">equation (_eq_uation)          ---&gt; EEQ</pre></li></ol></div><p>
+      Unfortunately there are some environments that cannot be
+      split in two words and first two letters in name are
+      identical. In this case shortcut is created from E, first and
+      last letter.  Example:
+      </p><pre class="programlisting">quote     (_q_uot_e_)          ---&gt; EQE
+quotation (_q_uotatio_n_)      ---&gt; EQN</pre><p>
+      Of course, not every last one of the environments can follow
+      this rule because of ambiguities. In case of doubt, pull down
+      the Tex-Environments menu. The menu item should give the hint
+      for the map.
+     </p></div></div><div class="section" title="3.1.2 Enclosing in Environments"><div class="titlepage"><div><div><h4 class="title"><a id="enclosing-environments"></a>3.1.2 Enclosing in Environments</h4></div></div></div><div class="toc"><dl><dt><span class="section"><a href="environment-mappings.html#enclosing-env-f5">3.1.2.1 Method 1: Pressing <code class="literal">&lt;F5&gt;</code></a></span></dt><dt><span class="section"><a href="environment-mappings.html#enclosing-env-threeletter">3.1.2.2 Method 2: Using three letter mappings</a></span></dt></dl></div><p>
+     Latex-Suite provides visual-mode mappings which enclose visually
+     selected portions of text in environments. There are two ways provided
+     to do this.
+    </p><div class="section" title="3.1.2.1 Method 1: Pressing &lt;F5&gt;"><div class="titlepage"><div><div><h5 class="title"><a id="enclosing-env-f5"></a>3.1.2.1 Method 1: Pressing <code class="literal">&lt;F5&gt;</code></h5></div></div></div><p>
+      You can also select a portion of text visually and press
+      <code class="literal">&lt;F5&gt;</code> while still in visual mode. This will
+      prompt you with a list of environments. (This list can be customized
+      via the <a class="link" href="customizing-macros.html#Tex_PromptedEnvironments" title="11.3.10 g:Tex_PromptedEnvironments">g:Tex_PromptedEnvironments</a>
+      setting). You can either choose from this list or type in a new
+      environment name. Once the selection is done, Latex-Suite encloses the
+      visually selected portion in the chosen environment.
+     </p></div><div class="section" title="3.1.2.2 Method 2: Using three letter mappings"><div class="titlepage"><div><div><h5 class="title"><a id="enclosing-env-threeletter"></a>3.1.2.2 Method 2: Using three letter mappings</h5></div></div></div><p>
+      You can also select text visually and press a sequence of three
+      characters beginning with <code class="literal">,</code> (the single comma
+      character) and the selected text will be enclosed in the chosen
+      environment. The three letter sequence follows directly from the
+      three letter sequence used to insert environments as described <a class="link" href="environment-mappings.html#inserting-env-threeletter" title="3.1.1.3 Method 3: Using three letter sequences">here</a>. The following
+      example describes the rule used:
+     </p><p>
+      If <code class="literal">ECE</code> inserts a
+      <code class="literal">\begin{center}...\end{center}</code> environment, then to
+      enclose a block of selected text in
+      <code class="literal">\begin{center}...\end{center}</code>, simply select the
+      text and press <code class="literal">,ce</code>.  The rule simply says that the
+      leading <code class="literal">E</code> is converted to <code class="literal">,</code> and
+      the next 2 letters are small case.  
+     </p></div><p>
+     Some of the visual mode mappings are sensitive to whether you
+     choose line-wise or character-wise. For example, if you choose a
+     word and press <code class="literal">,ce</code>, then you get
+     <code class="literal">\centerline{word}</code>, whereas if you press
+     <code class="literal">,ce</code> on a line-wise selection, you get:
+     </p><pre class="programlisting">\begin{center}
+    line
+\end{center}</pre><p>
+    </p></div><div class="section" title="3.1.3 Changing Environments"><div class="titlepage"><div><div><h4 class="title"><a id="changing-environments"></a>3.1.3 Changing Environments</h4></div></div></div><p>
+     Pressing <code class="literal">&lt;S-F5&gt;</code> in normal mode detects which
+     environment the cursor is presently located in and prompts you to
+     replace it with a new one. The innermost environment is detected. For
+     example, in the following source:
+     </p><pre class="programlisting">\begin{eqnarray}
+  \begin{array}{ccc}
+    2 &amp; 3 &amp; 4
+  \end{array}
+\end{eqnarray}</pre><p>
+     if you are located in the middle "2 &amp; 3 &amp; 4" line, then pressing
+     <code class="literal">&lt;S-F5&gt;</code> will prompt you to change the array
+     environment, not the eqnarray environment. In addition, Latex-Suite will also
+     try to change lines within the environment to be consistent with the
+     new environment. For example, if the original environment was an
+     <code class="literal">eqnarray</code> environment with a
+     <code class="literal">\label</code> command, then changing it to an
+     <code class="literal">eqnarray*</code> environment will delete the
+     <code class="literal">\label</code>.
+    </p><p>
+     Pressing <code class="literal">&lt;F5&gt;</code> in normal mode has the same
+     effect as pressing <code class="literal">&lt;F5&gt;</code> in insert-mode,
+     namely you will be prompted to choose an environment to insert.
+    </p></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-macros.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-macros.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-command-maps.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3 Latex-Suite Macros </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 3.2 Command Mappings</td></tr></table></div></body></html>

@@ -2,7 +2,7 @@
 "            Type: compiler plugin for LaTeX
 " Original Author: Artem Chuprina <ran@ran.pp.ru>
 "   Customization: Srinath Avadhanula <srinath@fastmail.fm>
-"             CVS: $Id: tex.vim,v 1.6 2003/07/24 02:52:35 srinathava Exp $
+"             CVS: $Id: tex.vim 1070 2009-09-15 18:28:17Z tmaas $
 " Description:  {{{
 "   This file sets the 'makeprg' and 'errorformat' options for the LaTeX
 "   compiler. It is customizable to optionally ignore certain warnings and
@@ -70,7 +70,7 @@ let b:doneTexCompiler = 1
 " ==============================================================================
 " Customization of 'efm':  {{{
 " This section contains the customization variables which the user can set.
-" g:Tex_IgnoredWarnings: This variable contains a ก seperated list of
+" g:Tex_IgnoredWarnings: This variable contains a ยก seperated list of
 " patterns which will be ignored in the TeX compiler's output. Use this
 " carefully, otherwise you might end up losing valuable information.
 if !exists('g:Tex_IgnoredWarnings')
@@ -194,7 +194,7 @@ function! <SID>SetLatexEfm()
 
 	let pm = ( g:Tex_ShowallLines == 1 ? '+' : '-' )
 
-	set efm=
+	setlocal efm=
 
 	if !g:Tex_ShowallLines
 		call s:IgnoreWarnings()
@@ -202,12 +202,14 @@ function! <SID>SetLatexEfm()
 
 	setlocal efm+=%E!\ LaTeX\ %trror:\ %m
 	setlocal efm+=%E!\ %m
+	setlocal efm+=%E%f:%l:\ %m
 
 	setlocal efm+=%+WLaTeX\ %.%#Warning:\ %.%#line\ %l%.%#
 	setlocal efm+=%+W%.%#\ at\ lines\ %l--%*\\d
 	setlocal efm+=%+WLaTeX\ %.%#Warning:\ %m
 
 	exec 'setlocal efm+=%'.pm.'Cl.%l\ %m'
+	exec 'setlocal efm+=%'.pm.'Cl.%l\ '
 	exec 'setlocal efm+=%'.pm.'C\ \ %m'
 	exec 'setlocal efm+=%'.pm.'C%.%#-%.%#'
 	exec 'setlocal efm+=%'.pm.'C%.%#[]%.%#'
@@ -282,4 +284,11 @@ com! -nargs=? TCLevel :call <SID>SetTexCompilerLevel(<f-args>)
 
 call s:SetLatexEfm()
 
-" vim: fdm=marker:commentstring=\ \"\ %s
+if !exists('*Tex_Debug')
+	function! Tex_Debug(...)
+	endfunction
+endif
+
+call Tex_Debug("compiler/tex.vim: sourcing this file", "comp")
+
+" vim:fdm=marker:ff=unix:noet:ts=4:sw=4

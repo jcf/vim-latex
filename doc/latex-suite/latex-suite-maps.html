@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>10.1 Latex-Suite Maps</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-suite-commands-maps.html" title="10 Latex-Suite Commands and Maps"></link><link rel="prev" href="latex-suite-commands-maps.html" title="10 Latex-Suite Commands and Maps"></link><link rel="next" href="latex-suite-commands.html" title="10.2 Latex Suite Commands"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10.1 Latex-Suite Maps</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-suite-commands-maps.html">Prev</a> </td><th width="60%" align="center">10 Latex-Suite Commands and Maps</th><td width="20%" align="right"> <a accesskey="n" href="latex-suite-commands.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="10.1 Latex-Suite Maps"><div class="titlepage"><div><div><h3 class="title"><a id="latex-suite-maps"></a>10.1 Latex-Suite Maps</h3></div></div></div><div class="toc"><dl><dt><span class="section"><a href="latex-suite-maps.html#customize-imap-maps">10.1.1 IMAP mappings</a></span></dt><dt><span class="section"><a href="latex-suite-maps.html#customize-alt-key-maps">10.1.2 Alt-Key mappings</a></span></dt></dl></div><a id="remapping-latex-suite-keys"></a><p>
+    Most of the mappings used in Latex-Suite can be mapped to a different key
+    combination to suit your particular needs. An example best explains the
+    procedure for doing this. Suppose you want to remap the
+    <code class="literal">&lt;C-j&gt;</code> key which Latex-Suite (actually imaps.vim) uses
+    to jump to the next placeholder. To do this, you first need to find out
+    which <code class="literal">&lt;Plug&gt;</code> mapping
+    <code class="literal">&lt;C-j&gt;</code> is derived from. You will need to look
+    at the relevant section of this manual to do this. For example, the
+    section <a class="link" href="latex-suite-maps.html#customize-imap-maps" title="10.1.1 IMAP mappings">IMAP mappings</a> has
+    the information that the <code class="literal">&lt;C-j&gt;</code> key is derived
+    from <code class="literal">&lt;Plug&gt;IMAP_JumpForward</code>. Therefore to
+    remap the <code class="literal">&lt;C-j&gt;</code> key to say
+    <code class="literal">&lt;C-space&gt;</code>, you will need to put a
+    statement like the following in your <code class="literal">~/.vimrc</code>.
+    </p><pre class="programlisting">imap &lt;C-space&gt; &lt;Plug&gt;IMAP_JumpForward</pre><p>
+   </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+     To change the <code class="literal">IMAP</code> mappings which affect jumping
+     between placeholders, the <code class="literal">map</code> statement above has
+     to be placed in your <code class="literal">~/.vimrc</code>. For other mappings
+     you can place the <code class="literal">map</code> statement in your
+     <code class="literal">$VIM/ftplugin/tex.vim</code> file.  The reason for this is
+     that the <code class="literal">&lt;C-j&gt;</code> maps are created in
+     <code class="literal">plugin/imaps.vim</code>, which is sourced as soon as Vim
+     starts before sourcing any ftplugin files.
+    </p></div><div class="section" title="10.1.1 IMAP mappings"><div class="titlepage"><div><div><h4 class="title"><a id="customize-imap-maps"></a>10.1.1 IMAP mappings</h4></div></div></div><p>
+     These mappings are utilized for jumping between placeholders as
+     described <a class="link" href="latex-macros.html#place-holders" title="Place Holders">here</a>. See the <a class="link" href="latex-suite-maps.html" title="10.1 Latex-Suite Maps">parent section</a> to find out how to
+     use this information to change the default maps.
+    </p><a id="Plug_IMAP_JumpForward"></a><a id="Plug_IMAP_JumpBack"></a><a id="Plug_IMAP_DeleteAndJumpForward"></a><a id="Plug_IMAP_DeleteAndJumBack"></a><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Plug map</th><th>Default Key</th></tr></thead><tbody><tr><td><code class="literal">&lt;Plug&gt;IMAP_JumpForward</code></td><td><code class="literal">&lt;C-j&gt;</code></td></tr><tr><td><code class="literal">&lt;Plug&gt;IMAP_JumpBack</code></td><td>(none)</td></tr><tr><td><code class="literal">&lt;Plug&gt;IMAP_DeleteAndJumpForward</code></td><td>(none)</td></tr><tr><td><code class="literal">&lt;Plug&gt;IMAP_DeleteAndJumpBack</code></td><td>(none)</td></tr></tbody></table></div><p>
+     <code class="literal">&lt;Plug&gt;IMAP_JumpForward</code> takes you to the
+     location of the next <a class="link" href="latex-macros.html#place-holders" title="Place Holders">place-holder</a>.
+    </p><p>
+     <code class="literal">&lt;Plug&gt;IMAP_JumpBack</code> takes you to the previous
+     <a class="link" href="latex-macros.html#place-holders" title="Place Holders">place-holder</a>.
+    </p><p>
+     <code class="literal">&lt;Plug&gt;IMAP_DeleteAndJumpForward</code> deletes the
+     presently selected place-holder and jumps to the next place-holder
+     irrespective of whether the present placeholder is empty or not and
+     ignoring the value of place-holder settings like <a class="link" href="customizing-place-holders.html#Imap_DeleteEmptyPlaceHolders" title="11.2.3 g:Imap_DeleteEmptyPlaceHolders"><code class="literal">g:Imap_DeleteEmptyPlaceHolders</code></a>
+     and <a class="link" href="customizing-place-holders.html#Imap_StickyPlaceHolders" title="11.2.4 g:Imap_StickyPlaceHolders"><code class="literal">g:Imap_StickyPlaceHolders</code></a>
+    </p><p>
+     <code class="literal">&lt;Plug&gt;IMAP_DeleteAndJumpBack</code> deletes the
+     presently selected place-holder and jumps to the previous place-holder
+     irrespective of whether the present placeholder is empty or not and
+     ignoring the value of place-holder settings like <a class="link" href="customizing-place-holders.html#Imap_DeleteEmptyPlaceHolders" title="11.2.3 g:Imap_DeleteEmptyPlaceHolders"><code class="literal">g:Imap_DeleteEmptyPlaceHolders</code></a>
+     and <a class="link" href="customizing-place-holders.html#Imap_StickyPlaceHolders" title="11.2.4 g:Imap_StickyPlaceHolders"><code class="literal">g:Imap_StickyPlaceHolders</code></a>
+    </p></div><div class="section" title="10.1.2 Alt-Key mappings"><div class="titlepage"><div><div><h4 class="title"><a id="customize-alt-key-maps"></a>10.1.2 Alt-Key mappings</h4></div></div></div><p>
+     These mappings are are described in the section <a class="link" href="altkey-mappings.html" title="3.10 Alt Key Macros">Alt key macros</a>. See <a class="link" href="latex-suite-maps.html#remapping-latex-suite-keys">the parent section</a> to see
+     how to use the following information to remap keys.
+    </p><a id="Plug_Tex_MathBF"></a><a id="Plug_Tex_MathCal"></a><a id="Plug_Tex_LeftRight"></a><a id="Plug_Tex_InsertItemOnThisLine"></a><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>Plug Mapping</th><th>Default Key</th></tr></thead><tbody><tr><td><code class="literal">&lt;Plug&gt;Tex_MathBF</code></td><td><code class="literal">&lt;Alt-B&gt;</code></td></tr><tr><td><code class="literal">&lt;Plug&gt;Tex_MathCal</code></td><td><code class="literal">&lt;Alt-C&gt;</code></td></tr><tr><td><code class="literal">&lt;Plug&gt;Tex_LeftRight</code></td><td><code class="literal">&lt;Alt-L&gt;</code></td></tr><tr><td><code class="literal">&lt;Plug&gt;Tex_InsertItemOnThisLine</code></td><td><code class="literal">&lt;Alt-I&gt;</code></td></tr></tbody></table></div></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-suite-commands-maps.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-suite-commands-maps.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-suite-commands.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">10 Latex-Suite Commands and Maps </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 10.2 Latex Suite Commands</td></tr></table></div></body></html>

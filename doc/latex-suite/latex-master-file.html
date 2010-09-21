@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>9.2 Specifying which file to compile</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-project.html" title="9 Multiple file LaTeX projects"></link><link rel="prev" href="latex-project-settings.html" title="9.1 Latex-Suite project settings"></link><link rel="next" href="latex-suite-commands-maps.html" title="10 Latex-Suite Commands and Maps"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.2 Specifying which file to compile</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-project-settings.html">Prev</a> </td><th width="60%" align="center">9 Multiple file LaTeX projects</th><td width="20%" align="right"> <a accesskey="n" href="latex-suite-commands-maps.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="9.2 Specifying which file to compile"><div class="titlepage"><div><div><h3 class="title"><a id="latex-master-file"></a>9.2 Specifying which file to compile</h3></div></div></div><p>
+    In the example described <a class="link" href="latex-project.html#latex-project-example">previously</a>, if you are editing
+    <code class="literal">intro/intro.tex</code> and press <code class="literal">\ll</code>,
+    then you still want Latex-Suite to compile <code class="literal">main.tex</code>,
+    because <code class="literal">intro/intro.tex</code> is merely a fragment which
+    is <code class="literal">\input</code>'ed into <code class="literal">main.tex</code>. If
+    the master file is already specified using the
+    <code class="literal">*.latexmain</code> convention described <a class="link" href="latex-project.html#latex-project-example">previously</a>, then Latex-Suite will automatically
+    compile the master file when you are editing any of its
+    <code class="literal">\input</code>'ed fragments. Thus pressing
+    <code class="literal">\ll</code> while editing <code class="literal">intro/intro.tex</code>
+    will compile <code class="literal">main.tex</code>.
+   </p><a id="Tex_MainFileExpression"></a><p>
+    If you wish to use some different logic to specify the main file name,
+    you can specify a custom expression via the
+    <code class="literal">Tex_MainFileExpression</code> variable. This is a string
+    containing a valid vim expression. In addition, you can use a variable
+    <code class="literal">modifier</code> which is in the format used for
+    <code class="literal">|filename-modifiers|</code>, for example,
+    <code class="literal">':p:h'</code>. You should utilize this variable to modify
+    the filename of the main file.
+    </p><pre class="programlisting">let g:Tex_MainFileExpression = 'MainFile(modifier)'
+function! MainFile(fmod)
+    if glob('*.latexmain') != ''
+        return fnamemodify(glob('*.latexmain'), a:fmod)
+    else
+        return ''
+    endif
+endif</pre><p>
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-project-settings.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-project.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="latex-suite-commands-maps.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">9.1 Latex-Suite project settings </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 10 Latex-Suite Commands and Maps</td></tr></table></div></body></html>

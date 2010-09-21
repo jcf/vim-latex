@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>5.1 Latex-Suite completion example</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-completion.html" title="5 Latex Completion"></link><link rel="prev" href="latex-completion.html" title="5 Latex Completion"></link><link rel="next" href="ls-completion-ref.html" title="5.2 Latex-Suite \ref completion"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.1 Latex-Suite completion example</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-completion.html">Prev</a> </td><th width="60%" align="center">5 Latex Completion</th><td width="20%" align="right"> <a accesskey="n" href="ls-completion-ref.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="5.1 Latex-Suite completion example"><div class="titlepage"><div><div><h3 class="title"><a id="ls-completion-usage"></a>5.1 Latex-Suite completion example</h3></div></div></div><p>
+    Consider the situation where you are editing a file with two equations
+    labelled <code class="literal">eqn:euler</code> and <code class="literal">eqn:einstein</code>.
+    Now you want to insert a reference to one of these equations. To do this,
+    you type the <code class="literal">\ref{eqn:}</code> command and with the cursor
+    placed after <code class="literal">eqn:</code>, press <code class="literal">&lt;F9&gt;</code>.
+    This will bring up two new windows beneath the main window you were working
+    in as shown in the figure below. 
+    </p><pre class="programlisting">
+      8 These are a couple of equations:
+      9 +--  4 lines: eqnarray (eqn:euler) :   e^{j\pi} + 1 &amp;=&amp; 0---------------
+     13 +--  4 lines: equation (eqn:einstein) :   E = m c^2---------------------
+     17
+     18 These are a couple of figures:
+     19 +--  7 lines: figure (fig:monkeys) : Monkeys can Type-------------------
+     26 +--  7 lines: figure (fig:shakespeare) : Shakespeare could not type-----
+     33
+     34 This is a reference to \ref{eqn:}&lt;++&gt;
+     35
+     36
+     37 \end{document}
+     38
+~
+~
+~
+newfile.tex                                                   34,32          Bot
+newfile.tex|11| \label{eqn:euler}
+newfile.tex|15| \label{eqn:einstein}
+~
+[Error List]                                                  1,1            All
+      7
+      8 These are a couple of equations:
+      9 \begin{eqnarray}
+     10   e^{j\pi} + 1 &amp;=&amp; 0
+     11   \label{eqn:euler}
+     12 \end{eqnarray}
+     13 \begin{equation}
+     14   E = m c^2
+     15   \label{eqn:einstein}
+     16 \end{equation}
+newfile.tex [Preview]                                         11,3           21%
+  </pre><p>
+   </p><p>
+    The first window (shown as <code class="literal">[Error List]</code> above) is a
+    <code class="literal">|cwindow|</code> containing a list of possible matches for the
+    reference. The cursor will be located in the first line of this window. The
+    bottom window is a <code class="literal">preview-window</code> showing the context of
+    the <code class="literal">\label</code>. Moving around in the
+    <code class="literal">[Error List]</code> window automatically scrolls the
+    preview window so as to always keep showing the context of the
+    <code class="literal">\label</code> being viewed in the
+    <code class="literal">[Error List]</code> window. You can also press
+    <code class="literal">J</code> and <code class="literal">K</code> in the
+    <code class="literal">[ErrorList]</code> window to scroll the preview window up and
+    down.
+   </p><p>
+    To insert one of the labels, simply position the cursor in the correct line
+    in the <code class="literal">[Error List]</code> window and press
+    <code class="literal">&lt;enter&gt;</code>. This will immediately close the two newly
+    opened windows, get back to the correct location in the original file being
+    edited and insert the label into the <code class="literal">\ref</code> command. 
+   </p><p>
+    If you notice carefully in the example above, the
+    <code class="literal">[Error List]</code> window only showed the matches for the
+    equations and did not list any of the figure labels. This is because we
+    pressed <code class="literal">&lt;F9&gt;</code> after <code class="literal">\ref{eqn:</code>
+    instead of simply after <code class="literal">\ref{</code>. This caused Latex-Suite to
+    search only for those labels which started with the string
+    <code class="literal">eqn:</code>. If you had pressed
+    <code class="literal">&lt;F9&gt;</code> after a <code class="literal">\ref{</code>, you would
+    have been shown matches from <span class="emphasis"><em>all</em></span> labels, not just
+    those starting with <code class="literal">eqn:</code>.
+   </p><p>
+    Thus prefixing all your labels with <code class="literal">eqn:</code>,
+    <code class="literal">fig:</code>, <code class="literal">tab:</code> etc. depending on what you
+    are labelling will lead to an easier time completing references.
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-completion.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-completion.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ls-completion-ref.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5 Latex Completion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.2 Latex-Suite \ref completion</td></tr></table></div></body></html>

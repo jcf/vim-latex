@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>5.4 Latex-Suite filename completion</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-completion.html" title="5 Latex Completion"></link><link rel="prev" href="latex-completion-cite.html" title="5.3 Latex-Suite \cite completion"></link><link rel="next" href="ls-completion-custom.html" title="5.5 Custom command completion"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.4 Latex-Suite filename completion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-completion-cite.html">Prev</a> </td><th width="60%" align="center">5 Latex Completion</th><td width="20%" align="right"> <a accesskey="n" href="ls-completion-custom.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="5.4 Latex-Suite filename completion"><div class="titlepage"><div><div><h3 class="title"><a id="ls-filename-completion"></a>5.4 Latex-Suite filename completion</h3></div></div></div><p>
+    When you press <code class="literal">&lt;F9&gt;</code> at a location where Latex-Suite
+    guesses a filename needs to be typed, then a new explorer window will
+    open up with the list of files. You can use this window to change
+    directories etc. Pressing <code class="literal">&lt;enter&gt;</code> on a filename
+    in the explorer window will automatically close the explorer window,
+    return to the location where you pressed <code class="literal">&lt;F9&gt;</code>
+    from and insert the filename into that position.
+   </p><p>
+    Latex-Suite also tries to guess what kinds of files you might not want to
+    insert and hides those accordingly. For example, if you press
+    <code class="literal">&lt;F9&gt;</code> when you are located at
+    <code class="literal">\includegraphics{</code>, then Latex-Suite knows that you will not
+    want to insert <code class="literal">.tex</code> files. Therefore, the explorer
+    window will automatically hide these files.
+   </p><p>
+    As of now, Latex-Suite recognizes the following commands for filename
+    completion. Along with the commands, this table also lists the
+    files which Latex-Suite will not show for completing each command.
+   </p><div class="informaltable"><table border="1"><colgroup><col></col><col></col></colgroup><thead><tr><th>command</th><th>hide pattern</th></tr></thead><tbody><tr><td><code class="literal">\bibliography</code></td><td><code class="literal">'^\.,\.[^b]..$'</code></td></tr><tr><td><code class="literal">\include</code> <code class="literal">\includeonly</code></td><td><code class="literal">'^\.,\.[^t]..$'</code></td></tr><tr><td><code class="literal">\includegraphics</code> <code class="literal">\psfig</code></td><td><code class="literal">'^\.,\.tex$,\.bib$,\.bbl$,\.zip$,\.gz$'</code></td></tr><tr><td><code class="literal">\input</code></td><td><code class="literal">''</code></td></tr></tbody></table></div></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-completion-cite.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-completion.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ls-completion-custom.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.3 Latex-Suite <code class="literal">\cite</code> completion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.5 Custom command completion</td></tr></table></div></body></html>

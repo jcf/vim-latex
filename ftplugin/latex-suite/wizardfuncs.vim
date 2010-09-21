@@ -4,7 +4,6 @@
 " 
 " Installation:
 "      History: pluginized by Srinath Avadhanula
-"               ( srinath@fastmail.fm)
 "=============================================================================
 
 if exists('s:doneOnce')
@@ -60,10 +59,9 @@ function! Tex_InsSecAdv(structure)
 	return sstructure.toc.shorttitle.ttitle 
 endfunction 
 
-
 " }}}
 function! Tex_section(...) "{{{
-	silent let pos = line('.').' | normal! '.virtcol('.').'|'
+	silent let pos = Tex_GetPos()
 	silent let last_section_value = s:Tex_section_detection()
 	if a:0 == 0
 		silent let last_section_name = s:Tex_section_name(last_section_value)
@@ -80,10 +78,10 @@ function! Tex_section(...) "{{{
 		silent let curr_section_name = s:Tex_section_name(curr_section_value)
 		silent call s:Tex_section_call(curr_section_name)
 	endif
-	silent exe pos
+	silent call Tex_SetPos(pos)
 endfunction "}}}
 function! Tex_section_adv(...) "{{{
-	let pos = line('.').' | normal! '.virtcol('.').'|'
+	let pos = Tex_GetPos()
 	silent let last_section_value = s:Tex_section_detection()
 	if a:0 == 0
 		silent let last_section_name = s:Tex_section_name(last_section_value)
@@ -100,12 +98,12 @@ function! Tex_section_adv(...) "{{{
 		let section = Tex_InsSecAdv(curr_section_name)
 	endif
 	exe "normal i".section
-	exe pos
+	call Tex_SetPos(pos)
 endfunction "}}}
 function! s:Tex_section_detection() "{{{
-	let pos = line('.').' | normal! '.virtcol('.').'|'
+	let pos = Tex_GetPos()
 	let last_section1 = search("\\\\\subparagraph\\|\\\\paragraph\\|\\\\subsubsection\\|\\\\subsection\\|\\\\section\\|\\\\chapter\\|\\\part\)", "b")
-	exe pos
+	call Tex_SetPos(pos)
 	let last_section2 = search("\\\\\part\\|\\\\chapter\\|\\\\section\\|\\\\subsection\\|\\\\subsubsection\\|\\\\paragraph\\|\\\subparagraph\)", "b")
 	if last_section1 > last_section2
 		let last_section = last_section1
@@ -133,7 +131,7 @@ function! s:Tex_section_detection() "{{{
 	else
 		let last_section_value = 0
 	endif
-	exe pos
+	call Tex_SetPos(pos)
 	return last_section_value
 endfunction "}}}
 function! s:Tex_section_curr_value(sec_arg) "{{{
@@ -205,9 +203,11 @@ endfunction "}}}
 " Add looking help into latexhelp.txt
 " ============================================================================== 
 
-inoremap <buffer> <silent> <F1> <C-O>:call <SID>TexHelp()<CR>
-nnoremap <buffer> <silent> <F1> :call <SID>TexHelp()<CR>
+inoremap <silent> <Plug>Tex_Help <C-o>:call <SID>TexHelp()<CR>
+nnoremap <silent> <Plug>Tex_Help :call <SID>TexHelp()<CR>
 command! -nargs=0 THelp call <SID>TexHelp()
+call Tex_MakeMap('<F1>', '<Plug>Tex_Help', 'i', '')
+call Tex_MakeMap('<F1>', '<Plug>Tex_Help', 'n', '')
 
 " TexHelp: Cursor being on LaTeX item check if exists help tag about it " {{{
 function! s:TexHelp()
@@ -278,8 +278,7 @@ let g:generalshortcuts = ''
 \."\n <mapleader> is a value of <Leader>"
 \."\n ".s:mapleader.'ll	compile whole document'
 \."\n ".s:mapleader.'lv	view compiled document'
-\."\n ".s:mapleader.'lp	view last compiled part of document'
-\."\n ".s:mapleader.'ls	make forward searching if possible'
+\."\n ".s:mapleader.'ls	forward searching (if possible)'
 \."\n ".s:mapleader.'rf	refresh folds'
 " }}}
 " Environment shortcuts {{{
@@ -288,7 +287,7 @@ let g:environmentshortcuts = ''
 \."\n <mapleader> is a value of g:Tex_Leader2"
 \."\n I     v&V                       I     v&V"
 \."\n ELI   ".g:Tex_Leader2."li   list                EQN   ".g:Tex_Leader2."qn   quotation"
-\."\n EDE   ".g:Tex_Leader2."de   description         ESB   ".g:Tex_Leader2."sb   sloppybar"
+\."\n EDE   ".g:Tex_Leader2."de   description         ESP   ".g:Tex_Leader2."sb   sloppypar"
 \."\n EEN   ".g:Tex_Leader2."en   enumerate           ETI   ".g:Tex_Leader2."ti   theindex"
 \."\n EIT   ".g:Tex_Leader2."it   itemize             ETP   ".g:Tex_Leader2."tp   titlepage"
 \."\n ETI   ".g:Tex_Leader2."ti   theindex            EVM   ".g:Tex_Leader2."vm   verbatim"

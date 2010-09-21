@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>4.1 Inserting package commands</title><link rel="stylesheet" href="../latex-suite.css" type="text/css"></link><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></meta><link rel="home" href="index.html" title="Latex-Suite Reference"></link><link rel="up" href="latex-packages.html" title="4 Package Handling"></link><link rel="prev" href="latex-packages.html" title="4 Package Handling"></link><link rel="next" href="package-actions.html" title="4.2 Actions taken for supported packages"></link></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.1 Inserting package commands</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="latex-packages.html">Prev</a> </td><th width="60%" align="center">4 Package Handling</th><td width="20%" align="right"> <a accesskey="n" href="package-actions.html">Next</a></td></tr></table><hr></hr></div><div class="section" title="4.1 Inserting package commands"><div class="titlepage"><div><div><h3 class="title"><a id="inserting-packages"></a>4.1 Inserting package commands</h3></div></div></div><p>
+    When you first invoke Latex-Suite, it scans the
+    <code class="literal">$VIM/ftplugin/latex-suite/packages</code> directory for
+    package script files and creates a menu from all the files found there.
+    This menu is created under <code class="literal">TeX-Suite &gt; Packages &gt;
+     Supported</code>. This menu contains a list of packages "supported"
+    by Latex-Suite. When you choose one of the packages from this menu (for example
+    the <code class="literal">amsmath</code> package), then a line of
+    the form
+    </p><pre class="programlisting">\usepackage[&lt;++&gt;]{amsmath}&lt;++&gt;</pre><p>
+    will be inserted into the current file.
+   </p><p>
+    The <code class="literal">\usepackage</code> line can also be inserted in an easy
+    manner in the current file by pressing <code class="literal">&lt;F5&gt;</code>
+    while in the preamble of the current document. This will set up a prompt
+    from the supported packages and ask you to choose from one of them. If
+    you do not find the package you want to insert in the list, you can type
+    in a package-name and it will use that. Pressing
+    <code class="literal">&lt;F5&gt;</code> in the preamble on a line containing a
+    single word will construct a <code class="literal">\usepackage</code> line from
+    that word.
+   </p><p>
+    You can also use the <a class="link" href="latex-suite-commands.html#TPackage" title="10.2.5 :TPackage [{package, ...}]"><code class="literal">TPackage</code></a> to insert the
+    <code class="literal">\usepackage</code> line.
+   </p><p>
+    Once you have inserted a <code class="literal">\usepackage</code> line, for
+    supported packages, you can use the Options and Commands menus
+    described in the <a class="link" href="package-actions.html" title="4.2 Actions taken for supported packages">next section</a>.
+   </p></div><div class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="latex-packages.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="latex-packages.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="package-actions.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4 Package Handling </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 4.2 Actions taken for supported packages</td></tr></table></div></body></html>
