@@ -3,7 +3,6 @@
 "      Author: Mikolaj Machowski
 " 	  Version: 1.0 
 "     Created: Tue Apr 23 05:00 PM 2002 PST
-" 	      CVS: $Id: custommacros.vim 1013 2006-04-29 02:36:23Z srinathava $
 " 
 "  Description: functions for processing custom macros in the
 "               latex-suite/macros directory

@@ -4,7 +4,6 @@
 "     Created: Tue Apr 23 05:00 PM 2002 PST
 " 
 "  Description: functions for compiling/viewing/searching latex documents
-"          CVS: $Id: compiler.vim 1102 2010-01-28 23:49:04Z tmaas $
 "=============================================================================
 
 " Tex_SetTeXCompilerTarget: sets the 'target' for the next call to Tex_RunLaTeX() {{{
@@ -344,7 +343,7 @@ function! Tex_ForwardSearchLaTeX()
 	
 	" inverse search tips taken from Dimitri Antoniou's tip and Benji Fisher's
 	" tips on vim.sf.net (vim.sf.net tip #225)
-	if (has('win32') && (viewer == "yap" || viewer == "YAP" || viewer == "Yap"))
+	if (has('win32') && (viewer ==? "yap"))
 
 		let execString = 'silent! !start '. viewer.' -s '.line('.').expand('%').' '.mainfnameRoot
 
@@ -373,7 +372,7 @@ function! Tex_ForwardSearchLaTeX()
 		" We're either UNIX or Mac and using a UNIX-type viewer
 
 		" Check for the special DVI viewers first
-		if (viewer == "xdvi" || viewer == "xdvik" || viewer == "kdvi" )
+		if (viewer == "xdvi" || viewer == "xdvik" || viewer == "kdvi" || viewer == "okular")
 
 			if Tex_GetVarValue('Tex_UseEditorSettingInDVIViewer') == 1 &&
 						\ exists('v:servername') &&
@@ -390,6 +389,11 @@ function! Tex_ForwardSearchLaTeX()
 			elseif (viewer == "xdvi" || viewer == "xdvik" )
 
 				let execString = 'silent! !'.viewer.' -name xdvi -sourceposition "'.line('.').' '.expand("%").'" '.mainfnameRoot.'.dvi'
+
+			elseif viewer == "okular"
+
+				let execString = 'silent! !okular '.mainfnameRoot.'.dvi\#src:'.line('.').expand("%")
+
 
 			endif
 
@@ -842,7 +846,7 @@ function! <SID>Tex_SetCompilerMaps()
 	if exists('b:Tex_doneCompilerMaps')
 		return
 	endif
-	let s:ml = exists('g:mapleader') ? g:mapleader : "\\"
+	let s:ml = '<Leader>'
 
 	nnoremap <buffer> <Plug>Tex_Compile :call Tex_RunLaTeX()<cr>
 	vnoremap <buffer> <Plug>Tex_Compile :call Tex_PartCompile()<cr>

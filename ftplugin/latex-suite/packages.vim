@@ -2,7 +2,6 @@
 " 	     File: packages.vim
 "      Author: Mikolaj Machowski
 "     Created: Tue Apr 23 06:00 PM 2002 PST
-"         CVS: $Id: packages.vim 1071 2009-09-30 12:17:28Z tmaas $
 " 
 "  Description: handling packages from within vim
 "=============================================================================

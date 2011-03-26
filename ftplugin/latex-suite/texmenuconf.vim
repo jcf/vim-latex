@@ -3,7 +3,6 @@
 "      Author: Srinath Avadhanula
 "   Copyright: Vim charityware license. :help license
 " Description: 
-"         CVS: $Id: texmenuconf.vim 1064 2009-08-16 19:37:57Z tmaas $
 " 
 "=============================================================================
 

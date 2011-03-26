@@ -4,8 +4,6 @@
   xmlns="http://www.w3.org/TR/xhtml1/transitional"
   exclude-result-prefixes="#default">
 
-  <!-- $Id: latex-suite-common.xsl 997 2006-03-20 09:45:45Z srinathava $ -->
-
   <!-- Common customizations for all stylesheets -->
 
   <!-- this omits the trailing '.' in numbered sections -->

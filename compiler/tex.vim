@@ -2,7 +2,6 @@
 "            Type: compiler plugin for LaTeX
 " Original Author: Artem Chuprina <ran@ran.pp.ru>
 "   Customization: Srinath Avadhanula <srinath@fastmail.fm>
-"             CVS: $Id: tex.vim 1070 2009-09-15 18:28:17Z tmaas $
 " Description:  {{{
 "   This file sets the 'makeprg' and 'errorformat' options for the LaTeX
 "   compiler. It is customizable to optionally ignore certain warnings and
@@ -195,6 +194,11 @@ function! <SID>SetLatexEfm()
 	let pm = ( g:Tex_ShowallLines == 1 ? '+' : '-' )
 
 	setlocal efm=
+	" remove default error formats that cause issues with revtex, where they
+	" match version messages
+	" Reference: http://bugs.debian.org/582100
+	setlocal efm-=%f:%l:%m
+	setlocal efm-=%f:%l:%c:%m
 
 	if !g:Tex_ShowallLines
 		call s:IgnoreWarnings()

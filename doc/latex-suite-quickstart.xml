@@ -3,7 +3,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
     "docbook-xml/docbookx.dtd" 
 [<!ENTITY dummy      "dummy">
-<!ENTITY date       "$Date: 2006-03-20 10:45:45 +0100 (Mo, 20. Mär 2006) $">
+<!ENTITY date       "$Date$">
 <!ENTITY ls         "Latex-Suite">
 <!ENTITY latex      "LaTeX">
 <!ENTITY vim        "Vim">

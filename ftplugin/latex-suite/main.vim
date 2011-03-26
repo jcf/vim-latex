@@ -1,7 +1,6 @@
 " LaTeX filetype
 "	  Language: LaTeX (ft=tex)
 "	Maintainer: Srinath Avadhanula
-"		   CVS: $Id: main.vim 1069 2009-09-01 18:51:19Z tmaas $
 "		   URL: 
 
 " line continuation used here.
@@ -41,7 +40,7 @@ imap <silent> <script> <C-o><plug> <Nop>
 " ==============================================================================
 " {{{
 " calculate the mapleader character.
-let s:ml = exists('g:mapleader') ? g:mapleader : '\'
+let s:ml = '<Leader>'
 
 if !exists('s:doneMappings')
 	let s:doneMappings = 1
