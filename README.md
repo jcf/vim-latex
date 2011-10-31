@@ -1,7 +1,6 @@
 # vim-LaTeX
 
-Version 1.8.23-20100129-r1104 downloaded from
-http://sourceforge.net/projects/vim-latex/files.
+http://sourceforge.net/projects/vim-latex/files
 
 ## Why?
 
