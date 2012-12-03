@@ -39,14 +39,13 @@ function! Tex_Complete(what, where)
 
 	" Get info about current window and position of cursor in file
 	let s:winnum = winnr()
+	let s:pos = Tex_GetPos()
 
 	" Change to the directory of the file being edited before running all the
 	" :grep commands. We will change back to the original directory after we
 	" finish with the grep.
 	let s:origdir = fnameescape(getcwd())
 	exe 'cd '.fnameescape(expand('%:p:h'))
-
-	let s:pos = Tex_GetPos()
 
 	unlet! s:type
 	unlet! s:typeoption
@@ -213,6 +212,8 @@ endfunction
 " 	matches. completeword is the rest of the word which needs to be inserted.
 " 	prefixlength characters are deleted before completeword is inserted
 function! Tex_CompleteWord(completeword, prefixlength)
+	" Set cursor to window and position recorded when completion was invoked.
+	exe s:winnum.' wincmd w'
 	call Tex_SetPos(s:pos)
 
 	" Complete word, check if add closing }
@@ -432,6 +433,7 @@ function! s:Tex_SyncPreviewWindow()
 	" return as in complete process 
 	if v:errmsg =~ 'E32\>'
 		exe s:winnum.' wincmd w'
+		call Tex_SetPos(s:pos)
 		pclose!
 		cclose
 		if exists("s:prefix")
@@ -468,9 +470,9 @@ endfunction " }}}
 " Description:
 "
 function! Tex_CloseSmallWindows()
-	exe s:winnum.' wincmd w'
 	pclose!
 	cclose
+	exe s:winnum.' wincmd w'
 	call Tex_SetPos(s:pos)
 endfunction " }}}
 " Tex_GoToLocation: Go to chosen location {{{
@@ -827,8 +829,8 @@ function! Tex_FindBibFiles()
 	call Tex_Debug(":Tex_FindBibFiles: ", "view")
 
 	let mainfname = Tex_GetMainFileName(':p')
-	wincmd n
-	exec 'silent! e '.fnameescape(mainfname)
+	new
+	exec 'e ' . fnameescape(mainfname)
 
 	if search('\\\(no\)\?bibliography{', 'w')
 
@@ -891,12 +893,12 @@ function! Tex_StartCiteCompletion()
 	exec 'python Tex_BibFile.addfilter("key ^'.s:prefix.'")'
 	call Tex_DisplayBibList()
 
-	nnoremap <Plug>Tex_JumpToNextBibEntry :call search('^\S.*\]$', 'W')<CR>:call Tex_EchoBibShortcuts()<CR>z.
-	nnoremap <Plug>Tex_JumpToPrevBibEntry :call search('^\S.*\]$', 'bW')<CR>:call Tex_EchoBibShortcuts()<CR>z.
-	nnoremap <Plug>Tex_FilterBibEntries   :call Tex_HandleBibShortcuts('filter')<CR>
-	nnoremap <Plug>Tex_RemoveBibFilters   :call Tex_HandleBibShortcuts('remove_filters')<CR>
-	nnoremap <Plug>Tex_SortBibEntries	  :call Tex_HandleBibShortcuts('sort')<CR>
-	nnoremap <Plug>Tex_CompleteCiteEntry  :call Tex_CompleteCiteEntry()<CR>
+	nnoremap <buffer> <Plug>Tex_JumpToNextBibEntry :call search('^\S.*\]$', 'W')<CR>:call Tex_EchoBibShortcuts()<CR>z.
+	nnoremap <buffer> <Plug>Tex_JumpToPrevBibEntry :call search('^\S.*\]$', 'bW')<CR>:call Tex_EchoBibShortcuts()<CR>z.
+	nnoremap <buffer> <Plug>Tex_FilterBibEntries   :call Tex_HandleBibShortcuts('filter')<CR>
+	nnoremap <buffer> <Plug>Tex_RemoveBibFilters   :call Tex_HandleBibShortcuts('remove_filters')<CR>
+	nnoremap <buffer> <Plug>Tex_SortBibEntries	  :call Tex_HandleBibShortcuts('sort')<CR>
+	nnoremap <buffer> <Plug>Tex_CompleteCiteEntry  :call Tex_CompleteCiteEntry()<CR>
 
 	nmap <buffer> <silent> n 		<Plug>Tex_JumpToNextBibEntry
 	nmap <buffer> <silent> p 		<Plug>Tex_JumpToPrevBibEntry
