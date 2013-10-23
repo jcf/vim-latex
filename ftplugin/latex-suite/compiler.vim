@@ -300,7 +300,8 @@ function! Tex_ViewLaTeX()
 	let execString = substitute(execString, '\V$*', mainfname, 'g')
 	call Tex_Debug("Tex_ViewLaTeX: execString = ".execString, "comp")
 
-	exec 'silent! !'.execString
+	" \lv command doesn't work because one space char missing in the following line
+	exec 'silent! ! '.execString
 
 	if !has('gui_running')
 		redraw!
