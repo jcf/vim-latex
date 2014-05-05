@@ -219,6 +219,7 @@ call s:Tex_SpecialMacros('ETR', '&Tables.', 'tabular', s:tabular)
 call s:Tex_SpecialMacros('', '&Tables.', 'tabular*', s:tabular_star)
 " }}}
 " Math {{{
+call s:Tex_EnvMacros('EAL', '&Math.', 'align')
 call s:Tex_EnvMacros('EAR', '&Math.', 'array')
 call s:Tex_EnvMacros('EDM', '&Math.', 'displaymath')
 call s:Tex_EnvMacros('EEA', '&Math.', 'eqnarray')
@@ -326,15 +327,15 @@ function! Tex_figure(env)
 			let label = '\label{fig:'.label."}\<cr>"
 		endif
 		if center == 'y'
-		  let centr = '\begin{center}' . "\<cr>"
-		  let centr = centr . pic 
-		  let centr = centr . caption
-		  let centr = centr . label
-		  let centr = centr . '\end{center}' . "\<cr>"
+            let centr = '\begin{center}' . "\<cr>"
+            let centr = centr . pic 
+            let centr = centr . caption
+            let centr = centr . label
+            let centr = centr . '\end{center}' . "\<cr>"
 		else
-		  let centr = pic
-		  let centr = centr . caption
-		  let centr = centr . label
+            let centr = pic
+            let centr = centr . caption
+            let centr = centr . label
 		endif
 		let figure = '\begin{'.a:env.'}'.flto
 		let figure = figure . centr
@@ -399,10 +400,10 @@ function! Tex_tabular(env)
 		let pos    = input('(Optional) Position (t b)? ')
 		let format = input("Format  ( l r c p{width} | @{text} )? ")
 		if pos != ''
-		  let pos = '['.pos.']'
-		endif
-		if format != ''
-		  let format = '{'.format.'}'
+            let pos = '['.pos.']'
+        endif
+        if format != ''
+            let format = '{'.format.'}'
 		endif
 		return IMAP_PutTextWithMovement('\begin{'.a:env.'}'.pos.format."\<cr> \<cr>\\end{".a:env.'}<++>')
 	else
@@ -416,8 +417,8 @@ function! Tex_eqnarray(env)
 		if a:env !~ '\*'
 			let label = input('Label?  ')
 			if label != ''
-				let arrlabel = '\label{'.label."}\<cr>"
-			  else
+                let arrlabel = '\label{'.label."}\<cr>"
+            else
 				let arrlabel = ''
 			endif
 		else
